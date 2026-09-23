@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ज्ञान गंगा डिजिटल लर्निंग</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#edf4ff;color:#17233f;font-family:Arial,"Noto Sans Devanagari",sans-serif}
+.app{max-width:1100px;margin:auto;padding:12px}
+.hero{padding:25px;border-radius:28px;color:#fff;background:linear-gradient(125deg,#3510bf,#9c10ed,#00a8df);box-shadow:0 10px 30px #162c6822}
+.brand{display:flex;gap:15px;align-items:center}
+.logo{width:78px;height:78px;border:3px solid #ffffff88;border-radius:50%;display:grid;place-items:center;font-size:42px;background:#ffffff22}
+h1{margin:0;font-size:clamp(26px,6vw,46px);font-weight:900}
+.hero p{font-size:17px;font-weight:bold;margin:6px 0 0}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:17px 0}
+.tab,.tile,.btn{border:0;border-radius:20px;color:white;font-weight:900;cursor:pointer;box-shadow:0 7px 18px #18274b22}
+.tab{padding:20px;text-align:left;font-size:17px}
+.teacher{background:linear-gradient(135deg,#c400ed,#4922e9)}
+.student{background:linear-gradient(135deg,#00a76e,#00b9d9)}
+small{display:block;margin-top:8px}
+.ticker{overflow:hidden;white-space:nowrap;background:#ffcf19;color:#452300;border-radius:13px;padding:12px;font-weight:900;margin:14px 0}
+.ticker span{display:inline-block;animation:move 20s linear infinite}
+@keyframes move{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+.search{display:flex;gap:9px;margin:14px 0}
+.search input{flex:1;border:2px solid #dce5f5;border-radius:16px;padding:15px;font-size:16px}
+.btn{background:#2444aa;padding:12px 17px;border-radius:13px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tile{padding:19px;min-height:115px;text-align:left}
+.pink{background:linear-gradient(135deg,#ff1e67,#ec008c)}
+.orange{background:linear-gradient(135deg,#ffad00,#f46b00)}
+.blue{background:linear-gradient(135deg,#1476ef,#00b9df)}
+.purple{background:linear-gradient(135deg,#7b13ed,#c600db)}
+.section{background:#fff;border-radius:23px;padding:18px;margin:18px 0;box-shadow:0 7px 22px #263b6c12}
+.head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+/* चौकोर रंग-बिरंगे डिब्बे (Chips Grid) */
+.chips{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:10px}
+.chip{border:0;border-radius:16px;padding:16px 6px;color:#fff;font-weight:900;font-size:15px;cursor:pointer;text-align:center;box-shadow:0 5px 12px rgba(0,0,0,0.12);transition:0.2s transform;min-height:65px;display:flex;align-items:center;justify-content:center}
+.chip:hover{transform:scale(1.04)}
+.chip.active{box-shadow:0 0 0 4px #100f57, 0 8px 18px rgba(0,0,0,0.3)!important;transform:scale(1.05)}
+
+/* 13 अलग-अलग सुंदर कलर शेड्स (कक्षा 1 से 12 + सभी) */
+.color-0{background:linear-gradient(135deg,#1f4037,#99f2c8);color:#0f3820}
+.color-1{background:linear-gradient(135deg,#FF512F,#DD2476)}
+.color-2{background:linear-gradient(135deg,#f093fb,#f5576c)}
+.color-3{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#00344d}
+.color-4{background:linear-gradient(135deg,#43e97b,#38f9d7);color:#024a27}
+.color-5{background:linear-gradient(135deg,#fa709a,#fee140);color:#471901}
+.color-6{background:linear-gradient(135deg,#667eea,#764ba2)}
+.color-7{background:linear-gradient(135deg,#ff0844,#ffb199)}
+.color-8{background:linear-gradient(135deg,#b224ef,#7579ff)}
+.color-9{background:linear-gradient(135deg,#0ba360,#3cba92)}
+.color-10{background:linear-gradient(135deg,#ff758c,#ff7eb3)}
+.color-11{background:linear-gradient(135deg,#13547a,#80d0c7)}
+.color-12{background:linear-gradient(135deg,#ff4e50,#f9d423);color:#421500}
+
+.materials{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.card{border:1px solid #e0e7f5;border-radius:17px;padding:15px;background:#fafcff}
+.badge{display:inline-block;background:#edf0ff;color:#4c2be8;padding:5px 8px;border-radius:8px;font-size:12px;font-weight:bold}
+.price{color:#4c2be8;font-size:18px;font-weight:900}
+.free{color:#07955c;font-weight:900}
+.coming{color:#fff;background:linear-gradient(110deg,#7b15eb,#f0009c)}
+.coming span{display:inline-block;background:#ffffff22;border:1px solid #fff5;border-radius:10px;padding:10px;margin:4px}
+.ad{border:2px dashed #b6c3dc;border-radius:18px;text-align:center;padding:20px;color:#74819a;background:#f8fbff}
+.hidden{display:none!important}
+.modal{position:fixed;inset:0;background:#071127aa;display:grid;place-items:center;padding:15px;z-index:9999}
+.dialog{background:#fff;border-radius:23px;padding:23px;width:min(550px,100%);max-height:92vh;overflow:auto}
+.editorInput{width:100%;padding:12px;border:1px solid #d5dfef;border-radius:10px;margin:5px 0 12px;font:inherit}
+.dialog input,.dialog select{width:100%;padding:12px;border:1px solid #d5dfef;border-radius:10px;margin:5px 0 12px}
+.danger{background:#d92d50}
+.note{font-size:13px;color:#68768d}
+.adminbar{background:linear-gradient(100deg,#20105f,#6d18ce);color:#fff;border-radius:20px;padding:18px}
+.delete{background:#d92d50!important}
+.pay{background:#0a8e61!important}
+@media(max-width:700px){
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .chips{grid-template-columns:repeat(3,1fr)}
+  .search{flex-direction:column}
+  .tabs{gap:8px}
+  .tab{padding:14px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div class="brand">
+      <div class="logo">📚</div>
+      <div>
+        <h1>ज्ञान गंगा डिजिटल लर्निंग ऐप</h1>
+        <p>कक्षा 1 से 12 • प्रतियोगी परीक्षाएँ • PDF • नोट्स • अध्ययन सामग्री</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="ticker"><span id="tickerText">📣 ज्ञान गंगा डिजिटल लर्निंग पर नई अध्ययन सामग्री लगातार जुड़ रही है — पढ़ें, सीखें और आगे बढ़ें ✨</span></div>
+
+  <div class="tabs">
+    <button class="tab teacher" onclick="teacherLogin()">👩‍🏫 शिक्षक टैब 🔒<small>पूरा शिक्षक डैशबोर्ड • PDF अपलोड • लिंक • डिलीट</small></button>
+    <button class="tab student" onclick="studentMode()">👨‍🎓 विद्यार्थी टैब 🔓<small>केवल उपलब्ध PDF • Free/Payment Unlock</small></button>
+  </div>
+
+  <!-- विद्यार्थी व्यू -->
+  <div id="studentView">
+    <div class="search">
+      <input id="search" placeholder="🔎 कक्षा, विषय या सामग्री खोजें..." oninput="renderStudent()">
+    </div>
+
+    <div class="tiles">
+      <button class="tile pink" onclick="selectCat('सभी')">📚<br>कक्षा सामग्री<small>कक्षा 1–12</small></button>
+      <button class="tile orange" onclick="selectExam('REET')">🎯<br>प्रतियोगी परीक्षा<small>REET, CTET, RAS आदि</small></button>
+      <button class="tile blue" onclick="freeOnly()">✅<br>Free PDF<small>निःशुल्क सामग्री</small></button>
+      <button class="tile purple" onclick="showAll()">📖<br>सभी PDF<small>उपलब्ध सामग्री</small></button>
+    </div>
+
+    <section class="section">
+      <div class="head">
+        <h2>📘 कक्षा चयन</h2>
+        <button class="btn" onclick="selectCat('सभी')">सभी</button>
+      </div>
+      <div id="classes" class="chips"></div>
+    </section>
+
+    <section class="section">
+      <h2>🎯 प्रतियोगी परीक्षाएँ</h2>
+      <div id="exams" class="chips"></div>
+    </section>
+
+    <section class="section">
+      <div class="head"><h2>📚 विद्यार्थी सामग्री</h2><b id="count">0</b></div>
+      <div id="materials" class="materials"></div>
+    </section>
+
+    <section class="section">
+      <h2>📢 Google Ad स्थान</h2>
+      <div class="ad">यहाँ Google AdSense का विज्ञापन स्थान रहेगा<br><span class="note">AdSense approval और विज्ञापन कोड मिलने के बाद यहाँ लगाया जा सकता है।</span></div>
+    </section>
+
+    <section class="section coming">
+      <h2>📣 Coming Soon</h2>
+      <span>🎥 लाइव क्लास</span><span>📝 मॉक टेस्ट</span><span>📺 वीडियो लेक्चर</span><span>📖 ई-बुक</span><span>🏆 टेस्ट सीरीज</span>
+    </section>
+  </div>
+
+  <!-- शिक्षक व्यू -->
+  <div id="teacherView" class="hidden">
+    <div class="adminbar">
+      <h2>👩‍🏫 शिक्षक पावर डैशबोर्ड</h2>
+      <p>वेब पर निःशुल्क खोजें, सामग्री तैयार करें, PDF/लिंक प्रकाशित करें और गलत सामग्री हटाएँ।</p>
+      <button class="btn" onclick="openAddForm()">➕ PDF अपलोड</button>
+      <button class="btn" onclick="openLinkForm()">🔗 लिंक जोड़ें</button>
+      <button class="btn danger" onclick="logout()">लॉगआउट</button>
+    </div>
+
+    <section class="section">
+      <h2>🌐 शिक्षक Free Search Engine</h2>
+      <p class="note">यह सर्च केवल शिक्षक टैब में उपलब्ध है। खोज परिणाम से सामग्री पढ़कर नीचे संपादक में तैयार करें।</p>
+      <div class="search">
+        <input id="teacherWebQuery" placeholder="शैक्षिक विषय, प्रश्न, पाठ या नोट्स खोजें...">
+        <button class="btn" onclick="teacherWebSearch()">🔎 खोजें</button>
+      </div>
+      <div class="tiles">
+        <button class="tile blue" onclick="teacherWebSearch('NCERT '+$('teacherWebQuery').value)">📘 NCERT खोजें</button>
+        <button class="tile purple" onclick="teacherWebSearch('RBSE '+$('teacherWebQuery').value)">📚 RBSE खोजें</button>
+        <button class="tile orange" onclick="teacherWebSearch('REET '+$('teacherWebQuery').value)">🎯 REET खोजें</button>
+        <button class="tile pink" onclick="teacherWebSearch('Hindi study notes '+$('teacherWebQuery').value)">📝 नोट्स खोजें</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📝 सामग्री तैयार करें और प्रकाशित करें</h2>
+      <label>शीर्षक</label><input id="editorTitle" class="editorInput" placeholder="जैसे: कक्षा 7 विज्ञान अध्याय 1">
+      <label>कक्षा/परीक्षा</label><select id="editorCategory" class="editorInput"></select>
+      <label>विषय</label><input id="editorSubject" class="editorInput" placeholder="विषय लिखें">
+      <label>मूल सामग्री / नोट्स</label><textarea id="editorText" class="editorInput" rows="9" placeholder="यहाँ सामग्री लिखें या कॉपी करके डालें..."></textarea>
+      <label>विद्यार्थी के लिए राशि ₹ — 0 = Free</label><input id="editorPrice" class="editorInput" type="number" min="0" value="0">
+      <button class="btn" onclick="printEditorPdf()">🖨️ PDF बनाने/सेव करने हेतु प्रिंट</button>
+      <button class="btn pay" onclick="publishEditor()">🚀 सामग्री प्रकाशित करें</button>
+      <p class="note">प्रिंट बटन से मोबाइल/कंप्यूटर में Print → Save as PDF चुनें। प्रकाशित बटन सामग्री को ऐप की सूची में जोड़ता है।</p>
+    </section>
+
+    <section class="section">
+      <h2>📋 प्रकाशित सामग्री प्रबंधन</h2>
+      <div id="adminMaterials" class="materials"></div>
+    </section>
+  </div>
+
+  <footer class="section" style="text-align:center">
+    ज्ञान ही शक्ति है • पढ़ें • समझें • आगे बढ़ें<br>
+    <b>UPI ID: 9783065620@ybl</b>
+    <p class="note">ज्ञान गंगा डिजिटल लर्निंग पोर्टल</p>
+  </footer>
+</div>
+
+<div id="modal" class="modal hidden"><div id="dialog" class="dialog"></div></div>
+
+<script>
+var classes=['सभी',...Array.from({length:12},(_,i)=>'कक्षा '+(i+1))];
+var exams=['REET','CTET','RAS','पटवारी','SSC','रेलवे','बैंकिंग','UPSC','पुलिस','RPSC','LDC','कंप्यूटर','अन्य'];
+var selected='सभी',role='student',freeFilter=false;
+var items=JSON.parse(localStorage.getItem('gg_items_v2')||'null')||[];
+
+var $=function(id){return document.getElementById(id);};
+var esc=function(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+
+function save(){ localStorage.setItem('gg_items_v2',JSON.stringify(items)); }
+function show(h){ $('dialog').innerHTML=h; $('modal').classList.remove('hidden'); }
+function closeModal(){ $('modal').classList.add('hidden'); }
+
+// शिक्षक लॉगिन
+function teacherLogin(){
+  show('<h2>🔐 शिक्षक लॉगिन</h2><p class="note">लॉगिन ID: <b>kalyan</b> | पासवर्ड: <b>Ashak@73</b></p><label>ID</label><input id="tid" placeholder="kalyan"><label>पासवर्ड</label><input id="tpw" type="password" placeholder="••••••••"><p id="err" style="color:red;font-weight:bold"></p><button class="btn" onclick="login()">लॉगिन</button><button class="btn danger" onclick="closeModal()">बंद करें</button>');
+}
+
+function login(){
+  if($('tid').value.trim().toLowerCase()==='kalyan' && $('tpw').value==='Ashak@73'){
+    role='teacher';
+    closeModal();
+    $('studentView').classList.add('hidden');
+    $('teacherView').classList.remove('hidden');
+    fillEditorCategories();
+    renderAdmin();
+  } else {
+    $('err').textContent='ID या पासवर्ड गलत है';
+  }
+}
+
+function logout(){
+  role='student';
+  $('teacherView').classList.add('hidden');
+  $('studentView').classList.remove('hidden');
+  renderStudent();
+}
+
+function studentMode(){ logout(); window.scrollTo({top:0,behavior:'smooth'}); }
+function selectCat(c){ selected=c; freeFilter=false; renderStudent(); }
+function selectExam(c){ selected=c; freeFilter=false; renderStudent(); }
+function freeOnly(){ selected='सभी'; freeFilter=true; renderStudent(); }
+function showAll(){ selected='सभी'; freeFilter=false; $('search').value=''; renderStudent(); }
+
+function renderStudent(){
+  var q=($('search').value||'').toLowerCase();
+
+  // रंग-बिरंगे कक्षा के डिब्बे
+  $('classes').innerHTML=classes.map(function(c,i){
+    var col='color-'+(i%13);
+    return '<button class="chip '+col+' '+(selected===c?'active':'')+'" onclick="selectCat(\''+c+'\')">'+c+'</button>';
+  }).join('');
+
+  // रंग-बिरंगे प्रतियोगी परीक्षा के डिब्बे
+  $('exams').innerHTML=exams.map(function(c,i){
+    var col='color-'+((i+4)%13);
+    return '<button class="chip '+col+' '+(selected===c?'active':'')+'" onclick="selectExam(\''+c+'\')">'+c+'</button>';
+  }).join('');
+
+  var data=items.filter(function(x){
+    var matchesCat = (selected==='सभी' || x.category===selected);
+    var matchesSearch = (''+x.title+' '+x.category+' '+(x.subject||'')).toLowerCase().includes(q);
+    return matchesCat && matchesSearch;
+  });
+
+  if(freeFilter) data=data.filter(function(x){ return Number(x.price||0)===0; });
+
+  $('count').textContent=data.length+' सामग्री';
+  $('materials').innerHTML=data.length ? data.map(cardStudent).join('') : '<p class="note">अभी इस श्रेणी में कोई सामग्री उपलब्ध नहीं है।</p>';
+  ticker();
+}
+
+function cardStudent(x){
+  var p=Number(x.price||0);
+  return '<article class="card"><span class="badge">'+esc(x.category)+'</span><h3>'+esc(x.title)+'</h3><p class="note">'+esc(x.subject||'अध्ययन सामग्री')+'</p>'+(p?'<div class="price">💳 ₹'+p+'</div><button class="btn pay" onclick="payment('+x.id+')">🔒 UPI भुगतान करके खोलें</button>':'<div class="free">✅ FREE — निःशुल्क</div><button class="btn" onclick="download('+x.id+')">📥 PDF डाउनलोड</button>')+'</article>';
+}
+
+function ticker(){
+  var latest=items.slice(0,5).map(function(x){return '📣 नया: '+x.title;}).join('  •  ');
+  $('tickerText').textContent=latest || '📣 ज्ञान गंगा डिजिटल लर्निंग पर नई अध्ययन सामग्री लगातार जुड़ रही है — पढ़ें, सीखें और आगे बढ़ें ✨';
+}
+
+function fillEditorCategories(){
+  var el=$('editorCategory');
+  if(el) el.innerHTML=[...classes.slice(1),...exams].map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
+}
+
+function teacherWebSearch(extra){
+  var q=(extra!==undefined?extra:$('teacherWebQuery').value).trim();
+  if(!q){alert('पहले खोज शब्द लिखें');return;}
+  window.open('https://www.google.com/search?q='+encodeURIComponent(q+' educational study material'),'_blank');
+}
+
+function printEditorPdf(){
+  var title=$('editorTitle').value.trim()||'ज्ञान गंगा अध्ययन सामग्री';
+  var text=$('editorText').value.trim();
+  if(!text){alert('पहले सामग्री लिखें');return;}
+  var w=window.open('','_blank');
+  w.document.write('<!doctype html><html lang="hi"><head><meta charset="utf-8"><title>'+esc(title)+'</title><style>body{font-family:Arial,sans-serif;padding:30px;line-height:1.8}h1{color:#3d25b8}pre{white-space:pre-wrap;font:inherit}</style></head><body><h1>'+esc(title)+'</h1><p><b>'+esc($('editorCategory').value)+' | '+esc($('editorSubject').value)+'</b></p><pre>'+esc(text)+'</pre><script>window.print()<\/script></body></html>');
+  w.document.close();
+}
+
+function publishEditor(){
+  var title=$('editorTitle').value.trim(),text=$('editorText').value.trim();
+  if(!title||!text){alert('शीर्षक और सामग्री दोनों भरें');return;}
+  var x={id:Date.now(),title:title,category:$('editorCategory').value,subject:$('editorSubject').value,price:Math.max(0,Number($('editorPrice').value||0)),type:'article',text:text};
+  items.unshift(x);
+  save();
+  if(window.syncToFirestore) window.syncToFirestore(x);
+  renderAdmin();
+  ticker();
+  alert('सामग्री ऐप में प्रकाशित हो गई। PDF बनाने के लिए प्रिंट बटन दबाएँ।');
+}
+
+function openAddForm(){
+  show('<h2>📄 नई PDF जोड़ें</h2><label>शीर्षक</label><input id="title"><label>कक्षा/परीक्षा</label><select id="cat">'+[...classes.slice(1),...exams].map(function(x){return '<option>'+x+'</option>';}).join('')+'</select><label>विषय</label><input id="subject"><label>राशि ₹ — 0 = Free</label><input id="price" type="number" min="0" value="0"><label>PDF</label><input id="pdf" type="file" accept="application/pdf"><p id="formErr" class="note">PDF 800KB तक रखें।</p><button class="btn" onclick="savePdf()">सेव करें</button><button class="btn danger" onclick="closeModal()">बंद करें</button>');
+}
+
+function savePdf(){
+  var f=$('pdf').files[0],title=$('title').value.trim();
+  if(!title||!f){$('formErr').textContent='शीर्षक और PDF जरूरी हैं';return;}
+  if(f.size>850000){$('formErr').textContent='PDF 800KB से छोटी रखें।';return;}
+  var x={id:Date.now(),title:title,category:$('cat').value,subject:$('subject').value,price:Math.max(0,Number($('price').value||0)),type:'pdf'};
+  var r=new FileReader();
+  r.onload=function(){
+    x.data=r.result;
+    items.unshift(x);
+    save();
+    if(window.syncToFirestore) window.syncToFirestore(x);
+    closeModal();
+    renderAdmin();
+    renderStudent();
+    ticker();
+    alert('PDF सुरक्षित हो गई!');
+  };
+  r.readAsDataURL(f);
+}
+
+function openLinkForm(){
+  show('<h2>🔗 लिंक जोड़ें</h2><label>शीर्षक</label><input id="lt"><label>कक्षा/परीक्षा</label><select id="lc">'+[...classes.slice(1),...exams].map(function(x){return '<option>'+x+'</option>';}).join('')+'</select><label>लिंक</label><input id="lu" type="url" placeholder="https://..."><button class="btn" onclick="saveLink()">सेव करें</button><button class="btn danger" onclick="closeModal()">बंद करें</button>');
+}
+
+function saveLink(){
+  if(!$('lt').value||!$('lu').value) return alert('जानकारी भरें');
+  var x={id:Date.now(),title:$('lt').value,category:$('lc').value,url:$('lu').value,type:'link',price:0};
+  items.unshift(x);
+  save();
+  if(window.syncToFirestore) window.syncToFirestore(x);
+  closeModal();
+  renderAdmin();
+  ticker();
+}
+
+function renderAdmin(){
+  $('adminMaterials').innerHTML=items.length?items.map(function(x){
+    return '<article class="card"><span class="badge">'+esc(x.category)+'</span><h3>'+esc(x.title)+'</h3><p>'+(x.type==='pdf'?'📄 PDF':x.type==='article'?'📝 लेख':'🔗 लिंक')+' | राशि: ₹'+Number(x.price||0)+'</p>'+(x.url?'<button class="btn" onclick="window.open(\''+esc(x.url)+'\',\'_blank\')">लिंक देखें</button>':'')+'<button class="btn delete" onclick="deleteItem('+x.id+')">🗑️ डिलीट</button></article>';
+  }).join(''):'<p class="note">अभी कोई सामग्री नहीं है।</p>';
+}
+
+function deleteItem(id){
+  if(confirm('क्या आप यह सामग्री हटाना चाहते हैं?')){
+    items=items.filter(function(x){return x.id!==id;});
+    save();
+    if(window.deleteFromFirestore) window.deleteFromFirestore(id);
+    renderAdmin();
+    renderStudent();
+    ticker();
+  }
+}
+
+function download(id){
+  var x=items.find(function(a){return a.id===id;});
+  if(!x) return;
+  if(x.data){
+    var a=document.createElement('a');
+    a.href=x.data;
+    a.download=x.title+'.pdf';
+    a.click();
+  } else if(x.text){
+    show('<h2>'+esc(x.title)+'</h2><p><b>'+esc(x.category)+' | '+esc(x.subject||'')+'</b></p><pre style="white-space:pre-wrap;background:#f5f8ff;padding:12px;border-radius:10px">'+esc(x.text)+'</pre><button class="btn danger" onclick="closeModal()">बंद करें</button>');
+  } else if(x.url){
+    window.open(x.url,'_blank');
+  }
+}
+
+function payment(id){
+  var x=items.find(function(a){return a.id===id;});
+  show('<h2>🔒 PDF अनलॉक करें</h2><p><b>'+esc(x.title)+'</b></p><h3>राशि: ₹'+Number(x.price||0)+'</h3><p>अपने UPI ऐप से भुगतान करें:</p><div class="ad"><b>UPI ID</b><br><strong>9783065620@ybl</strong><br><button class="btn" style="margin-top:8px" onclick="window.location.href=\'upi://pay?pa=9783065620@ybl&pn=Gyan%20Ganga&am='+Number(x.price||0)+'&cu=INR\'">📲 UPI ऐप खोलें</button></div><label>भुगतान UTR/Reference नंबर</label><input id="utr" placeholder="UTR नंबर लिखें"><p class="note">डेमो अनलॉक: UTR भरने पर PDF खुलेगी।</p><button class="btn pay" onclick="unlock('+x.id+')">भुगतान के बाद खोलें</button><button class="btn danger" onclick="closeModal()">बंद करें</button>');
+}
+
+function unlock(id){
+  if(!$('utr').value.trim()){alert('UTR नंबर भरें');return;}
+  closeModal();
+  download(id);
+}
+
+// शुरुआत में रेंडर करें
+renderStudent();
+</script>
+
+<!-- Firebase SDK & Firestore Realtime Sync -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
+  import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC6jlcH6M-jx3QHp-gM7FG819_kEyB3XdI",
+    authDomain: "gyangangadigitallearning.firebaseapp.com",
+    projectId: "gyangangadigitallearning",
+    storageBucket: "gyangangadigitallearning.firebasestorage.app",
+    messagingSenderId: "22015841406",
+    appId: "1:22015841406:web:d33bc6888f04caebf0b42f",
+    measurementId: "G-GMZ1TD1EXQ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+  window.db = db;
+
+  const colRef = collection(db, "materials");
+
+  window.syncToFirestore = async function(item) {
+    try {
+      await setDoc(doc(db, "materials", String(item.id)), item);
+    } catch(err) {
+      console.error("Firestore sync error:", err);
+    }
+  };
+
+  window.deleteFromFirestore = async function(id) {
+    try {
+      await deleteDoc(doc(db, "materials", String(id)));
+    } catch(err) {
+      console.error("Firestore delete error:", err);
+    }
+  };
+
+  onSnapshot(colRef, (snapshot) => {
+    let cloudItems = [];
+    snapshot.forEach((doc) => {
+      cloudItems.push(doc.data());
+    });
+    if(cloudItems.length > 0) {
+      items = cloudItems.sort((a,b) => b.id - a.id);
+      save();
+      renderStudent();
+      if(role === 'teacher') renderAdmin();
+      ticker();
+    }
+  }, (err) => {
+    console.error("Realtime listener error:", err);
+  });
+</script>
+</body>
+</html>
