@@ -34,7 +34,6 @@ small{display:block;margin-top:8px}
 .section{background:#fff;border-radius:23px;padding:18px;margin:18px 0;box-shadow:0 7px 22px rgba(38,59,108,0.08)}
 .head{display:flex;justify-content:space-between;align-items:center;gap:10px}
 
-/* कक्षा और परीक्षा के चौकोर रंगीन डिब्बे */
 .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;margin-top:12px}
 .chip{border:0;border-radius:16px;padding:16px 8px;color:#fff;font-weight:900;font-size:15px;cursor:pointer;text-align:center;box-shadow:0 5px 12px rgba(0,0,0,0.12);transition:0.2s transform;min-height:65px;display:flex;align-items:center;justify-content:center}
 .chip:hover{transform:scale(1.04)}
@@ -209,17 +208,13 @@ small{display:block;margin-top:8px}
 var classes = ['सभी', 'कक्षा 1', 'कक्षा 2', 'कक्षा 3', 'कक्षा 4', 'कक्षा 5', 'कक्षा 6', 'कक्षा 7', 'कक्षा 8', 'कक्षा 9', 'कक्षा 10', 'कक्षा 11', 'कक्षा 12'];
 var exams = ['REET', 'CTET', 'RAS', 'पटवारी', 'SSC', 'रेलवे', 'बैंकिंग', 'UPSC', 'पुलिस', 'RPSC', 'LDC', 'कंप्यूटर', 'अन्य'];
 var selected = 'सभी', freeFilter = false, typeFilter = null;
-var isTeacherLoggedIn = false; // शिक्षक लॉगिन सेशन ट्रैक करने के लिए
+var isTeacherLoggedIn = false;
 var items = [];
 
 try {
   var stored = localStorage.getItem('gg_items_v2');
-  if (stored) {
-    items = JSON.parse(stored) || [];
-  }
-} catch (e) {
-  items = [];
-}
+  if (stored) { items = JSON.parse(stored) || []; }
+} catch (e) { items = []; }
 
 var currentQuizData = null, userAnswers = {}, unlockedItems = {};
 var mediaStream = null;
@@ -233,37 +228,24 @@ function esc(s) {
 }
 
 function save() {
-  try {
-    localStorage.setItem('gg_items_v2', JSON.stringify(items));
-  } catch (e) {}
+  try { localStorage.setItem('gg_items_v2', JSON.stringify(items)); } catch (e) {}
 }
 
-function show(h) {
-  $('dialog').innerHTML = h;
-  $('modal').classList.remove('hidden');
-}
+function show(h) { $('dialog').innerHTML = h; $('modal').classList.remove('hidden'); }
+function closeModal() { stopCamera(); $('modal').classList.add('hidden'); }
 
-function closeModal() {
-  stopCamera();
-  $('modal').classList.add('hidden');
-}
-
-/* ==================== स्मार्ट लॉगिन और टैब स्विचिंग ==================== */
 function teacherTabClick() {
   if (isTeacherLoggedIn) {
-    // यदि पहले से लॉगिन है तो सीधे शिक्षक डैशबोर्ड पर ले जाएँ
     $('studentView').classList.add('hidden');
     $('teacherView').classList.remove('hidden');
     fillEditorCategories();
     renderAdmin();
   } else {
-    // अन्यथा पासवर्ड पूछें
     teacherLogin();
   }
 }
 
 function studentTabClick() {
-  // शिक्षक लॉगिन समाप्त किए बिना विद्यार्थी व्यू पर आएं
   $('teacherView').classList.add('hidden');
   $('studentView').classList.remove('hidden');
   renderStudent();
@@ -301,41 +283,16 @@ function logoutTeacher() {
   }
 }
 
-/* ==================== विद्यार्थी फ़िल्टर ==================== */
-function selectCat(c) {
-  selected = c;
-  freeFilter = false;
-  typeFilter = null;
-  renderStudent();
-}
-
-function selectExam(c) {
-  selected = c;
-  freeFilter = false;
-  typeFilter = null;
-  renderStudent();
-}
-
-function freeOnly() {
-  selected = 'सभी';
-  freeFilter = true;
-  typeFilter = null;
-  renderStudent();
-}
-
+function selectCat(c) { selected = c; freeFilter = false; typeFilter = null; renderStudent(); }
+function selectExam(c) { selected = c; freeFilter = false; typeFilter = null; renderStudent(); }
+function freeOnly() { selected = 'सभी'; freeFilter = true; typeFilter = null; renderStudent(); }
 function filterType(t) {
-  selected = 'सभी';
-  freeFilter = false;
-  typeFilter = t;
-  renderStudent();
-  var el = $('materials');
-  if (el) el.scrollIntoView({behavior:'smooth'});
+  selected = 'सभी'; freeFilter = false; typeFilter = t; renderStudent();
+  var el = $('materials'); if (el) el.scrollIntoView({behavior:'smooth'});
 }
 
 function showAll() {
-  selected = 'सभी';
-  freeFilter = false;
-  typeFilter = null;
+  selected = 'सभी'; freeFilter = false; typeFilter = null;
   if ($('search')) $('search').value = '';
   renderStudent();
 }
@@ -377,9 +334,7 @@ function renderStudent() {
   
   if (data.length > 0) {
     var cards = '';
-    for (var k = 0; k < data.length; k++) {
-      cards += cardStudent(data[k]);
-    }
+    for (var k = 0; k < data.length; k++) { cards += cardStudent(data[k]); }
     $('materials').innerHTML = cards;
   } else {
     $('materials').innerHTML = '<p class="note" style="padding:15px;background:#f4f7fc;border-radius:10px">वर्तमान में इस श्रेणी में कोई सामग्री उपलब्ध नहीं है।</p>';
@@ -414,9 +369,7 @@ function cardStudent(x) {
 function ticker() {
   if (items.length > 0) {
     var txt = [];
-    for (var i = 0; i < Math.min(5, items.length); i++) {
-      txt.push('📣 ' + items[i].title);
-    }
+    for (var i = 0; i < Math.min(5, items.length); i++) { txt.push('📣 ' + items[i].title); }
     $('tickerText').textContent = txt.join('  •  ');
   } else {
     $('tickerText').textContent = '📣 ज्ञान गंगा डिजिटल लर्निंग पर ऑनलाइन टेस्ट सीरीज, लाइव क्लास और नई अध्ययन सामग्री लगातार जुड़ रही है ✨';
@@ -428,9 +381,7 @@ function fillEditorCategories() {
   if (el) {
     var opts = '';
     var list = classes.slice(1).concat(exams);
-    for (var i = 0; i < list.length; i++) {
-      opts += '<option>' + esc(list[i]) + '</option>';
-    }
+    for (var i = 0; i < list.length; i++) { opts += '<option>' + esc(list[i]) + '</option>'; }
     el.innerHTML = opts;
   }
 }
@@ -456,18 +407,16 @@ function publishEditor() {
   var x = { id: Date.now(), title: title, category: $('editorCategory').value, subject: $('editorSubject').value, price: Math.max(0, Number($('editorPrice').value || 0)), type: 'article', text: text };
   items.unshift(x);
   save();
+  if (window.syncToFirestore) window.syncToFirestore(x);
   renderAdmin();
   ticker();
-  alert('सामग्री प्रकाशित हो गई!');
+  alert('सामग्री ऑनलाइन क्लाउड पर प्रकाशित हो गई!');
 }
 
-/* ==================== ऑनलाइन टेस्ट निर्माण ==================== */
 function openTestMaker() {
   var catOpts = '';
   var list = classes.slice(1).concat(exams);
-  for (var i = 0; i < list.length; i++) {
-    catOpts += '<option>' + list[i] + '</option>';
-  }
+  for (var i = 0; i < list.length; i++) { catOpts += '<option>' + list[i] + '</option>'; }
 
   show('<h2>📝 नया लाइव टेस्ट / मॉक टेस्ट बनाएँ</h2>' +
        '<label>टेस्ट का नाम (शीर्षक)</label><input id="qzTitle" placeholder="जैसे: REET विज्ञान मॉडल टेस्ट - 1">' +
@@ -476,7 +425,7 @@ function openTestMaker() {
        '<label>विद्यार्थी के लिए शुल्क ₹ (0 = Free)</label><input id="qzPrice" type="number" min="0" value="0">' +
        '<hr><h3>वस्तुनिष्ठ प्रश्न जोड़ें</h3><div id="qzList"></div>' +
        '<button class="btn" style="background:#0984e3;margin-top:8px" onclick="addQuestionBox()">➕ प्रश्न जोड़ें</button><br><br>' +
-       '<button class="btn pay" onclick="saveQuiz()">🚀 टेस्ट ऑनलाइन प्रकाशित करें</button> ' +
+       '<button class="btn pay" onclick="saveQuiz()">🚀 टेस्ट ऑनलाइन क्लाउड पर प्रकाशित करें</button> ' +
        '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
   addQuestionBox();
 }
@@ -510,10 +459,7 @@ function saveQuiz() {
     }
   });
 
-  if (questions.length === 0) {
-    alert('कृपया कम से कम एक पूरा प्रश्न जोड़ें');
-    return;
-  }
+  if (questions.length === 0) { alert('कृपया कम से कम एक पूरा प्रश्न जोड़ें'); return; }
 
   var x = {
     id: Date.now(),
@@ -527,14 +473,14 @@ function saveQuiz() {
 
   items.unshift(x);
   save();
+  if (window.syncToFirestore) window.syncToFirestore(x);
   closeModal();
   renderAdmin();
   renderStudent();
   ticker();
-  alert('ऑनलाइन टेस्ट सफलतापूर्वक प्रकाशित हो गया!');
+  alert('ऑनलाइन टेस्ट सभी छात्रों के लिए तुरंत प्रकाशित हो गया!');
 }
 
-/* ==================== स्वचालित चेकिंग व ऑनलाइन रिजल्ट ==================== */
 function startQuiz(x) {
   currentQuizData = x;
   userAnswers = {};
@@ -590,7 +536,6 @@ function submitQuiz() {
        '<button class="btn danger" onclick="closeModal()">परिणाम बंद करें</button>');
 }
 
-/* ==================== वीडियो लेक्चर जोड़ना ==================== */
 function openVideoForm() {
   var catOpts = '';
   var list = classes.slice(1).concat(exams);
@@ -602,7 +547,7 @@ function openVideoForm() {
        '<label>विषय</label><input id="vidSub" placeholder="विषय लिखें">' +
        '<label>YouTube या वीडियो लिंक (URL)</label><input id="vidUrl" placeholder="https://www.youtube.com/watch?v=...">' +
        '<label>विद्यार्थी के लिए शुल्क ₹ (0 = Free)</label><input id="vidPrice" type="number" min="0" value="0">' +
-       '<button class="btn pay" onclick="saveVideo()">🚀 वीडियो लेक्चर प्रकाशित करें</button> ' +
+       '<button class="btn pay" onclick="saveVideo()">🚀 वीडियो लेक्चर क्लाउड पर डालें</button> ' +
        '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
 }
 
@@ -623,14 +568,14 @@ function saveVideo() {
 
   items.unshift(x);
   save();
+  if (window.syncToFirestore) window.syncToFirestore(x);
   closeModal();
   renderAdmin();
   renderStudent();
   ticker();
-  alert('वीडियो लेक्चर प्रकाशित हो गया!');
+  alert('वीडियो लेक्चर ऑनलाइन प्रकाशित हो गया!');
 }
 
-/* ==================== लाइव क्लास (कैमरा) ==================== */
 function openLiveClass() {
   show('<h2>🎥 ज्ञान गंगा लाइव क्लास रूम</h2>' +
        '<p class="note">कैमरा व माइक्रोफ़ोन चालू किया जा रहा है...</p>' +
@@ -663,7 +608,6 @@ function stopCamera() {
   }
 }
 
-/* ==================== PDF व लिंक्स ==================== */
 function openAddForm() {
   var catOpts = '';
   var list = classes.slice(1).concat(exams);
@@ -674,8 +618,8 @@ function openAddForm() {
        '<label>कक्षा/परीक्षा</label><select id="cat">' + catOpts + '</select>' +
        '<label>विषय</label><input id="subject">' +
        '<label>राशि ₹ — 0 = Free</label><input id="price" type="number" min="0" value="0">' +
-       '<label>PDF फ़ाइल</label><input id="pdf" type="file" accept="application/pdf">' +
-       '<p id="formErr" class="note">PDF 4MB तक रखें।</p>' +
+       '<label>PDF फ़ाइल (800KB तक क्लाउड सिंक हेतु)</label><input id="pdf" type="file" accept="application/pdf">' +
+       '<p id="formErr" class="note">क्लाउड सिंक के लिए PDF 800KB के अंदर रखें।</p>' +
        '<button class="btn" onclick="savePdf()">सेव करें</button> ' +
        '<button class="btn danger" onclick="closeModal()">बंद करें</button>');
 }
@@ -683,18 +627,19 @@ function openAddForm() {
 function savePdf() {
   var f = $('pdf').files[0], title = $('title').value.trim();
   if (!title || !f) { $('formErr').textContent = 'शीर्षक और PDF जरूरी हैं'; return; }
-  if (f.size > 4194304) { $('formErr').textContent = 'PDF 4MB से छोटी रखें'; return; }
+  if (f.size > 850000) { $('formErr').textContent = 'डेटाबेस लिमिट के लिए PDF 800KB से छोटी रखें'; return; }
   var x = { id: Date.now(), title: title, category: $('cat').value, subject: $('subject').value, price: Math.max(0, Number($('price').value || 0)), type: 'pdf' };
   var r = new FileReader();
   r.onload = function() {
     x.data = r.result;
     items.unshift(x);
     save();
+    if (window.syncToFirestore) window.syncToFirestore(x);
     closeModal();
     renderAdmin();
     renderStudent();
     ticker();
-    alert('PDF सुरक्षित हो गई!');
+    alert('PDF ऑनलाइन सुरक्षित हो गई!');
   };
   r.readAsDataURL(f);
 }
@@ -717,6 +662,7 @@ function saveLink() {
   var x = { id: Date.now(), title: $('lt').value, category: $('lc').value, url: $('lu').value, type: 'link', price: 0 };
   items.unshift(x);
   save();
+  if (window.syncToFirestore) window.syncToFirestore(x);
   closeModal();
   renderAdmin();
   ticker();
@@ -747,6 +693,7 @@ function deleteItem(id) {
   if (confirm('क्या आप यह सामग्री हटाना चाहते हैं?')) {
     items = items.filter(function(x) { return x.id !== id; });
     save();
+    if (window.deleteFromFirestore) window.deleteFromFirestore(id);
     renderAdmin();
     renderStudent();
     ticker();
@@ -772,7 +719,6 @@ function openItem(id) {
   }
 }
 
-/* ==================== PhonePe / UPI भुगतान ==================== */
 function handlePayOrOpen(id) {
   var x = items.find(function(a) { return a.id === id; });
   if (!x) return;
@@ -804,11 +750,61 @@ function unlockItem(id) {
   openItem(id);
 }
 
-// प्रारंभ करें
-window.addEventListener('DOMContentLoaded', function() {
-  renderStudent();
-});
 renderStudent();
+</script>
+
+<!-- ==================== FIREBASE REALTIME CLOUD SYNC ==================== -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC6jlcH6M-jx3QHp-gM7FG819_kEyB3XdI",
+    authDomain: "gyangangadigitallearning.firebaseapp.com",
+    projectId: "gyangangadigitallearning",
+    storageBucket: "gyangangadigitallearning.firebasestorage.app",
+    messagingSenderId: "22015841406",
+    appId: "1:22015841406:web:d33bc6888f04caebf0b42f"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const colRef = collection(db, "materials");
+
+  // क्लाउड पर सामग्री सुरक्षित करना
+  window.syncToFirestore = async function(item) {
+    try {
+      await setDoc(doc(db, "materials", String(item.id)), item);
+    } catch(err) {
+      console.error("Cloud sync error:", err);
+    }
+  };
+
+  // क्लाउड से सामग्री डिलीट करना
+  window.deleteFromFirestore = async function(id) {
+    try {
+      await deleteDoc(doc(db, "materials", String(id)));
+    } catch(err) {
+      console.error("Cloud delete error:", err);
+    }
+  };
+
+  // Realtime Listener: जैसे ही कोई भी सामग्री जुड़ेगी, हर छात्र के फोन पर अपने-आप अपडेट होगी
+  onSnapshot(colRef, (snapshot) => {
+    let cloudItems = [];
+    snapshot.forEach((docSnap) => {
+      cloudItems.push(docSnap.data());
+    });
+    if (cloudItems.length > 0) {
+      items = cloudItems.sort((a,b) => b.id - a.id);
+      save();
+      renderStudent();
+      if (isTeacherLoggedIn) renderAdmin();
+      ticker();
+    }
+  }, (err) => {
+    console.error("Listener error:", err);
+  });
 </script>
 </body>
 </html>
