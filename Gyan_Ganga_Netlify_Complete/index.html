@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ज्ञान गंगा डिजिटल लर्निंग</title>
+<!-- Razorpay Checkout SDK -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#edf4ff;color:#17233f;font-family:Arial,"Noto Sans Devanagari",sans-serif}
@@ -197,7 +199,7 @@ small{display:block;margin-top:8px}
 
   <footer class="section" style="text-align:center">
     ज्ञान ही शक्ति है • पढ़ें • समझें • आगे बढ़ें<br>
-    <b>PhonePe / UPI ID: 9783065620@ybl</b>
+    <b>Razorpay सुरक्षित भुगतान • UPI / Cards / NetBanking</b>
     <p class="note">ज्ञान गंगा डिजिटल लर्निंग पोर्टल</p>
   </footer>
 </div>
@@ -218,6 +220,12 @@ try {
 
 var currentQuizData = null, userAnswers = {}, unlockedItems = {};
 var mediaStream = null;
+
+// LocalStorage से पहले अनलॉक की गई सामग्री लोड करें
+try {
+  var savedUnlocks = localStorage.getItem('gg_unlocked_items');
+  if (savedUnlocks) { unlockedItems = JSON.parse(savedUnlocks) || {}; }
+} catch(e) {}
 
 function $(id) { return document.getElementById(id); }
 
@@ -354,7 +362,7 @@ function cardStudent(x) {
                 '<button class="btn" onclick="openItem(' + x.id + ')">' + btnText + '</button>';
   } else {
     actionBtn = '<div class="price">💳 शुल्क: ₹' + p + '</div>' +
-                '<button class="btn pay" onclick="handlePayOrOpen(' + x.id + ')">🔒 PhonePe शुल्क देकर खोलें</button>';
+                '<button class="btn pay" onclick="handlePayOrOpen(' + x.id + ')">🔒 ₹' + p + ' शुल्क देकर अनलॉक करें</button>';
   }
 
   return '<article class="card">' +
@@ -719,22 +727,64 @@ function openItem(id) {
   }
 }
 
+// ==================== RAZORPAY & PAYMENT HANDLER ====================
 function handlePayOrOpen(id) {
   var x = items.find(function(a) { return a.id === id; });
   if (!x) return;
   
   var amt = Number(x.price || 0);
-  var upiLink = 'upi://pay?pa=9783065620@ybl&pn=Gyan%20Ganga&am=' + amt + '&cu=INR';
 
-  show('<h2>🔒 सशुल्क टेस्ट / सामग्री अनलॉक करें</h2>' +
+  show('<h2>🔒 सशुल्क सामग्री अनलॉक करें</h2>' +
        '<p><b>' + esc(x.title) + '</b></p>' +
        '<h3>निर्धारित शुल्क: ₹' + amt + '</h3>' +
-       '<div class="ad"><b>PhonePe / Google Pay / Paytm UPI ID</b><br><strong style="font-size:18px;color:#2444aa">9783065620@ybl</strong><br>' +
-       '<button class="btn" style="margin-top:10px;background:#5f259f" onclick="window.location.href=\'' + upiLink + '\'">📲 PhonePe / UPI ऐप से पे करें</button></div>' +
-       '<label><b>भुगतान के बाद 12 अंकों का UTR / Transaction No. दर्ज करें:</b></label>' +
+       '<div style="text-align:center;padding:16px;background:#f0f8ff;border-radius:16px;margin:12px 0">' +
+       '<p style="margin:0 0 10px;font-weight:bold;color:#1e3c72">⚡ तुरंत ऑनलाइन भुगतान करें (Google Pay, PhonePe, Paytm, कार्ड या वॉलेट)</p>' +
+       '<button class="btn pay" style="font-size:16px;padding:14px 20px;width:100%" onclick="payWithRazorpay(' + x.id + ')">💳 Razorpay से ₹' + amt + ' सुरक्षित पे करें</button>' +
+       '</div>' +
+       '<details style="margin-top:14px;border:1px dashed #b0c4de;padding:10px;border-radius:10px">' +
+       '<summary style="cursor:pointer;font-weight:bold;color:#555">वैकल्पिक: मैन्युअल UPI / UTR से सत्यापित करें</summary>' +
+       '<div class="ad" style="margin-top:8px"><b>UPI ID: 9783065620@ybl</b><br>' +
+       '<label style="display:block;margin-top:8px">12 अंकों का UTR / Transaction No.:</label>' +
        '<input id="utr" placeholder="जैसे: 4289xxxxxxxx">' +
-       '<button class="btn pay" onclick="unlockItem(' + x.id + ')">✅ सत्यापित करें और तुरंत खोलें</button> ' +
-       '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
+       '<button class="btn" style="background:#0984e3;margin-top:6px" onclick="unlockItem(' + x.id + ')">✅ UTR से खोलें</button>' +
+       '</div></details>' +
+       '<br><button class="btn danger" onclick="closeModal()">रद्द करें</button>');
+}
+
+function payWithRazorpay(id) {
+  var x = items.find(function(a) { return a.id === id; });
+  if (!x) return;
+  var amt = Number(x.price || 5);
+
+  var options = {
+    "key": "rzp_live_1Fdp3kLjgqNGMHl0hp29Qq7yt",
+    "amount": amt * 100, // पैसे में
+    "currency": "INR",
+    "name": "ज्ञान गंगा डिजिटल लर्निंग",
+    "description": x.title + " - अनलॉक",
+    "handler": function (response) {
+      alert("भुगतान सफल! पेमेंट आईडी: " + response.razorpay_payment_id);
+      unlockedItems[id] = true;
+      try { localStorage.setItem('gg_unlocked_items', JSON.stringify(unlockedItems)); } catch(e) {}
+      closeModal();
+      renderStudent();
+      openItem(id);
+    },
+    "prefill": {
+      "name": "विद्यार्थी",
+      "contact": ""
+    },
+    "theme": {
+      "color": "#1e3c72"
+    }
+  };
+
+  try {
+    var rzp = new Razorpay(options);
+    rzp.open();
+  } catch (err) {
+    alert("पेमेंट गेटवे खोलने में त्रुटि: " + err.message);
+  }
 }
 
 function unlockItem(id) {
@@ -744,9 +794,10 @@ function unlockItem(id) {
     return;
   }
   unlockedItems[id] = true;
+  try { localStorage.setItem('gg_unlocked_items', JSON.stringify(unlockedItems)); } catch(e) {}
   closeModal();
   renderStudent();
-  alert('भुगतान सफलतापूर्वक सत्यापित! सामग्री खोली जा रही है...');
+  alert('भुगतान सत्यापित! सामग्री खोली जा रही है...');
   openItem(id);
 }
 
