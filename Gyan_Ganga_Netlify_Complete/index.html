@@ -35,7 +35,6 @@ small{display:block;margin-top:8px}
 .purple{background:linear-gradient(135deg,#7b13ed,#c600db)}
 .section{background:#fff;border-radius:23px;padding:18px;margin:18px 0;box-shadow:0 7px 22px rgba(38,59,108,0.08)}
 .head{display:flex;justify-content:space-between;align-items:center;gap:10px}
-
 .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;margin-top:12px}
 .chip{border:0;border-radius:16px;padding:16px 8px;color:#fff;font-weight:900;font-size:15px;cursor:pointer;text-align:center;box-shadow:0 5px 12px rgba(0,0,0,0.12);transition:0.2s transform;min-height:65px;display:flex;align-items:center;justify-content:center}
 .chip:hover{transform:scale(1.04)}
@@ -66,7 +65,7 @@ small{display:block;margin-top:8px}
 .ad{border:2px dashed #b6c3dc;border-radius:18px;text-align:center;padding:20px;color:#74819a;background:#f8fbff}
 .hidden{display:none!important}
 .modal{position:fixed;inset:0;background:rgba(7,17,39,0.7);display:grid;place-items:center;padding:15px;z-index:9999}
-.dialog{background:#fff;border-radius:23px;padding:23px;width:min(600px,100%);max-height:92vh;overflow:auto}
+.dialog{background:#fff;border-radius:23px;padding:23px;width:min(650px,100%);max-height:92vh;overflow:auto}
 .editorInput{width:100%;padding:12px;border:1px solid #d5dfef;border-radius:10px;margin:5px 0 12px;font:inherit}
 .dialog input,.dialog select,.dialog textarea{width:100%;padding:11px;border:1px solid #d5dfef;border-radius:10px;margin:4px 0 10px;font:inherit}
 .danger{background:#d92d50}
@@ -78,6 +77,7 @@ small{display:block;margin-top:8px}
 .q-box{background:#f4f7fc;border:1px solid #d7e2f5;border-radius:12px;padding:12px;margin:10px 0}
 .test-opt{margin:6px 0;display:flex;align-items:center;gap:8px}
 #cameraVideo{width:100%;max-height:360px;background:#000;border-radius:14px;transform:scaleX(-1);margin-top:10px}
+
 @media(max-width:700px){
   .tiles{grid-template-columns:repeat(2,1fr)}
   .chips{grid-template-columns:repeat(3,1fr)}
@@ -156,7 +156,7 @@ small{display:block;margin-top:8px}
   <div id="teacherView" class="hidden">
     <div class="adminbar">
       <h2>👩‍🏫 शिक्षक पावर डैशबोर्ड</h2>
-      <button class="btn" style="background:#0984e3" onclick="openTestMaker()">📝 नया टेस्ट बनाएँ</button>
+      <button class="btn" style="background:#0984e3" onclick="openTestMaker()">📝 नया टेस्ट बनाएँ (AI सपोर्टेड)</button>
       <button class="btn" style="background:#00b894" onclick="openLiveClass()">🎥 लाइव क्लास शुरू करें</button>
       <button class="btn" style="background:#e17055" onclick="openVideoForm()">📺 वीडियो लेक्चर जोड़ें</button>
       <button class="btn" onclick="openAddForm()">➕ PDF अपलोड</button>
@@ -221,7 +221,6 @@ try {
 var currentQuizData = null, userAnswers = {}, unlockedItems = {};
 var mediaStream = null;
 
-// LocalStorage से पहले अनलॉक की गई सामग्री लोड करें
 try {
   var savedUnlocks = localStorage.getItem('gg_unlocked_items');
   if (savedUnlocks) { unlockedItems = JSON.parse(savedUnlocks) || {}; }
@@ -297,12 +296,6 @@ function freeOnly() { selected = 'सभी'; freeFilter = true; typeFilter = nu
 function filterType(t) {
   selected = 'सभी'; freeFilter = false; typeFilter = t; renderStudent();
   var el = $('materials'); if (el) el.scrollIntoView({behavior:'smooth'});
-}
-
-function showAll() {
-  selected = 'सभी'; freeFilter = false; typeFilter = null;
-  if ($('search')) $('search').value = '';
-  renderStudent();
 }
 
 function renderStudent() {
@@ -421,35 +414,107 @@ function publishEditor() {
   alert('सामग्री ऑनलाइन क्लाउड पर प्रकाशित हो गई!');
 }
 
+// ==================== AI स्मार्ट टेस्ट मेकर (COPY-PASTE SUPPORT) ====================
 function openTestMaker() {
   var catOpts = '';
   var list = classes.slice(1).concat(exams);
   for (var i = 0; i < list.length; i++) { catOpts += '<option>' + list[i] + '</option>'; }
 
   show('<h2>📝 नया लाइव टेस्ट / मॉक टेस्ट बनाएँ</h2>' +
+       '<div style="background:#eef5ff;border:2px dashed #3510bf;border-radius:14px;padding:14px;margin-bottom:15px">' +
+       '<h4 style="margin:0 0 6px;color:#3510bf">🤖 AI टेस्ट पेपर यहाँ सीधा पेस्ट करें (One-Click Auto Import):</h4>' +
+       '<p class="note" style="margin:0 0 8px">AI से जनरेट किया गया पूरा पेपर नीचे पेस्ट करके नीले बटन पर क्लिक करें।</p>' +
+       '<textarea id="aiBulkInput" rows="5" placeholder="यहाँ AI द्वारा दिए गए प्रश्न पेस्ट करें..."></textarea>' +
+       '<button type="button" class="btn" style="background:#6c5ce7;width:100%" onclick="parseAiQuiz()">⚡ AI टेक्स्ट से प्रश्न स्वतः लोड करें</button>' +
+       '</div>' +
+
        '<label>टेस्ट का नाम (शीर्षक)</label><input id="qzTitle" placeholder="जैसे: REET विज्ञान मॉडल टेस्ट - 1">' +
        '<label>कक्षा / परीक्षा</label><select id="qzCat">' + catOpts + '</select>' +
        '<label>विषय</label><input id="qzSub" placeholder="विषय लिखें">' +
        '<label>विद्यार्थी के लिए शुल्क ₹ (0 = Free)</label><input id="qzPrice" type="number" min="0" value="0">' +
-       '<hr><h3>वस्तुनिष्ठ प्रश्न जोड़ें</h3><div id="qzList"></div>' +
-       '<button class="btn" style="background:#0984e3;margin-top:8px" onclick="addQuestionBox()">➕ प्रश्न जोड़ें</button><br><br>' +
-       '<button class="btn pay" onclick="saveQuiz()">🚀 टेस्ट ऑनलाइन क्लाउड पर प्रकाशित करें</button> ' +
-       '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
-  addQuestionBox();
+       '<hr><h3>वस्तुनिष्ठ प्रश्न (नीचे चेक या एडिट करें)</h3><div id="qzList"></div>' +
+       '<button type="button" class="btn" style="background:#0984e3;margin-top:8px" onclick="addQuestionBox()">➕ अलग से प्रश्न जोड़ें</button><br><br>' +
+       '<button type="button" class="btn pay" onclick="saveQuiz()">🚀 टेस्ट ऑनलाइन क्लाउड पर प्रकाशित करें</button> ' +
+       '<button type="button" class="btn danger" onclick="closeModal()">रद्द करें</button>');
 }
 
-function addQuestionBox() {
+function parseAiQuiz() {
+  var raw = $('aiBulkInput').value.trim();
+  if (!raw) { alert('कृपया पहले AI द्वारा तैयार प्रश्न पेस्ट करें!'); return; }
+
+  var lines = raw.split('\n');
+  var questions = [];
+  var curQ = null;
+
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].trim();
+    if (!line) continue;
+
+    // प्रश्न पहचान (उदा. Q1:, प्रश्न 1:, 1. आदि)
+    if (line.match(/^(प्रश्न\s*\d+|Q\d+|\d+[\.\)])/i)) {
+      if (curQ && curQ.q && curQ.options.length >= 2) {
+        questions.push(curQ);
+      }
+      curQ = {
+        q: line.replace(/^(प्रश्न\s*\d+[:\.]*|Q\d+[:\.]*|\d+[\.\)])\s*/i, '').trim(),
+        options: [],
+        ans: 0
+      };
+    } 
+    // विकल्प पहचान (A:, B:, (A), A आदि)
+    else if (line.match(/^(\([A-D]\)|[A-D][\.:\)])/i)) {
+      if (curQ) {
+        var optText = line.replace(/^(\([A-D]\)|[A-D][\.:\)])\s*/i, '').trim();
+        curQ.options.push(optText);
+      }
+    } 
+    // सही उत्तर पहचान (उत्तर: B, Ans: C आदि)
+    else if (line.match(/^(उत्तर|Ans|Correct|Correct Option)[:\s]*([A-D])/i)) {
+      if (curQ) {
+        var match = line.match(/([A-D])/i);
+        if (match) {
+          var char = match[1].toUpperCase();
+          var mapping = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
+          curQ.ans = mapping[char] !== undefined ? mapping[char] : 0;
+        }
+      }
+    }
+  }
+
+  if (curQ && curQ.q && curQ.options.length >= 2) {
+    questions.push(curQ);
+  }
+
+  if (questions.length === 0) {
+    alert('प्रश्नों को सही फॉर्मेट में नहीं पाया गया। सुनिश्चित करें कि प्रश्न, विकल्प A, B, C, D और उत्तर लिखे हों।');
+    return;
+  }
+
+  $('qzList').innerHTML = '';
+  questions.forEach(function(qObj) {
+    addQuestionBox(qObj.q, qObj.options[0]||'', qObj.options[1]||'', qObj.options[2]||'', qObj.options[3]||'', qObj.ans);
+  });
+
+  alert('सफलता! ' + questions.length + ' प्रश्न अपने-आप लोड हो गए। आप नीचे चेक करके प्रकाशित कर सकते हैं।');
+}
+
+function addQuestionBox(qText, oA, oB, oC, oD, ansIdx) {
   var count = document.querySelectorAll('.q-box').length + 1;
   var div = document.createElement('div');
   div.className = 'q-box';
   div.innerHTML = '<b>प्रश्न ' + count + ':</b>' +
-    '<input class="q-text" placeholder="प्रश्न यहाँ लिखें...">' +
-    '<div class="test-opt">A: <input class="q-opt" placeholder="विकल्प A"></div>' +
-    '<div class="test-opt">B: <input class="q-opt" placeholder="विकल्प B"></div>' +
-    '<div class="test-opt">C: <input class="q-opt" placeholder="विकल्प C"></div>' +
-    '<div class="test-opt">D: <input class="q-opt" placeholder="विकल्प D"></div>' +
+    '<input class="q-text" placeholder="प्रश्न यहाँ लिखें..." value="' + esc(qText || '') + '">' +
+    '<div class="test-opt">A: <input class="q-opt" placeholder="विकल्प A" value="' + esc(oA || '') + '"></div>' +
+    '<div class="test-opt">B: <input class="q-opt" placeholder="विकल्प B" value="' + esc(oB || '') + '"></div>' +
+    '<div class="test-opt">C: <input class="q-opt" placeholder="विकल्प C" value="' + esc(oC || '') + '"></div>' +
+    '<div class="test-opt">D: <input class="q-opt" placeholder="विकल्प D" value="' + esc(oD || '') + '"></div>' +
     '<label><b>सही उत्तर (Correct Option):</b></label>' +
-    '<select class="q-ans"><option value="0">विकल्प A</option><option value="1">विकल्प B</option><option value="2">विकल्प C</option><option value="3">विकल्प D</option></select>';
+    '<select class="q-ans">' +
+      '<option value="0" ' + (ansIdx === 0 ? 'selected' : '') + '>विकल्प A</option>' +
+      '<option value="1" ' + (ansIdx === 1 ? 'selected' : '') + '>विकल्प B</option>' +
+      '<option value="2" ' + (ansIdx === 2 ? 'selected' : '') + '>विकल्प C</option>' +
+      '<option value="3" ' + (ansIdx === 3 ? 'selected' : '') + '>विकल्प D</option>' +
+    '</select>';
   $('qzList').appendChild(div);
 }
 
@@ -727,7 +792,7 @@ function openItem(id) {
   }
 }
 
-// ==================== RAZORPAY & PAYMENT HANDLER ====================
+// ==================== RAZORPAY PAYMENT HANDLER ====================
 function handlePayOrOpen(id) {
   var x = items.find(function(a) { return a.id === id; });
   if (!x) return;
@@ -754,11 +819,11 @@ function handlePayOrOpen(id) {
 function payWithRazorpay(id) {
   var x = items.find(function(a) { return a.id === id; });
   if (!x) return;
-  var amt = Number(x.price || 5);
+  var amt = Math.max(1, Number(x.price || 5));
 
   var options = {
-    "key": "rzp_live_1Fdp3kLjgqNGMHl0hp29Qq7yt",
-    "amount": amt * 100, // पैसे में
+    "key": "rzp_live_TZYFeLYtD0D5nt", // आपकी असली Live Key
+    "amount": Math.round(amt * 100),
     "currency": "INR",
     "name": "ज्ञान गंगा डिजिटल लर्निंग",
     "description": x.title + " - अनलॉक",
@@ -822,7 +887,6 @@ renderStudent();
   const db = getFirestore(app);
   const colRef = collection(db, "materials");
 
-  // क्लाउड पर सामग्री सुरक्षित करना
   window.syncToFirestore = async function(item) {
     try {
       await setDoc(doc(db, "materials", String(item.id)), item);
@@ -831,7 +895,6 @@ renderStudent();
     }
   };
 
-  // क्लाउड से सामग्री डिलीट करना
   window.deleteFromFirestore = async function(id) {
     try {
       await deleteDoc(doc(db, "materials", String(id)));
@@ -840,7 +903,6 @@ renderStudent();
     }
   };
 
-  // Realtime Listener: जैसे ही कोई भी सामग्री जुड़ेगी, हर छात्र के फोन पर अपने-आप अपडेट होगी
   onSnapshot(colRef, (snapshot) => {
     let cloudItems = [];
     snapshot.forEach((docSnap) => {
