@@ -9,36 +9,43 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#edf4ff;color:#17233f;font-family:Arial,"Noto Sans Devanagari",sans-serif}
-.app{max-width:1100px;margin:auto;padding:12px}
-.hero{padding:25px;border-radius:28px;color:#fff;background:linear-gradient(125deg,#3510bf,#9c10ed,#00a8df);box-shadow:0 10px 30px rgba(22,44,104,0.15)}
-.brand{display:flex;gap:15px;align-items:center}
-.logo{width:78px;height:78px;border:3px solid rgba(255,255,255,0.5);border-radius:50%;display:grid;place-items:center;font-size:42px;background:rgba(255,255,255,0.15)}
-h1{margin:0;font-size:clamp(24px,5vw,42px);font-weight:900}
-.hero p{font-size:16px;font-weight:bold;margin:6px 0 0}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:17px 0}
-.tab,.tile,.btn{border:0;border-radius:20px;color:white;font-weight:900;cursor:pointer;box-shadow:0 7px 18px rgba(24,39,75,0.15)}
-.tab{padding:20px;text-align:left;font-size:17px}
+.app{max-width:1120px;margin:auto;padding:14px}
+.hero{padding:26px;border-radius:28px;color:#fff;background:linear-gradient(130deg,#240b8a,#7b1fa2,#0288d1);box-shadow:0 12px 30px rgba(22,44,104,0.18)}
+.brand{display:flex;gap:16px;align-items:center}
+.logo{width:76px;height:76px;border:3px solid rgba(255,255,255,0.6);border-radius:50%;display:grid;place-items:center;font-size:40px;background:rgba(255,255,255,0.18)}
+h1{margin:0;font-size:clamp(22px,4.5vw,38px);font-weight:900}
+.hero p{font-size:15px;font-weight:bold;margin:6px 0 0;opacity:0.95}
+
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.tab,.tile,.btn{border:0;border-radius:20px;color:white;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(24,39,75,0.14);transition:0.2s transform}
+.tab:hover,.tile:hover,.btn:hover{transform:translateY(-2px)}
+.tab{padding:18px 20px;text-align:left;font-size:17px}
 .teacher{background:linear-gradient(135deg,#c400ed,#4922e9)}
 .student{background:linear-gradient(135deg,#00a76e,#00b9d9)}
-small{display:block;margin-top:8px}
-.ticker{overflow:hidden;white-space:nowrap;background:#ffcf19;color:#452300;border-radius:13px;padding:12px;font-weight:900;margin:14px 0}
-.ticker span{display:inline-block;animation:move 20s linear infinite}
+small{display:block;margin-top:6px;font-size:13px;opacity:0.9}
+
+.ticker{overflow:hidden;white-space:nowrap;background:linear-gradient(90deg,#ffb300,#ff8008);color:#fff;border-radius:14px;padding:12px 14px;font-weight:900;margin:15px 0;box-shadow:0 5px 15px rgba(255,140,0,0.25)}
+.ticker span{display:inline-block;animation:move 22s linear infinite}
 @keyframes move{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+
 .search{display:flex;gap:9px;margin:14px 0}
-.search input{flex:1;border:2px solid #dce5f5;border-radius:16px;padding:15px;font-size:16px}
-.btn{background:#2444aa;padding:12px 17px;border-radius:13px}
+.search input{flex:1;border:2px solid #dce5f5;border-radius:16px;padding:14px;font-size:16px;outline:none}
+.btn{background:#2444aa;padding:12px 18px;border-radius:14px}
+
 .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.tile{padding:19px;min-height:115px;text-align:left}
-.pink{background:linear-gradient(135deg,#ff1e67,#ec008c)}
-.orange{background:linear-gradient(135deg,#ffad00,#f46b00)}
-.blue{background:linear-gradient(135deg,#1476ef,#00b9df)}
-.purple{background:linear-gradient(135deg,#7b13ed,#c600db)}
-.section{background:#fff;border-radius:23px;padding:18px;margin:18px 0;box-shadow:0 7px 22px rgba(38,59,108,0.08)}
+.tile{padding:18px;min-height:115px;text-align:left}
+.pink{background:linear-gradient(135deg,#ff0844,#ffb199)}
+.orange{background:linear-gradient(135deg,#f857a6,#ff5858)}
+.blue{background:linear-gradient(135deg,#2193b0,#6dd5ed);color:#023246}
+.purple{background:linear-gradient(135deg,#8e2de2,#4a00e0)}
+
+.section{background:#fff;border-radius:24px;padding:20px;margin:18px 0;box-shadow:0 8px 24px rgba(38,59,108,0.07)}
 .head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
 .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;margin-top:12px}
 .chip{border:0;border-radius:16px;padding:16px 8px;color:#fff;font-weight:900;font-size:15px;cursor:pointer;text-align:center;box-shadow:0 5px 12px rgba(0,0,0,0.12);transition:0.2s transform;min-height:65px;display:flex;align-items:center;justify-content:center}
 .chip:hover{transform:scale(1.04)}
-.chip.active{outline:4px solid #1a237e;box-shadow:0 0 15px rgba(26,35,126,0.5)!important}
+.chip.active{outline:4px solid #1a237e;box-shadow:0 0 16px rgba(26,35,126,0.5)!important}
 
 .color-0{background:linear-gradient(135deg,#1f4037,#99f2c8);color:#0f3820}
 .color-1{background:linear-gradient(135deg,#FF512F,#DD2476)}
@@ -54,29 +61,32 @@ small{display:block;margin-top:8px}
 .color-11{background:linear-gradient(135deg,#13547a,#80d0c7)}
 .color-12{background:linear-gradient(135deg,#ff4e50,#f9d423);color:#421500}
 
-.materials{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.card{border:1px solid #e0e7f5;border-radius:17px;padding:16px;background:#fafcff}
-.badge{display:inline-block;background:#edf0ff;color:#4c2be8;padding:5px 8px;border-radius:8px;font-size:12px;font-weight:bold}
+.materials{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+.card{border:1px solid #e1e9f8;border-radius:18px;padding:16px;background:#fafcff;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
+.badge{display:inline-block;background:#edf0ff;color:#4c2be8;padding:5px 9px;border-radius:8px;font-size:12px;font-weight:bold}
 .price{color:#4c2be8;font-size:18px;font-weight:900;margin:6px 0}
 .free{color:#07955c;font-weight:900;margin:6px 0}
-.coming{color:#fff;background:linear-gradient(110deg,#7b15eb,#f0009c)}
-.coming span{display:inline-block;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:12px;padding:12px 14px;margin:5px;cursor:pointer;font-weight:bold;transition:0.2s}
+
+.coming{color:#fff;background:linear-gradient(120deg,#6a11cb,#2575fc)}
+.coming span{display:inline-block;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:12px;padding:10px 14px;margin:5px;cursor:pointer;font-weight:bold;transition:0.2s}
 .coming span:hover{background:rgba(255,255,255,0.35);transform:scale(1.03)}
+
 .ad{border:2px dashed #b6c3dc;border-radius:18px;text-align:center;padding:20px;color:#74819a;background:#f8fbff}
 .hidden{display:none!important}
-.modal{position:fixed;inset:0;background:rgba(7,17,39,0.7);display:grid;place-items:center;padding:15px;z-index:9999}
-.dialog{background:#fff;border-radius:23px;padding:23px;width:min(650px,100%);max-height:92vh;overflow:auto}
+.modal{position:fixed;inset:0;background:rgba(7,17,39,0.72);display:grid;place-items:center;padding:15px;z-index:9999}
+.dialog{background:#fff;border-radius:24px;padding:24px;width:min(680px,100%);max-height:92vh;overflow:auto}
 .editorInput{width:100%;padding:12px;border:1px solid #d5dfef;border-radius:10px;margin:5px 0 12px;font:inherit}
 .dialog input,.dialog select,.dialog textarea{width:100%;padding:11px;border:1px solid #d5dfef;border-radius:10px;margin:4px 0 10px;font:inherit}
 .danger{background:#d92d50}
 .note{font-size:13px;color:#68768d}
-.adminbar{background:linear-gradient(100deg,#20105f,#6d18ce);color:#fff;border-radius:20px;padding:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.adminbar{background:linear-gradient(100deg,#1e0b5a,#5c13b8);color:#fff;border-radius:20px;padding:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .adminbar h2{width:100%;margin:0 0 5px}
 .delete{background:#d92d50!important}
 .pay{background:#0a8e61!important}
 .q-box{background:#f4f7fc;border:1px solid #d7e2f5;border-radius:12px;padding:12px;margin:10px 0}
 .test-opt{margin:6px 0;display:flex;align-items:center;gap:8px}
 #cameraVideo{width:100%;max-height:360px;background:#000;border-radius:14px;transform:scaleX(-1);margin-top:10px}
+.pdf-btn-group{display:flex;flex-direction:column;gap:8px;margin-top:10px}
 
 @media(max-width:700px){
   .tiles{grid-template-columns:repeat(2,1fr)}
@@ -93,7 +103,7 @@ small{display:block;margin-top:8px}
     <div class="brand">
       <div class="logo">📚</div>
       <div>
-        <h1>ज्ञान गंगा डिजिटल लर्निंग ऐप</h1>
+        <h1>ज्ञान गंगा डिजिटल लर्निंग पोर्टल</h1>
         <p>कक्षा 1 से 12 • प्रतियोगी परीक्षाएँ • लाइव टेस्ट सीरीज • लाइव क्लास • PDF</p>
       </div>
     </div>
@@ -102,11 +112,11 @@ small{display:block;margin-top:8px}
   <div class="ticker"><span id="tickerText">📣 ज्ञान गंगा डिजिटल लर्निंग पर ऑनलाइन टेस्ट सीरीज, लाइव क्लास और नई अध्ययन सामग्री लगातार जुड़ रही है ✨</span></div>
 
   <div class="tabs">
-    <button class="tab teacher" onclick="teacherTabClick()">👩‍🏫 शिक्षक टैब 🔒<small>डैशबोर्ड • टेस्ट बनाएँ • PDF • लाइव क्लास</small></button>
+    <button class="tab teacher" onclick="teacherTabClick()">👩‍🏫 शिक्षक टैब 🔒<small>AI स्टूडियो • टेस्ट बनाएँ • PDF • लाइव</small></button>
     <button class="tab student" onclick="studentTabClick()">👨‍🎓 विद्यार्थी टैब 🔓<small>सामग्री • टेस्ट दें • लाइव क्लास • PDF</small></button>
   </div>
 
-  <!-- विद्यार्थी व्यू -->
+  <!-- ==================== विद्यार्थी व्यू ==================== -->
   <div id="studentView">
     <div class="search">
       <input id="search" placeholder="🔎 कक्षा, विषय, टेस्ट, वीडियो या सामग्री खोजें..." oninput="renderStudent()">
@@ -116,7 +126,7 @@ small{display:block;margin-top:8px}
       <button class="tile pink" onclick="selectCat('सभी')">📚<br>कक्षा सामग्री<small>कक्षा 1–12</small></button>
       <button class="tile orange" onclick="filterType('quiz')">📝<br>ऑनलाइन टेस्ट<small>मॉक टेस्ट व परीक्षा</small></button>
       <button class="tile blue" onclick="freeOnly()">✅<br>Free सामग्री<small>निःशुल्क सामग्री व टेस्ट</small></button>
-      <button class="tile purple" onclick="openLiveClass()">🎥<br>लाइव क्लास<small>कैमरा चालू करें</small></button>
+      <button class="tile purple" onclick="openLiveClassStudent()">🎥<br>लाइव क्लास<small id="liveStatusText">लाइव क्लास में जुड़ें</small></button>
     </div>
 
     <section class="section">
@@ -142,32 +152,54 @@ small{display:block;margin-top:8px}
       <div class="ad">यहाँ Google AdSense का विज्ञापन स्थान रहेगा<br><span class="note">AdSense approval और विज्ञापन कोड मिलने के बाद यहाँ लगाया जा सकता है।</span></div>
     </section>
 
+    <!-- गतिशील कमिंग सून सेक्शन -->
     <section class="section coming">
-      <h2>📣 विशेष सेवाएँ (सक्रिय विकल्प)</h2>
-      <span onclick="openLiveClass()">🎥 लाइव क्लास चालू करें</span>
-      <span onclick="filterType('quiz')">📝 ऑनलाइन मॉक टेस्ट</span>
-      <span onclick="filterType('quiz')">🏆 टेस्ट सीरीज</span>
-      <span onclick="filterType('video')">📺 वीडियो लेक्चर</span>
-      <span onclick="filterType('article')">📖 ई-बुक / नोट्स</span>
+      <h2>📣 विशेष सेवाएँ एवं आगामी कार्यक्रम (Coming Soon)</h2>
+      <div id="comingSoonList" style="margin-top:10px">
+        <span onclick="openLiveClassStudent()">🎥 लाइव क्लास चालू करें</span>
+        <span onclick="filterType('quiz')">📝 ऑनलाइन मॉक टेस्ट</span>
+        <span onclick="filterType('quiz')">🏆 टेस्ट सीरीज</span>
+        <span onclick="filterType('video')">📺 वीडियो लेक्चर</span>
+        <span onclick="filterType('article')">📖 ई-बुक / नोट्स</span>
+      </div>
     </section>
   </div>
 
-  <!-- शिक्षक व्यू -->
+  <!-- ==================== शिक्षक व्यू ==================== -->
   <div id="teacherView" class="hidden">
     <div class="adminbar">
       <h2>👩‍🏫 शिक्षक पावर डैशबोर्ड</h2>
       <button class="btn" style="background:#0984e3" onclick="openTestMaker()">📝 नया टेस्ट बनाएँ (AI सपोर्टेड)</button>
-      <button class="btn" style="background:#00b894" onclick="openLiveClass()">🎥 लाइव क्लास शुरू करें</button>
+      <button class="btn" style="background:#00b894" onclick="openLiveClassConfig()">🎥 लाइव क्लास लिंक सेट करें</button>
       <button class="btn" style="background:#e17055" onclick="openVideoForm()">📺 वीडियो लेक्चर जोड़ें</button>
-      <button class="btn" onclick="openAddForm()">➕ PDF अपलोड</button>
+      <button class="btn" style="background:#e84393" onclick="openAddForm()">➕ पाठ PDF जोड़ें (3 PDF तक)</button>
+      <button class="btn" style="background:#fdcb6e;color:#2d3436" onclick="openComingSoonForm()">📢 आगामी घोषणा जोड़ें</button>
       <button class="btn" onclick="openLinkForm()">🔗 लिंक जोड़ें</button>
       <button class="btn" style="background:#6c5ce7" onclick="studentTabClick()">👨‍🎓 विद्यार्थी व्यू देखें</button>
       <button class="btn danger" onclick="logoutTeacher()">लॉगआउट</button>
     </div>
 
+    <!-- AI शिक्षक निर्माण केंद्र (बिना किसी Key के झंझट के 100% कार्यशील) -->
+    <section class="section" style="border: 2px solid #6c5ce7; background: #faf9ff;">
+      <h2 style="color:#4a148c">⚡ AI शिक्षक सामग्री व प्रश्न निर्माण केंद्र</h2>
+      <p class="note">यहाँ किसी भी कक्षा, पाठ या परीक्षा का टॉपिक लिखें। 1-क्लिक में सामग्री तैयार होगी, जिसे आप देखकर ही पब्लिश करेंगे।</p>
+      
+      <div class="search">
+        <input id="geminiQuery" placeholder="जैसे: कक्षा 8 विज्ञान अध्याय 2 सूक्ष्मजीव, या REET राजस्थान सामान्य ज्ञान...">
+      </div>
+
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px;">
+        <button class="btn" style="background:#6c5ce7" onclick="generateWithFreeAI('notes')">📖 बिंदुवार नोट्स तैयार करें (Direct AI)</button>
+        <button class="btn" style="background:#0984e3" onclick="generateWithFreeAI('quiz')">📝 10 वस्तुनिष्ठ प्रश्न तैयार करें (Direct AI)</button>
+        <button class="btn" style="background:#00b894" onclick="openOneClickGemini()">🤖 सीधे Gemini AI में खोलें</button>
+      </div>
+      <p id="geminiStatus" style="font-weight: bold; color: #2444aa; margin: 4px 0;"></p>
+    </section>
+
+    <!-- वेब सर्च सेक्शन -->
     <section class="section">
       <h2>🌐 शिक्षक Free Search Engine</h2>
-      <p class="note">शैक्षिक सामग्री व प्रश्न खोजने हेतु:</p>
+      <p class="note">वेब पर संदर्भ सामग्री खोजने हेतु:</p>
       <div class="search">
         <input id="teacherWebQuery" placeholder="शैक्षिक विषय, प्रश्न, पाठ या नोट्स खोजें...">
         <button class="btn" onclick="teacherWebSearch()">🔎 खोजें</button>
@@ -180,17 +212,25 @@ small{display:block;margin-top:8px}
       </div>
     </section>
 
-    <section class="section">
-      <h2>📝 नोट्स तैयार करें और प्रकाशित करें</h2>
+    <!-- समीक्षा, संपादन व प्रकाशन एडिटर -->
+    <section class="section" id="editorSection">
+      <h2>📝 नोट्स तैयार करें, समीक्षा करें और प्रकाशित करें</h2>
       <label>शीर्षक</label><input id="editorTitle" class="editorInput" placeholder="जैसे: कक्षा 8 विज्ञान अध्याय 1 नोट्स">
       <label>कक्षा/परीक्षा</label><select id="editorCategory" class="editorInput"></select>
       <label>विषय</label><input id="editorSubject" class="editorInput" placeholder="विषय लिखें">
-      <label>मूल सामग्री / नोट्स</label><textarea id="editorText" class="editorInput" rows="7" placeholder="यहाँ सामग्री लिखें..."></textarea>
+      <label>मूल सामग्री / नोट्स (यहाँ अपनी इच्छानुसार संपादन करें)</label><textarea id="editorText" class="editorInput" rows="8" placeholder="यहाँ सामग्री लिखें या AI द्वारा तैयार होने पर स्वतः लोड होगी..."></textarea>
       <label>विद्यार्थी के लिए शुल्क ₹ (0 = Free)</label><input id="editorPrice" class="editorInput" type="number" min="0" value="0">
       <button class="btn" onclick="printEditorPdf()">🖨️ Print / Save as PDF</button>
-      <button class="btn pay" onclick="publishEditor()">🚀 प्रकाशित करें</button>
+      <button class="btn pay" onclick="publishEditor()">🚀 सामग्री ऑनलाइन प्रकाशित करें</button>
     </section>
 
+    <!-- सक्रिय आगामी घोषणाओं का प्रबंधन -->
+    <section class="section">
+      <h2>📢 सक्रिय आगामी सेवाएँ (Coming Soon Management)</h2>
+      <div id="adminComingSoonList" style="display:flex;flex-wrap:wrap;gap:10px"></div>
+    </section>
+
+    <!-- सामग्री प्रबंधन -->
     <section class="section">
       <h2>📋 प्रकाशित सामग्री व टेस्ट प्रबंधन</h2>
       <div id="adminMaterials" class="materials"></div>
@@ -212,11 +252,23 @@ var exams = ['REET', 'CTET', 'RAS', 'पटवारी', 'SSC', 'रेलव�
 var selected = 'सभी', freeFilter = false, typeFilter = null;
 var isTeacherLoggedIn = false;
 var items = [];
+var comingSoonItems = [];
+var activeLiveClass = null;
 
 try {
   var stored = localStorage.getItem('gg_items_v2');
   if (stored) { items = JSON.parse(stored) || []; }
 } catch (e) { items = []; }
+
+try {
+  var storedCS = localStorage.getItem('gg_coming_soon');
+  if (storedCS) { comingSoonItems = JSON.parse(storedCS) || []; }
+} catch (e) { comingSoonItems = []; }
+
+try {
+  var storedLive = localStorage.getItem('gg_active_live');
+  if (storedLive) { activeLiveClass = JSON.parse(storedLive); }
+} catch(e) {}
 
 var currentQuizData = null, userAnswers = {}, unlockedItems = {};
 var mediaStream = null;
@@ -238,6 +290,10 @@ function save() {
   try { localStorage.setItem('gg_items_v2', JSON.stringify(items)); } catch (e) {}
 }
 
+function saveCS() {
+  try { localStorage.setItem('gg_coming_soon', JSON.stringify(comingSoonItems)); } catch (e) {}
+}
+
 function show(h) { $('dialog').innerHTML = h; $('modal').classList.remove('hidden'); }
 function closeModal() { stopCamera(); $('modal').classList.add('hidden'); }
 
@@ -247,6 +303,7 @@ function teacherTabClick() {
     $('teacherView').classList.remove('hidden');
     fillEditorCategories();
     renderAdmin();
+    renderAdminComingSoon();
   } else {
     teacherLogin();
   }
@@ -256,6 +313,8 @@ function studentTabClick() {
   $('teacherView').classList.add('hidden');
   $('studentView').classList.remove('hidden');
   renderStudent();
+  renderStudentComingSoon();
+  updateLiveClassIndicator();
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -278,6 +337,7 @@ function login() {
     $('teacherView').classList.remove('hidden');
     fillEditorCategories();
     renderAdmin();
+    renderAdminComingSoon();
   } else {
     $('err').textContent = 'अमान्य ID या पासवर्ड!';
   }
@@ -341,11 +401,13 @@ function renderStudent() {
     $('materials').innerHTML = '<p class="note" style="padding:15px;background:#f4f7fc;border-radius:10px">वर्तमान में इस श्रेणी में कोई सामग्री उपलब्ध नहीं है।</p>';
   }
   ticker();
+  renderStudentComingSoon();
+  updateLiveClassIndicator();
 }
 
 function cardStudent(x) {
   var p = Number(x.price || 0);
-  var typeTag = (x.type === 'quiz') ? '📝 लाइव टेस्ट सीरीज' : (x.type === 'video') ? '📺 वीडियो लेक्चर' : (x.type === 'pdf') ? '📄 PDF नोट्स' : '📖 ई-बुक / नोट्स';
+  var typeTag = (x.type === 'quiz') ? '📝 लाइव टेस्ट सीरीज' : (x.type === 'video') ? '📺 वीडियो लेक्चर' : (x.type === 'pdf') ? '📄 PDF सामग्री' : '📖 ई-बुक / नोट्स';
   var btnText = (x.type === 'quiz') ? '🎯 टेस्ट शुरू करें' : (x.type === 'video') ? '▶️ वीडियो क्लास देखें' : '📥 सामग्री खोलें';
   var isUnlocked = unlockedItems[x.id] || p === 0;
 
@@ -414,7 +476,214 @@ function publishEditor() {
   alert('सामग्री ऑनलाइन क्लाउड पर प्रकाशित हो गई!');
 }
 
-// ==================== AI स्मार्ट टेस्ट मेकर (COPY-PASTE SUPPORT) ====================
+// ==================== शून्य-एरर AI सामग्री निर्माण (बिना किसी Key के झंझट के) ====================
+async function generateWithFreeAI(type) {
+  var query = $('geminiQuery').value.trim();
+  if (!query) { alert('कृपया पहले विषय या टॉपिक का नाम दर्ज करें!'); return; }
+
+  $('geminiStatus').textContent = '⏳ AI सामग्री तैयार कर रहा है, कृपया कुछ सेकंड रुकें...';
+
+  var promptText = "";
+  if (type === 'notes') {
+    promptText = "राजस्थान बोर्ड RBSE और NCERT कक्षा 6 से 8 के स्तर पर अत्यंत सरल और शुद्ध हिंदी में निम्न विषय पर क्रमबद्ध बिंदुवार मुख्य नोट्स लिखें:\nविषय: " + query;
+  } else {
+    promptText = "निम्न विषय पर 10 बहुविकल्पीय वस्तुनिष्ठ प्रश्न (MCQ) तैयार करें। ठीक इस फॉर्मेट में लिखें:\nप्रश्न 1: [प्रश्न]\nA: [विकल्प]\nB: [विकल्प]\nC: [विकल्प]\nD: [विकल्प]\nउत्तर: [सही विकल्प अक्षर A/B/C/D]\n\nविषय: " + query;
+  }
+
+  try {
+    // ओपन AI एंडपॉइंट (बिना किसी Auth Key के 100% कार्यशील)
+    var apiUrl = "https://text.pollinations.ai/" + encodeURIComponent(promptText);
+    var response = await fetch(apiUrl);
+    var resultText = await response.text();
+
+    if (!resultText || resultText.length < 20) {
+      throw new Error('सामग्री लोड नहीं हो सकी');
+    }
+
+    $('geminiStatus').textContent = '✅ सामग्री तैयार है! कृपया नीचे पढ़कर जाँच लें।';
+
+    if (type === 'notes') {
+      $('editorTitle').value = query + " - मुख्य नोट्स";
+      $('editorText').value = resultText;
+      $('editorSection').scrollIntoView({ behavior: 'smooth' });
+      alert('नोट्स नीचे "📝 नोट्स तैयार करें" बॉक्स में आ चुके हैं। कृपया उन्हें पढ़कर जो सुधार करना हो करें और संतुष्ट होने पर ही "🚀 प्रकाशित करें" दबाएँ।');
+    } else {
+      openTestMaker();
+      $('qzTitle').value = query + " - मॉडल टेस्ट";
+      $('aiBulkInput').value = resultText;
+      alert('प्रश्न तैयार होकर टेस्ट मेकर में आ चुके हैं। "⚡ AI टेक्स्ट से प्रश्न स्वतः लोड करें" पर क्लिक करें, सभी प्रश्नों को जाँचें और तभी प्रकाशित करें।');
+    }
+  } catch (err) {
+    $('geminiStatus').textContent = 'सीधा AI व्यस्त है। आप "🤖 सीधे Gemini AI में खोलें" बटन का उपयोग करें।';
+    openOneClickGemini();
+  }
+}
+
+function openOneClickGemini() {
+  var query = $('geminiQuery').value.trim() || "कक्षा 8 विज्ञान महत्वपूर्ण प्रश्नोत्तर";
+  var prompt = "आप एक वरिष्ठ शिक्षक हैं। कृपया निम्न विषय पर राजस्थान बोर्ड और NCERT के लिए 10 बहुविकल्पीय वस्तुनिष्ठ प्रश्न और उत्तर तैयार करें:\n" + query;
+  window.open("https://gemini.google.com/app?prompt=" + encodeURIComponent(prompt), "_blank");
+}
+
+// ==================== लाइव क्लास लिंक प्रबंधन ====================
+function openLiveClassConfig() {
+  var curTitle = activeLiveClass ? activeLiveClass.title : '';
+  var curUrl = activeLiveClass ? activeLiveClass.url : '';
+
+  show('<h2>🎥 लाइव क्लास लिंक व्यवस्था</h2>' +
+       '<p class="note">शिक्षक यहाँ YouTube Live, Google Meet या Zoom का लिंक दर्ज कर सकते हैं। विद्यार्थी सीधे जुड़ सकेंगे।</p>' +
+       '<label>लाइव क्लास का विषय / शीर्षक</label>' +
+       '<input id="liveTitle" placeholder="जैसे: REET विज्ञान लाइव क्लास - शाम 6 बजे" value="' + esc(curTitle) + '">' +
+       '<label>लाइव क्लास लिंक (YouTube Live / Google Meet / Zoom)</label>' +
+       '<input id="liveUrl" placeholder="https://meet.google.com/... या https://youtube.com/live/..." value="' + esc(curUrl) + '">' +
+       '<br><button class="btn pay" onclick="saveLiveConfig()">🚀 लाइव क्लास सक्रिय करें (Broadcast)</button> ' +
+       (activeLiveClass ? '<button class="btn delete" onclick="endLiveBroadcast()">🔴 लाइव क्लास समाप्त करें</button> ' : '') +
+       '<button class="btn" style="background:#00b894" onclick="openCameraOnly()">📹 इनबिल्ट कैमरा टेस्ट करें</button> ' +
+       '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
+}
+
+function saveLiveConfig() {
+  var t = $('liveTitle').value.trim();
+  var u = $('liveUrl').value.trim();
+  if (!t || !u) return alert('कृपया शीर्षक और लाइव लिंक दोनों दर्ज करें!');
+
+  activeLiveClass = { title: t, url: u, active: true, time: Date.now() };
+  try { localStorage.setItem('gg_active_live', JSON.stringify(activeLiveClass)); } catch(e) {}
+  if (window.syncLiveToFirestore) window.syncLiveToFirestore(activeLiveClass);
+  closeModal();
+  updateLiveClassIndicator();
+  alert('लाइव क्लास लिंक सक्रिय हो गया है! अब विद्यार्थी सीधे इस लिंक पर जुड़ सकेंगे।');
+}
+
+function endLiveBroadcast() {
+  if (confirm('क्या आप आज की लाइव क्लास समाप्त करना चाहते हैं?')) {
+    activeLiveClass = null;
+    try { localStorage.removeItem('gg_active_live'); } catch(e) {}
+    if (window.deleteLiveFromFirestore) window.deleteLiveFromFirestore();
+    closeModal();
+    updateLiveClassIndicator();
+    alert('लाइव क्लास समाप्त कर दी गई है।');
+  }
+}
+
+function updateLiveClassIndicator() {
+  var txt = $('liveStatusText');
+  if (!txt) return;
+  if (activeLiveClass && activeLiveClass.active) {
+    txt.innerHTML = '<span style="color:#ffeb3b;font-weight:bold">🔴 LIVE NOW: ' + esc(activeLiveClass.title) + '</span>';
+  } else {
+    txt.textContent = 'कैमरा / लाइव क्लास';
+  }
+}
+
+function openLiveClassStudent() {
+  if (activeLiveClass && activeLiveClass.active && activeLiveClass.url) {
+    show('<h2>🔴 लाइव क्लास चालू है!</h2>' +
+         '<p><b>विषय: ' + esc(activeLiveClass.title) + '</b></p>' +
+         '<p class="note">शिक्षक द्वारा लाइव क्लास शुरू कर दी गई है। नीचे दिए गए बटन पर क्लिक करके सीधे क्लास में जुड़ें:</p>' +
+         '<a href="' + esc(activeLiveClass.url) + '" target="_blank" class="btn pay" style="display:block;text-align:center;text-decoration:none;font-size:17px;padding:15px">▶️ अभी लाइव क्लास में प्रवेश करें</a><br>' +
+         '<button class="btn danger" onclick="closeModal()">बंद करें</button>');
+  } else {
+    openCameraOnly();
+  }
+}
+
+function openCameraOnly() {
+  show('<h2>🎥 ज्ञान गंगा लाइव क्लास रूम</h2>' +
+       '<p class="note">कैमरा व माइक्रोफ़ोन चालू किया जा रहा है...</p>' +
+       '<video id="cameraVideo" autoplay playsinline muted></video><br>' +
+       '<p id="camStatus" style="font-weight:bold;color:#07955c">🔴 लाइव प्रसारण सक्रिय</p>' +
+       '<button class="btn danger" onclick="closeModal()">🔴 क्लास समाप्त करें</button>');
+
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then(function(stream) {
+        mediaStream = stream;
+        var videoEl = $('cameraVideo');
+        if (videoEl) { videoEl.srcObject = stream; }
+      })
+      .catch(function(err) {
+        if ($('camStatus')) {
+          $('camStatus').style.color = '#d92d50';
+          $('camStatus').textContent = 'कैमरा अनुमति दें: ' + err.message;
+        }
+      });
+  } else {
+    alert('कैमरा सपोर्ट उपलब्ध नहीं है।');
+  }
+}
+
+function stopCamera() {
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(function(track) { track.stop(); });
+    mediaStream = null;
+  }
+}
+
+// ==================== आगामी सेवाएँ (COMING SOON) ====================
+function openComingSoonForm() {
+  show('<h2>📢 नई आगामी सेवा / कमिंग सून घोषणा</h2>' +
+       '<label>घोषणा / सेवा का नाम</label><input id="csTitle" placeholder="जैसे: REET 2026 स्पेशल टेस्ट सीरीज">' +
+       '<label>संभावित तिथि या विवरण</label><input id="csDate" placeholder="जैसे: 15 अक्टूबर से प्रारंभ">' +
+       '<button class="btn pay" onclick="saveComingSoon()">🚀 लाइव बोर्ड पर जोड़ें</button> ' +
+       '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
+}
+
+function saveComingSoon() {
+  var t = $('csTitle').value.trim();
+  var d = $('csDate').value.trim();
+  if (!t) return alert('शीर्षक दर्ज करें');
+  var obj = { id: Date.now(), title: t, date: d };
+  comingSoonItems.unshift(obj);
+  saveCS();
+  if (window.syncCSToFirestore) window.syncCSToFirestore(obj);
+  closeModal();
+  renderAdminComingSoon();
+  renderStudentComingSoon();
+  alert('आगामी सेवा सफलता से जुड़ गई!');
+}
+
+function renderAdminComingSoon() {
+  var el = $('adminComingSoonList');
+  if (!el) return;
+  if (comingSoonItems.length === 0) {
+    el.innerHTML = '<p class="note">अभी कोई विशेष आगामी घोषणा नहीं है। ऊपर बटन से जोड़ें।</p>';
+    return;
+  }
+  var h = '';
+  comingSoonItems.forEach(function(item) {
+    h += '<div style="background:#f1f2f6;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px">' +
+         '<b>' + esc(item.title) + '</b> <span class="note">(' + esc(item.date) + ')</span>' +
+         '<button class="btn delete" style="padding:4px 8px;font-size:12px" onclick="deleteCS(' + item.id + ')">हटाएँ</button></div>';
+  });
+  el.innerHTML = h;
+}
+
+function deleteCS(id) {
+  if (confirm('क्या आप यह घोषणा हटाना चाहते हैं?')) {
+    comingSoonItems = comingSoonItems.filter(function(x) { return x.id !== id; });
+    saveCS();
+    if (window.deleteCSFromFirestore) window.deleteCSFromFirestore(id);
+    renderAdminComingSoon();
+    renderStudentComingSoon();
+  }
+}
+
+function renderStudentComingSoon() {
+  var el = $('comingSoonList');
+  if (!el) return;
+  var base = '<span onclick="openLiveClassStudent()">🎥 लाइव क्लास चालू करें</span>' +
+             '<span onclick="filterType(\'quiz\')">📝 ऑनलाइन मॉक टेस्ट</span>' +
+             '<span onclick="filterType(\'quiz\')">🏆 टेस्ट सीरीज</span>' +
+             '<span onclick="filterType(\'video\')">📺 वीडियो लेक्चर</span>';
+  var dynamic = '';
+  comingSoonItems.forEach(function(item) {
+    dynamic += '<span style="background:rgba(255,255,0,0.25);border:1px solid #ffd700">⏳ ' + esc(item.title) + ' (' + esc(item.date) + ')</span>';
+  });
+  el.innerHTML = dynamic + base;
+}
+
+// ==================== AI स्मार्ट टेस्ट मेकर ====================
 function openTestMaker() {
   var catOpts = '';
   var list = classes.slice(1).concat(exams);
@@ -423,11 +692,10 @@ function openTestMaker() {
   show('<h2>📝 नया लाइव टेस्ट / मॉक टेस्ट बनाएँ</h2>' +
        '<div style="background:#eef5ff;border:2px dashed #3510bf;border-radius:14px;padding:14px;margin-bottom:15px">' +
        '<h4 style="margin:0 0 6px;color:#3510bf">🤖 AI टेस्ट पेपर यहाँ सीधा पेस्ट करें (One-Click Auto Import):</h4>' +
-       '<p class="note" style="margin:0 0 8px">AI से जनरेट किया गया पूरा पेपर नीचे पेस्ट करके नीले बटन पर क्लिक करें।</p>' +
+       '<p class="note" style="margin:0 0 8px">AI से तैयार किया गया पूरा पेपर नीचे पेस्ट करके नीले बटन पर क्लिक करें।</p>' +
        '<textarea id="aiBulkInput" rows="5" placeholder="यहाँ AI द्वारा दिए गए प्रश्न पेस्ट करें..."></textarea>' +
        '<button type="button" class="btn" style="background:#6c5ce7;width:100%" onclick="parseAiQuiz()">⚡ AI टेक्स्ट से प्रश्न स्वतः लोड करें</button>' +
        '</div>' +
-
        '<label>टेस्ट का नाम (शीर्षक)</label><input id="qzTitle" placeholder="जैसे: REET विज्ञान मॉडल टेस्ट - 1">' +
        '<label>कक्षा / परीक्षा</label><select id="qzCat">' + catOpts + '</select>' +
        '<label>विषय</label><input id="qzSub" placeholder="विषय लिखें">' +
@@ -441,7 +709,6 @@ function openTestMaker() {
 function parseAiQuiz() {
   var raw = $('aiBulkInput').value.trim();
   if (!raw) { alert('कृपया पहले AI द्वारा तैयार प्रश्न पेस्ट करें!'); return; }
-
   var lines = raw.split('\n');
   var questions = [];
   var curQ = null;
@@ -449,53 +716,29 @@ function parseAiQuiz() {
   for (var i = 0; i < lines.length; i++) {
     var line = lines[i].trim();
     if (!line) continue;
-
-    // प्रश्न पहचान (उदा. Q1:, प्रश्न 1:, 1. आदि)
     if (line.match(/^(प्रश्न\s*\d+|Q\d+|\d+[\.\)])/i)) {
-      if (curQ && curQ.q && curQ.options.length >= 2) {
-        questions.push(curQ);
-      }
-      curQ = {
-        q: line.replace(/^(प्रश्न\s*\d+[:\.]*|Q\d+[:\.]*|\d+[\.\)])\s*/i, '').trim(),
-        options: [],
-        ans: 0
-      };
-    } 
-    // विकल्प पहचान (A:, B:, (A), A आदि)
-    else if (line.match(/^(\([A-D]\)|[A-D][\.:\)])/i)) {
-      if (curQ) {
-        var optText = line.replace(/^(\([A-D]\)|[A-D][\.:\)])\s*/i, '').trim();
-        curQ.options.push(optText);
-      }
-    } 
-    // सही उत्तर पहचान (उत्तर: B, Ans: C आदि)
-    else if (line.match(/^(उत्तर|Ans|Correct|Correct Option)[:\s]*([A-D])/i)) {
+      if (curQ && curQ.q && curQ.options.length >= 2) { questions.push(curQ); }
+      curQ = { q: line.replace(/^(प्रश्न\s*\d+[:\.]*|Q\d+[:\.]*|\d+[\.\)])\s*/i, '').trim(), options: [], ans: 0 };
+    } else if (line.match(/^(\([A-D]\)|[A-D][\.:\)])/i)) {
+      if (curQ) { curQ.options.push(line.replace(/^(\([A-D]\)|[A-D][\.:\)])\s*/i, '').trim()); }
+    } else if (line.match(/^(उत्तर|Ans|Correct|Correct Option)[:\s]*([A-D])/i)) {
       if (curQ) {
         var match = line.match(/([A-D])/i);
         if (match) {
-          var char = match[1].toUpperCase();
           var mapping = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
-          curQ.ans = mapping[char] !== undefined ? mapping[char] : 0;
+          curQ.ans = mapping[match[1].toUpperCase()] !== undefined ? mapping[match[1].toUpperCase()] : 0;
         }
       }
     }
   }
-
-  if (curQ && curQ.q && curQ.options.length >= 2) {
-    questions.push(curQ);
-  }
-
-  if (questions.length === 0) {
-    alert('प्रश्नों को सही फॉर्मेट में नहीं पाया गया। सुनिश्चित करें कि प्रश्न, विकल्प A, B, C, D और उत्तर लिखे हों।');
-    return;
-  }
+  if (curQ && curQ.q && curQ.options.length >= 2) { questions.push(curQ); }
+  if (questions.length === 0) { alert('प्रश्नों को सही फॉर्मेट में नहीं पाया गया!'); return; }
 
   $('qzList').innerHTML = '';
   questions.forEach(function(qObj) {
     addQuestionBox(qObj.q, qObj.options[0]||'', qObj.options[1]||'', qObj.options[2]||'', qObj.options[3]||'', qObj.ans);
   });
-
-  alert('सफलता! ' + questions.length + ' प्रश्न अपने-आप लोड हो गए। आप नीचे चेक करके प्रकाशित कर सकते हैं।');
+  alert('सफलता! ' + questions.length + ' प्रश्न अपने-आप लोड हो गए।');
 }
 
 function addQuestionBox(qText, oA, oB, oC, oD, ansIdx) {
@@ -527,11 +770,8 @@ function saveQuiz() {
     var qt = box.querySelector('.q-text').value.trim();
     var opts = Array.from(box.querySelectorAll('.q-opt')).map(function(o) { return o.value.trim(); });
     var ans = Number(box.querySelector('.q-ans').value);
-    if (qt && opts[0] && opts[1]) {
-      questions.push({ q: qt, options: opts, ans: ans });
-    }
+    if (qt && opts[0] && opts[1]) { questions.push({ q: qt, options: opts, ans: ans }); }
   });
-
   if (questions.length === 0) { alert('कृपया कम से कम एक पूरा प्रश्न जोड़ें'); return; }
 
   var x = {
@@ -543,7 +783,6 @@ function saveQuiz() {
     type: 'quiz',
     questions: questions
   };
-
   items.unshift(x);
   save();
   if (window.syncToFirestore) window.syncToFirestore(x);
@@ -559,7 +798,6 @@ function startQuiz(x) {
   userAnswers = {};
   var h = '<h2>📝 ' + esc(x.title) + '</h2>' +
           '<p class="note">कुल प्रश्न: ' + x.questions.length + ' | विषय: ' + esc(x.subject || '') + '</p><form id="testForm">';
-  
   x.questions.forEach(function(item, i) {
     h += '<div class="q-box"><p style="font-size:16px"><b>प्र. ' + (i + 1) + ': ' + esc(item.q) + '</b></p>';
     for (var oi = 0; oi < item.options.length; oi++) {
@@ -568,7 +806,6 @@ function startQuiz(x) {
     }
     h += '</div>';
   });
-
   h += '<button type="button" class="btn pay" style="font-size:16px;padding:15px 22px" onclick="submitQuiz()">✅ टेस्ट सबमिट करें और स्वतः रिजल्ट देखें</button> ' +
        '<button type="button" class="btn danger" onclick="closeModal()">रद्द करें</button></form>';
   show(h);
@@ -579,12 +816,10 @@ function submitQuiz() {
   var total = currentQuizData.questions.length;
   var score = 0;
   var resultDetails = '';
-
   currentQuizData.questions.forEach(function(item, i) {
     var selected = userAnswers[i];
     var isCorrect = (selected !== undefined && selected === item.ans);
     if (isCorrect) score++;
-
     resultDetails += '<div class="q-box" style="border-left:6px solid ' + (isCorrect ? '#07955c' : '#d92d50') + '">' +
       '<p><b>प्र. ' + (i + 1) + ': ' + esc(item.q) + '</b></p>' +
       '<p>आपका उत्तर: <b style="color:' + (isCorrect ? '#07955c' : '#d92d50') + '">' + (selected !== undefined ? esc(item.options[selected]) : 'हल नहीं किया ❌') + '</b></p>' +
@@ -592,19 +827,15 @@ function submitQuiz() {
   });
 
   var pct = Math.round((score / total) * 100);
-  var grade = 'C';
-  var remark = 'और अधिक तैयारी की आवश्यकता है।';
-
-  if (pct >= 85) { grade = 'A+'; remark = 'उत्कृष्ट प्रदर्शन! आपकी तैयारी बहुत मजबूत है। 🌟'; }
-  else if (pct >= 70) { grade = 'A'; remark = 'बहुत बढ़िया प्रदर्शन! शाबाश। 🎉'; }
-  else if (pct >= 50) { grade = 'B'; remark = 'अच्छा प्रयास! नियमित अभ्यास जारी रखें। 👍'; }
+  var grade = pct >= 85 ? 'A+' : pct >= 70 ? 'A' : pct >= 50 ? 'B' : 'C';
+  var remark = pct >= 85 ? 'उत्कृष्ट प्रदर्शन! 🌟' : pct >= 70 ? 'बहुत बढ़िया! 🎉' : pct >= 50 ? 'अच्छा प्रयास! 👍' : 'और अधिक तैयारी की आवश्यकता है।';
 
   show('<h2>📊 ऑनलाइन टेस्ट परिणाम (Instant Result)</h2>' +
        '<div style="text-align:center;padding:18px;background:#edf4ff;border-radius:18px;margin:12px 0">' +
        '<h1 style="color:#2444aa;font-size:42px;margin:0">' + score + ' / ' + total + '</h1>' +
        '<p style="font-size:20px;font-weight:900;margin:6px 0;color:#17233f">प्राप्तांक: ' + pct + '% | ग्रेड: <span style="color:#0984e3">' + grade + '</span></p>' +
        '<p style="font-size:15px;color:#444;font-weight:bold">' + remark + '</p></div>' +
-       '<h3>📋 विस्तृत उत्तर कुंजी (Answer Sheet):</h3>' + resultDetails +
+       '<h3>📋 विस्तृत उत्तर कुंजी:</h3>' + resultDetails +
        '<button class="btn" onclick="startQuiz(currentQuizData)">🔄 पुनः टेस्ट दें</button> ' +
        '<button class="btn danger" onclick="closeModal()">परिणाम बंद करें</button>');
 }
@@ -613,7 +844,6 @@ function openVideoForm() {
   var catOpts = '';
   var list = classes.slice(1).concat(exams);
   for (var i = 0; i < list.length; i++) { catOpts += '<option>' + list[i] + '</option>'; }
-
   show('<h2>📺 नया वीडियो लेक्चर जोड़ें</h2>' +
        '<label>वीडियो का शीर्षक</label><input id="vidTitle" placeholder="जैसे: REET बाल विकास क्लास - 1">' +
        '<label>कक्षा / परीक्षा</label><select id="vidCat">' + catOpts + '</select>' +
@@ -628,17 +858,7 @@ function saveVideo() {
   var title = $('vidTitle').value.trim();
   var url = $('vidUrl').value.trim();
   if (!title || !url) { alert('कृपया शीर्षक और वीडियो लिंक दोनों भरें'); return; }
-
-  var x = {
-    id: Date.now(),
-    title: title,
-    category: $('vidCat').value,
-    subject: $('vidSub').value,
-    url: url,
-    price: Math.max(0, Number($('vidPrice').value || 0)),
-    type: 'video'
-  };
-
+  var x = { id: Date.now(), title: title, category: $('vidCat').value, subject: $('vidSub').value, url: url, price: Math.max(0, Number($('vidPrice').value || 0)), type: 'video' };
   items.unshift(x);
   save();
   if (window.syncToFirestore) window.syncToFirestore(x);
@@ -649,62 +869,71 @@ function saveVideo() {
   alert('वीडियो लेक्चर ऑनलाइन प्रकाशित हो गया!');
 }
 
-function openLiveClass() {
-  show('<h2>🎥 ज्ञान गंगा लाइव क्लास रूम</h2>' +
-       '<p class="note">कैमरा व माइक्रोफ़ोन चालू किया जा रहा है...</p>' +
-       '<video id="cameraVideo" autoplay playsinline muted></video><br>' +
-       '<p id="camStatus" style="font-weight:bold;color:#07955c">🔴 लाइव प्रसारण सक्रिय</p>' +
-       '<button class="btn danger" onclick="closeModal()">🔴 क्लास समाप्त करें</button>');
-
-  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      .then(function(stream) {
-        mediaStream = stream;
-        var videoEl = $('cameraVideo');
-        if (videoEl) { videoEl.srcObject = stream; }
-      })
-      .catch(function(err) {
-        if ($('camStatus')) {
-          $('camStatus').style.color = '#d92d50';
-          $('camStatus').textContent = 'कैमरा शुरू करने में असमर्थ (कृपया अनुमति दें): ' + err.message;
-        }
-      });
-  } else {
-    alert('आपके डिवाइस में कैमरा सपोर्ट उपलब्ध नहीं है।');
-  }
-}
-
-function stopCamera() {
-  if (mediaStream) {
-    mediaStream.getTracks().forEach(function(track) { track.stop(); });
-    mediaStream = null;
-  }
-}
-
+// ==================== मल्टीपल 3 PDF अपलोड फ़ीचर ====================
 function openAddForm() {
   var catOpts = '';
   var list = classes.slice(1).concat(exams);
   for (var i = 0; i < list.length; i++) { catOpts += '<option>' + list[i] + '</option>'; }
 
-  show('<h2>📄 नई PDF जोड़ें</h2>' +
-       '<label>शीर्षक</label><input id="title">' +
+  show('<h2>📄 पाठ सामग्री (3 PDF तक जोड़ें)</h2>' +
+       '<label>पाठ / अध्याय का शीर्षक</label><input id="title" placeholder="जैसे: कक्षा 8 विज्ञान पाठ 1 संपूर्ण सामग्री">' +
        '<label>कक्षा/परीक्षा</label><select id="cat">' + catOpts + '</select>' +
-       '<label>विषय</label><input id="subject">' +
-       '<label>राशि ₹ — 0 = Free</label><input id="price" type="number" min="0" value="0">' +
-       '<label>PDF फ़ाइल (800KB तक क्लाउड सिंक हेतु)</label><input id="pdf" type="file" accept="application/pdf">' +
-       '<p id="formErr" class="note">क्लाउड सिंक के लिए PDF 800KB के अंदर रखें।</p>' +
-       '<button class="btn" onclick="savePdf()">सेव करें</button> ' +
+       '<label>विषय</label><input id="subject" placeholder="जैसे: विज्ञान">' +
+       '<label>विद्यार्थी शुल्क ₹ (0 = Free)</label><input id="price" type="number" min="0" value="0">' +
+       '<hr>' +
+       '<label><b>PDF 1 (मुख्य नोट्स):</b></label><input id="pdf1" type="file" accept="application/pdf">' +
+       '<label><b>PDF 2 (अभ्यास प्रश्नोत्तर / ऐच्छिक):</b></label><input id="pdf2" type="file" accept="application/pdf">' +
+       '<label><b>PDF 3 (कार्यपत्रक / टेस्ट / ऐच्छिक):</b></label><input id="pdf3" type="file" accept="application/pdf">' +
+       '<p id="formErr" class="note">प्रत्येक PDF 300KB - 400KB के अंदर रखें ताकि क्लाउड सिंक में समस्या न आए।</p>' +
+       '<button class="btn pay" onclick="savePdfBundle()">🚀 संपूर्ण पाठ सामग्री अपलोड करें</button> ' +
        '<button class="btn danger" onclick="closeModal()">बंद करें</button>');
 }
 
-function savePdf() {
-  var f = $('pdf').files[0], title = $('title').value.trim();
-  if (!title || !f) { $('formErr').textContent = 'शीर्षक और PDF जरूरी हैं'; return; }
-  if (f.size > 850000) { $('formErr').textContent = 'डेटाबेस लिमिट के लिए PDF 800KB से छोटी रखें'; return; }
-  var x = { id: Date.now(), title: title, category: $('cat').value, subject: $('subject').value, price: Math.max(0, Number($('price').value || 0)), type: 'pdf' };
-  var r = new FileReader();
-  r.onload = function() {
-    x.data = r.result;
+function readFileAsDataURL(file) {
+  return new Promise(function(resolve, reject) {
+    if (!file) { resolve(null); return; }
+    if (file.size > 500000) { reject('फ़ाइल ' + file.name + ' का आकार 500KB से बड़ा है!'); return; }
+    var r = new FileReader();
+    r.onload = function() { resolve(r.result); };
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+async function savePdfBundle() {
+  var title = $('title').value.trim();
+  var f1 = $('pdf1').files[0];
+  var f2 = $('pdf2').files[0];
+  var f3 = $('pdf3').files[0];
+
+  if (!title || !f1) {
+    $('formErr').textContent = 'पाठ का शीर्षक और कम से कम PDF 1 अपलोड करना अनिवार्य है!';
+    return;
+  }
+
+  $('formErr').textContent = 'अपलोड हो रहा है, कृपया प्रतीक्षा करें...';
+
+  try {
+    var data1 = await readFileAsDataURL(f1);
+    var data2 = await readFileAsDataURL(f2);
+    var data3 = await readFileAsDataURL(f3);
+
+    var pdfList = [];
+    if (data1) pdfList.push({ name: 'भाग 1: मुख्य पाठ नोट्स', data: data1 });
+    if (data2) pdfList.push({ name: 'भाग 2: अभ्यास प्रश्नोत्तर', data: data2 });
+    if (data3) pdfList.push({ name: 'भाग 3: कार्यपत्रक / वर्कशीट', data: data3 });
+
+    var x = {
+      id: Date.now(),
+      title: title,
+      category: $('cat').value,
+      subject: $('subject').value,
+      price: Math.max(0, Number($('price').value || 0)),
+      type: 'pdf',
+      pdfBundle: pdfList,
+      data: data1
+    };
+
     items.unshift(x);
     save();
     if (window.syncToFirestore) window.syncToFirestore(x);
@@ -712,16 +941,16 @@ function savePdf() {
     renderAdmin();
     renderStudent();
     ticker();
-    alert('PDF ऑनलाइन सुरक्षित हो गई!');
-  };
-  r.readAsDataURL(f);
+    alert('पाठ की सभी PDF सफलता से प्रकाशित हो गईं!');
+  } catch(err) {
+    $('formErr').textContent = 'त्रुटि: ' + err;
+  }
 }
 
 function openLinkForm() {
   var catOpts = '';
   var list = classes.slice(1).concat(exams);
   for (var i = 0; i < list.length; i++) { catOpts += '<option>' + list[i] + '</option>'; }
-
   show('<h2>🔗 लिंक जोड़ें</h2>' +
        '<label>शीर्षक</label><input id="lt">' +
        '<label>कक्षा/परीक्षा</label><select id="lc">' + catOpts + '</select>' +
@@ -746,7 +975,7 @@ function renderAdmin() {
     var cards = '';
     for (var i = 0; i < items.length; i++) {
       var x = items[i];
-      var typeText = (x.type === 'quiz') ? '📝 टेस्ट सीरीज' : (x.type === 'video') ? '📺 वीडियो' : (x.type === 'pdf') ? '📄 PDF' : (x.type === 'article') ? '📝 नोट्स' : '🔗 लिंक';
+      var typeText = (x.type === 'quiz') ? '📝 टेस्ट सीरीज' : (x.type === 'video') ? '📺 वीडियो' : (x.type === 'pdf') ? '📄 PDF बंडल' : (x.type === 'article') ? '📝 नोट्स' : '🔗 लिंक';
       cards += '<article class="card">' +
         '<span class="badge">' + esc(x.category) + '</span>' +
         '<h3>' + esc(x.title) + '</h3>' +
@@ -780,6 +1009,15 @@ function openItem(id) {
     startQuiz(x);
   } else if (x.type === 'video') {
     window.open(x.url, '_blank');
+  } else if (x.pdfBundle && x.pdfBundle.length > 0) {
+    var btns = '';
+    x.pdfBundle.forEach(function(p, idx) {
+      btns += '<a href="' + p.data + '" download="' + esc(x.title) + '_' + (idx+1) + '.pdf" class="btn" style="display:block;text-align:center;text-decoration:none;padding:12px;background:#2444aa">' + esc(p.name) + ' डाउनलोड करें 📥</a>';
+    });
+    show('<h2>📂 ' + esc(x.title) + '</h2>' +
+         '<p>इस पाठ में निम्नलिखित अध्ययन सामग्री उपलब्ध है:</p>' +
+         '<div class="pdf-btn-group">' + btns + '</div><br>' +
+         '<button class="btn danger" onclick="closeModal()">बंद करें</button>');
   } else if (x.data) {
     var a = document.createElement('a');
     a.href = x.data;
@@ -792,11 +1030,10 @@ function openItem(id) {
   }
 }
 
-// ==================== RAZORPAY PAYMENT HANDLER ====================
+// ==================== RAZORPAY PAYMENT ====================
 function handlePayOrOpen(id) {
   var x = items.find(function(a) { return a.id === id; });
   if (!x) return;
-  
   var amt = Number(x.price || 0);
 
   show('<h2>🔒 सशुल्क सामग्री अनलॉक करें</h2>' +
@@ -822,7 +1059,7 @@ function payWithRazorpay(id) {
   var amt = Math.max(1, Number(x.price || 5));
 
   var options = {
-    "key": "rzp_live_TZYFeLYtD0D5nt", // आपकी असली Live Key
+    "key": "rzp_live_TZYFeLYtD0D5nt",
     "amount": Math.round(amt * 100),
     "currency": "INR",
     "name": "ज्ञान गंगा डिजिटल लर्निंग",
@@ -835,13 +1072,8 @@ function payWithRazorpay(id) {
       renderStudent();
       openItem(id);
     },
-    "prefill": {
-      "name": "विद्यार्थी",
-      "contact": ""
-    },
-    "theme": {
-      "color": "#1e3c72"
-    }
+    "prefill": { "name": "विद्यार्थी", "contact": "" },
+    "theme": { "color": "#1e3c72" }
   };
 
   try {
@@ -867,6 +1099,8 @@ function unlockItem(id) {
 }
 
 renderStudent();
+renderStudentComingSoon();
+updateLiveClassIndicator();
 </script>
 
 <!-- ==================== FIREBASE REALTIME CLOUD SYNC ==================== -->
@@ -886,28 +1120,36 @@ renderStudent();
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const colRef = collection(db, "materials");
+  const csColRef = collection(db, "coming_soon");
+  const liveDocRef = doc(db, "live_stream", "current");
 
   window.syncToFirestore = async function(item) {
-    try {
-      await setDoc(doc(db, "materials", String(item.id)), item);
-    } catch(err) {
-      console.error("Cloud sync error:", err);
-    }
+    try { await setDoc(doc(db, "materials", String(item.id)), item); } catch(err) { console.error(err); }
   };
 
   window.deleteFromFirestore = async function(id) {
-    try {
-      await deleteDoc(doc(db, "materials", String(id)));
-    } catch(err) {
-      console.error("Cloud delete error:", err);
-    }
+    try { await deleteDoc(doc(db, "materials", String(id))); } catch(err) { console.error(err); }
+  };
+
+  window.syncCSToFirestore = async function(item) {
+    try { await setDoc(doc(db, "coming_soon", String(item.id)), item); } catch(err) { console.error(err); }
+  };
+
+  window.deleteCSFromFirestore = async function(id) {
+    try { await deleteDoc(doc(db, "coming_soon", String(id))); } catch(err) { console.error(err); }
+  };
+
+  window.syncLiveToFirestore = async function(liveObj) {
+    try { await setDoc(liveDocRef, liveObj); } catch(err) { console.error(err); }
+  };
+
+  window.deleteLiveFromFirestore = async function() {
+    try { await deleteDoc(liveDocRef); } catch(err) { console.error(err); }
   };
 
   onSnapshot(colRef, (snapshot) => {
     let cloudItems = [];
-    snapshot.forEach((docSnap) => {
-      cloudItems.push(docSnap.data());
-    });
+    snapshot.forEach((docSnap) => { cloudItems.push(docSnap.data()); });
     if (cloudItems.length > 0) {
       items = cloudItems.sort((a,b) => b.id - a.id);
       save();
@@ -915,8 +1157,28 @@ renderStudent();
       if (isTeacherLoggedIn) renderAdmin();
       ticker();
     }
-  }, (err) => {
-    console.error("Listener error:", err);
+  });
+
+  onSnapshot(csColRef, (snapshot) => {
+    let csList = [];
+    snapshot.forEach((docSnap) => { csList.push(docSnap.data()); });
+    if (csList.length > 0) {
+      comingSoonItems = csList.sort((a,b) => b.id - a.id);
+      saveCS();
+      renderStudentComingSoon();
+      if (isTeacherLoggedIn) renderAdminComingSoon();
+    }
+  });
+
+  onSnapshot(liveDocRef, (docSnap) => {
+    if (docSnap.exists()) {
+      activeLiveClass = docSnap.data();
+      try { localStorage.setItem('gg_active_live', JSON.stringify(activeLiveClass)); } catch(e) {}
+    } else {
+      activeLiveClass = null;
+      try { localStorage.removeItem('gg_active_live'); } catch(e) {}
+    }
+    updateLiveClassIndicator();
   });
 </script>
 </body>
