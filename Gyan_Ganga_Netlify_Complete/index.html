@@ -2,49 +2,56 @@
 <html lang="hi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ज्ञान गंगा डिजिटल लर्निंग</title>
-<!-- Razorpay Checkout SDK -->
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ज्ञान गंगा डिजिटल लर्निंग पोर्टल</title>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#edf4ff;color:#17233f;font-family:Arial,"Noto Sans Devanagari",sans-serif}
+body{margin:0;background:#edf4ff;color:#17233f;font-family:Arial,"Noto Sans Devanagari",sans-serif;padding-bottom:50px}
 .app{max-width:1120px;margin:auto;padding:14px}
-.hero{padding:26px;border-radius:28px;color:#fff;background:linear-gradient(130deg,#240b8a,#7b1fa2,#0288d1);box-shadow:0 12px 30px rgba(22,44,104,0.18)}
+.hero{padding:24px;border-radius:26px;color:#fff;background:linear-gradient(130deg,#240b8a,#7b1fa2,#0288d1);box-shadow:0 12px 30px rgba(22,44,104,0.18)}
 .brand{display:flex;gap:16px;align-items:center}
-.logo{width:76px;height:76px;border:3px solid rgba(255,255,255,0.6);border-radius:50%;display:grid;place-items:center;font-size:40px;background:rgba(255,255,255,0.18)}
-h1{margin:0;font-size:clamp(22px,4.5vw,38px);font-weight:900}
-.hero p{font-size:15px;font-weight:bold;margin:6px 0 0;opacity:0.95}
+.logo{width:70px;height:70px;border:3px solid rgba(255,255,255,0.6);border-radius:50%;display:grid;place-items:center;font-size:36px;background:rgba(255,255,255,0.18);flex-shrink:0}
+h1{margin:0;font-size:clamp(20px,4vw,34px);font-weight:900}
+.hero p{font-size:14px;font-weight:bold;margin:6px 0 0;opacity:0.95}
 
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
-.tab,.tile,.btn{border:0;border-radius:20px;color:white;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(24,39,75,0.14);transition:0.2s transform}
-.tab:hover,.tile:hover,.btn:hover{transform:translateY(-2px)}
-.tab{padding:18px 20px;text-align:left;font-size:17px}
+.tabs-wrap{display:flex;flex-direction:row;gap:12px;margin:18px 0;width:100%}
+.tab{flex:1;border:0;border-radius:18px;color:white;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(24,39,75,0.14);transition:0.2s transform;padding:16px 14px;text-align:center;font-size:16px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tab:hover{transform:translateY(-2px)}
+.tab.active-tab{outline:4px solid #1a237e;box-shadow:0 0 16px rgba(26,35,126,0.5)}
 .teacher{background:linear-gradient(135deg,#c400ed,#4922e9)}
 .student{background:linear-gradient(135deg,#00a76e,#00b9d9)}
-small{display:block;margin-top:6px;font-size:13px;opacity:0.9}
+small{display:block;margin-top:4px;font-size:12px;opacity:0.9}
 
 .ticker{overflow:hidden;white-space:nowrap;background:linear-gradient(90deg,#ffb300,#ff8008);color:#fff;border-radius:14px;padding:12px 14px;font-weight:900;margin:15px 0;box-shadow:0 5px 15px rgba(255,140,0,0.25)}
 .ticker span{display:inline-block;animation:move 22s linear infinite}
 @keyframes move{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
 
-.search{display:flex;gap:9px;margin:14px 0}
-.search input{flex:1;border:2px solid #dce5f5;border-radius:16px;padding:14px;font-size:16px;outline:none}
-.btn{background:#2444aa;padding:12px 18px;border-radius:14px}
+.search-container{background:#fff;padding:14px;border-radius:18px;margin:14px 0;box-shadow:0 4px 15px rgba(0,0,0,0.04)}
+.search{display:flex;gap:9px}
+.search input{flex:1;border:2px solid #dce5f5;border-radius:14px;padding:12px 14px;font-size:15px;outline:none}
+.search input:focus{border-color:#2444aa}
+.subject-chips{display:flex;gap:8px;overflow-x:auto;padding-top:10px;scrollbar-width:none}
+.subject-chips::-webkit-scrollbar{display:none}
+.sub-chip{background:#f1f5f9;border:1px solid #cbd5e1;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:bold;cursor:pointer;white-space:nowrap;transition:0.2s}
+.sub-chip.active, .sub-chip:hover{background:#2444aa;color:#fff;border-color:#2444aa}
 
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.tile{padding:18px;min-height:115px;text-align:left}
+.btn{border:0;border-radius:14px;color:white;font-weight:900;cursor:pointer;padding:12px 18px;box-shadow:0 6px 16px rgba(24,39,75,0.14);transition:0.2s transform}
+.btn:hover{transform:translateY(-2px)}
+
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+.tile{padding:18px;min-height:105px;text-align:left;border:0;border-radius:18px;color:white;font-weight:900;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between}
 .pink{background:linear-gradient(135deg,#ff0844,#ffb199)}
 .orange{background:linear-gradient(135deg,#f857a6,#ff5858)}
 .blue{background:linear-gradient(135deg,#2193b0,#6dd5ed);color:#023246}
 .purple{background:linear-gradient(135deg,#8e2de2,#4a00e0)}
 
-.section{background:#fff;border-radius:24px;padding:20px;margin:18px 0;box-shadow:0 8px 24px rgba(38,59,108,0.07)}
+.section{background:#fff;border-radius:22px;padding:20px;margin:18px 0;box-shadow:0 8px 24px rgba(38,59,108,0.07)}
 .head{display:flex;justify-content:space-between;align-items:center;gap:10px}
 
-.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;margin-top:12px}
-.chip{border:0;border-radius:16px;padding:16px 8px;color:#fff;font-weight:900;font-size:15px;cursor:pointer;text-align:center;box-shadow:0 5px 12px rgba(0,0,0,0.12);transition:0.2s transform;min-height:65px;display:flex;align-items:center;justify-content:center}
-.chip:hover{transform:scale(1.04)}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:12px}
+.chip{border:0;border-radius:14px;padding:12px 6px;color:#fff;font-weight:900;font-size:14px;cursor:pointer;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,0.1);transition:0.2s transform;display:flex;align-items:center;justify-content:center;min-height:58px}
+.chip:hover{transform:scale(1.03)}
 .chip.active{outline:4px solid #1a237e;box-shadow:0 0 16px rgba(26,35,126,0.5)!important}
 
 .color-0{background:linear-gradient(135deg,#1f4037,#99f2c8);color:#0f3820}
@@ -61,22 +68,15 @@ small{display:block;margin-top:6px;font-size:13px;opacity:0.9}
 .color-11{background:linear-gradient(135deg,#13547a,#80d0c7)}
 .color-12{background:linear-gradient(135deg,#ff4e50,#f9d423);color:#421500}
 
-.materials{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
-.card{border:1px solid #e1e9f8;border-radius:18px;padding:16px;background:#fafcff;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
-.badge{display:inline-block;background:#edf0ff;color:#4c2be8;padding:5px 9px;border-radius:8px;font-size:12px;font-weight:bold}
-.price{color:#4c2be8;font-size:18px;font-weight:900;margin:6px 0}
+.materials{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
+.card{border:1px solid #e1e9f8;border-radius:18px;padding:16px;background:#fafcff;box-shadow:0 4px 12px rgba(0,0,0,0.03);display:flex;flex-direction:column;justify-content:space-between}
+.badge{display:inline-block;background:#edf0ff;color:#4c2be8;padding:4px 8px;border-radius:8px;font-size:12px;font-weight:bold}
+.badge-sub{background:#e3fcef;color:#0b8a5a;margin-left:4px}
+.price{color:#4c2be8;font-size:17px;font-weight:900;margin:6px 0}
 .free{color:#07955c;font-weight:900;margin:6px 0}
 
-.coming{color:#fff;background:linear-gradient(120deg,#6a11cb,#2575fc)}
-.coming span{display:inline-block;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:12px;padding:10px 14px;margin:5px;cursor:pointer;font-weight:bold;transition:0.2s}
-.coming span:hover{background:rgba(255,255,255,0.35);transform:scale(1.03)}
-
-.ad{border:2px dashed #b6c3dc;border-radius:18px;text-align:center;padding:20px;color:#74819a;background:#f8fbff}
-.hidden{display:none!important}
-.modal{position:fixed;inset:0;background:rgba(7,17,39,0.72);display:grid;place-items:center;padding:15px;z-index:9999}
 .dialog{background:#fff;border-radius:24px;padding:24px;width:min(680px,100%);max-height:92vh;overflow:auto}
-.editorInput{width:100%;padding:12px;border:1px solid #d5dfef;border-radius:10px;margin:5px 0 12px;font:inherit}
-.dialog input,.dialog select,.dialog textarea{width:100%;padding:11px;border:1px solid #d5dfef;border-radius:10px;margin:4px 0 10px;font:inherit}
+.editorInput{width:100%;padding:11px;border:1.5px solid #d5dfef;border-radius:10px;margin:4px 0 12px;font:inherit}
 .danger{background:#d92d50}
 .note{font-size:13px;color:#68768d}
 .adminbar{background:linear-gradient(100deg,#1e0b5a,#5c13b8);color:#fff;border-radius:20px;padding:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -85,15 +85,20 @@ small{display:block;margin-top:6px;font-size:13px;opacity:0.9}
 .pay{background:#0a8e61!important}
 .q-box{background:#f4f7fc;border:1px solid #d7e2f5;border-radius:12px;padding:12px;margin:10px 0}
 .test-opt{margin:6px 0;display:flex;align-items:center;gap:8px}
-#cameraVideo{width:100%;max-height:360px;background:#000;border-radius:14px;transform:scaleX(-1);margin-top:10px}
-.pdf-btn-group{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+
+.teacher-login-box{max-width:440px;margin:25px auto;background:#ffffff;border-radius:20px;padding:26px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.08);border:1.5px solid #dce5f5}
+.input-row{text-align:left;margin-bottom:14px}
+.input-row label{display:block;font-size:13px;font-weight:bold;color:#334155;margin-bottom:4px}
+.input-row input{width:100%;padding:11px 12px;border:1.5px solid #d5dfef;border-radius:10px;font-size:14px;outline:none}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(7,17,39,0.75);display:flex;align-items:center;justify-content:center;padding:14px;z-index:99999}
 
 @media(max-width:700px){
+  .tabs-wrap{flex-direction:row;gap:8px}
+  .tab{padding:12px 8px;font-size:14px}
+  .tab small{font-size:11px}
   .tiles{grid-template-columns:repeat(2,1fr)}
   .chips{grid-template-columns:repeat(3,1fr)}
-  .search{flex-direction:column}
-  .tabs{gap:8px}
-  .tab{padding:14px}
 }
 </style>
 </head>
@@ -101,157 +106,140 @@ small{display:block;margin-top:6px;font-size:13px;opacity:0.9}
 <div class="app">
   <header class="hero">
     <div class="brand">
-      <div class="logo">📚</div>
+      <div class="logo">📖</div>
       <div>
         <h1>ज्ञान गंगा डिजिटल लर्निंग पोर्टल</h1>
-        <p>कक्षा 1 से 12 • प्रतियोगी परीक्षाएँ • लाइव टेस्ट सीरीज • लाइव क्लास • PDF</p>
+        <p>कक्षा 1 से 12 • प्रतियोगी परीक्षाएँ • 20 प्रश्नों की टेस्ट सीरीज • PDF सामग्री</p>
       </div>
     </div>
   </header>
 
-  <div class="ticker"><span id="tickerText">📣 ज्ञान गंगा डिजिटल लर्निंग पर ऑनलाइन टेस्ट सीरीज, लाइव क्लास और नई अध्ययन सामग्री लगातार जुड़ रही है ✨</span></div>
+  <div class="ticker"><span id="tickerText">ज्ञान गंगा डिजिटल लर्निंग पर ऑनलाइन टेस्ट सीरीज, लाइव क्लास और नई अध्ययन सामग्री लगातार जुड़ रही है...</span></div>
 
-  <div class="tabs">
-    <button class="tab teacher" onclick="teacherTabClick()">👩‍🏫 शिक्षक टैब 🔒<small>AI स्टूडियो • टेस्ट बनाएँ • PDF • लाइव</small></button>
-    <button class="tab student" onclick="studentTabClick()">👨‍🎓 विद्यार्थी टैब 🔓<small>सामग्री • टेस्ट दें • लाइव क्लास • PDF</small></button>
+  <div class="tabs-wrap">
+    <button id="studentTabBtn" class="tab student active-tab" onclick="openStudentTab()">👨‍🎓 विद्यार्थी टैब <small>सामग्री • 20 अंक टेस्ट दें • PDF</small></button>
+    <button id="teacherTabBtn" class="tab teacher" onclick="openTeacherTab()">👩‍🏫 शिक्षक टैब <small>AI स्टूडियो • 20 प्रश्न टेस्ट बनाएँ • PDF</small></button>
   </div>
 
-  <!-- ==================== विद्यार्थी व्यू ==================== -->
-  <div id="studentView">
-    <div class="search">
-      <input id="search" placeholder="🔎 कक्षा, विषय, टेस्ट, वीडियो या सामग्री खोजें..." oninput="renderStudent()">
+  <!-- ==================== 1. विद्यार्थी व्यू ==================== -->
+  <div id="studentView" style="display: block;">
+    <div class="search-container">
+      <div class="search">
+        <input id="search" placeholder="🔍 विषय, पाठ, कक्षा या टेस्ट खोजें (जैसे: गणित, विज्ञान, संस्कृत, English)..." oninput="renderStudent()">
+        <button class="btn" style="background:#2444aa" onclick="resetFilters()">रीसेट</button>
+      </div>
+      <div class="subject-chips">
+        <span class="sub-chip active" onclick="selectSubject('सभी', this)">सभी विषय</span>
+        <span class="sub-chip" onclick="selectSubject('गणित', this)">📐 गणित</span>
+        <span class="sub-chip" onclick="selectSubject('विज्ञान', this)">🔬 विज्ञान</span>
+        <span class="sub-chip" onclick="selectSubject('अंग्रेजी', this)">🔤 English</span>
+        <span class="sub-chip" onclick="selectSubject('संस्कृत', this)">🕉️ संस्कृत</span>
+        <span class="sub-chip" onclick="selectSubject('हिंदी', this)">📚 हिंदी</span>
+        <span class="sub-chip" onclick="selectSubject('सामाजिक विज्ञान', this)">🌍 सामाजिक</span>
+      </div>
     </div>
 
     <div class="tiles">
-      <button class="tile pink" onclick="selectCat('सभी')">📚<br>कक्षा सामग्री<small>कक्षा 1–12</small></button>
-      <button class="tile orange" onclick="filterType('quiz')">📝<br>ऑनलाइन टेस्ट<small>मॉक टेस्ट व परीक्षा</small></button>
-      <button class="tile blue" onclick="freeOnly()">✅<br>Free सामग्री<small>निःशुल्क सामग्री व टेस्ट</small></button>
-      <button class="tile purple" onclick="openLiveClassStudent()">🎥<br>लाइव क्लास<small id="liveStatusText">लाइव क्लास में जुड़ें</small></button>
+      <button class="tile pink" onclick="selectCat('सभी')"><span>📚</span>कक्षा सामग्री<small>कक्षा 1–12</small></button>
+      <button class="tile orange" onclick="filterType('quiz')"><span>📝</span>20 Marks टेस्ट<small>मॉक टेस्ट व परीक्षा</small></button>
+      <button class="tile blue" onclick="freeOnly()"><span>✅</span>Free सामग्री<small>निःशुल्क सामग्री व टेस्ट</small></button>
+      <button class="tile purple" onclick="openTeacherTab()"><span>👩‍🏫</span>शिक्षक पोर्टल<small>नया पाठ जोड़ें</small></button>
     </div>
 
     <section class="section">
       <div class="head">
         <h2>📘 कक्षा चयन (कक्षा 1 से 12)</h2>
-        <button class="btn" onclick="selectCat('सभी')">सभी कक्षाएँ</button>
+        <button class="btn" style="background:#2444aa;padding:8px 14px;font-size:13px" onclick="selectCat('सभी')">सभी कक्षाएँ</button>
       </div>
       <div id="classes" class="chips"></div>
     </section>
 
     <section class="section">
-      <h2>🎯 प्रतियोगी परीक्षाएँ</h2>
+      <h2>🎯 प्रतियोगी परीक्षाएँ (RPSC, REET, पटवारी, SSC, आदि)</h2>
       <div id="exams" class="chips"></div>
     </section>
 
     <section class="section">
-      <div class="head"><h2>📚 उपलब्ध सामग्री, टेस्ट सीरीज व वीडियो</h2><b id="count">0</b></div>
+      <div class="head"><h2 id="materialsHeading">उपलब्ध अध्ययन सामग्री व टेस्ट</h2><b id="count">0</b></div>
       <div id="materials" class="materials"></div>
-    </section>
-
-    <section class="section">
-      <h2>📢 Google Ad स्थान</h2>
-      <div class="ad">यहाँ Google AdSense का विज्ञापन स्थान रहेगा<br><span class="note">AdSense approval और विज्ञापन कोड मिलने के बाद यहाँ लगाया जा सकता है।</span></div>
-    </section>
-
-    <section class="section coming">
-      <h2>📣 विशेष सेवाएँ एवं आगामी कार्यक्रम (Coming Soon)</h2>
-      <div id="comingSoonList" style="margin-top:10px">
-        <span onclick="openLiveClassStudent()">🎥 लाइव क्लास चालू करें</span>
-        <span onclick="filterType('quiz')">📝 ऑनलाइन मॉक टेस्ट</span>
-        <span onclick="filterType('quiz')">🏆 टेस्ट सीरीज</span>
-        <span onclick="filterType('video')">📺 वीडियो लेक्चर</span>
-        <span onclick="filterType('article')">📖 ई-बुक / नोट्स</span>
-      </div>
     </section>
   </div>
 
-  <!-- ==================== शिक्षक व्यू ==================== -->
-  <div id="teacherView" class="hidden">
-    <div class="adminbar">
-      <h2>👩‍🏫 शिक्षक पावर डैशबोर्ड</h2>
-      <button class="btn" style="background:#0984e3" onclick="openTestMaker()">📝 नया टेस्ट बनाएँ (AI सपोर्टेड)</button>
-      <button class="btn" style="background:#00b894" onclick="openLiveClassConfig()">🎥 लाइव क्लास लिंक सेट करें</button>
-      <button class="btn" style="background:#e17055" onclick="openVideoForm()">📺 वीडियो लेक्चर जोड़ें</button>
-      <button class="btn" style="background:#e84393" onclick="openAddForm()">➕ पाठ PDF जोड़ें (3 PDF तक)</button>
-      <button class="btn" style="background:#fdcb6e;color:#2d3436" onclick="openComingSoonForm()">📢 आगामी घोषणा जोड़ें</button>
-      <button class="btn" onclick="openLinkForm()">🔗 लिंक जोड़ें</button>
-      <button class="btn" style="background:#6c5ce7" onclick="studentTabClick()">👨‍🎓 विद्यार्थी व्यू देखें</button>
-      <button class="btn danger" onclick="logoutTeacher()">लॉगआउट</button>
+  <!-- ==================== 2. शिक्षक व्यू ==================== -->
+  <div id="teacherView" style="display: none;">
+    <div id="teacherLoginCard" class="teacher-login-box">
+      <div style="font-size:48px;margin-bottom:8px">🔐</div>
+      <h2 style="font-size:20px;color:#1e0b5a;margin-bottom:4px">शिक्षक लॉगिन (Teacher Portal)</h2>
+      <p class="note" style="margin-bottom:16px">अध्यापक प्रबंधन पैनल में प्रवेश हेतु क्रेडेंशियल्स दर्ज करें</p>
+      <p id="teacherLoginErr" style="color:#d92d50;font-weight:bold;font-size:13px;margin-bottom:12px;display:none"></p>
+
+      <div>
+        <div class="input-row">
+          <label>शिक्षक यूज़र आईडी</label>
+          <input type="text" id="inpTeacherId" placeholder="यूज़र आईडी दर्ज करें" autocomplete="off">
+        </div>
+        <div class="input-row">
+          <label>पासवर्ड</label>
+          <input type="password" id="inpTeacherPass" placeholder="पासवर्ड दर्ज करें" autocomplete="off">
+        </div>
+        <button type="button" class="btn pay" style="width:100%;font-size:15px;padding:12px;margin-bottom:10px" onclick="verifyTeacherLogin()">
+          🔓 सुरक्षित प्रवेश करें
+        </button>
+        <button type="button" class="btn" style="width:100%;background:#64748b" onclick="openStudentTab()">
+          👨‍🎓 विद्यार्थी व्यू पर वापस जाएँ
+        </button>
+      </div>
     </div>
 
-    <!-- AI शिक्षक निर्माण केंद्र (सम्पूर्ण पाठ्यपुस्तक अभ्यास + कस्टम प्रश्न संख्या) -->
-    <section class="section" style="border: 2px solid #6c5ce7; background: #faf9ff;">
-      <h2 style="color:#4a148c">⚡ AI शिक्षक सामग्री, प्रश्नोत्तर व टेस्ट निर्माण केंद्र</h2>
-      <p class="note">कक्षा, पाठ या विषय लिखें। सम्पूर्ण पाठ्यपुस्तक अभ्यास (सभी 10-12 प्रश्नोत्तर) या मनपसंद संख्या में वस्तुनिष्ठ टेस्ट सीधे पाएँ:</p>
-      
-      <div class="search">
-        <input id="geminiQuery" placeholder="जैसे: कक्षा 8 विज्ञान जंतुओं में जनन, या REET राजस्थान इतिहास...">
+    <div id="teacherDashboard" style="display: none;">
+      <div class="adminbar">
+        <h2>👩‍🏫 शिक्षक पावर डैशबोर्ड (सत्र 2026-27 • शिक्षक: कल्याण मल वर्मा)</h2>
+        <button class="btn" style="background:#0984e3" onclick="openTestMaker()">📝 नया टेस्ट बनाएँ (20 प्रश्न • 20 अंक)</button>
+        <button class="btn" style="background:#e84393" onclick="openAddForm()">📑 पाठ PDF जोड़ें (3 PDF तक)</button>
+        <button class="btn" style="background:#6c5ce7" onclick="openStudentTab()">👨‍🎓 विद्यार्थी व्यू देखें</button>
+        <button class="btn danger" onclick="logoutTeacher()">लॉगआउट</button>
       </div>
 
-      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 8px;">
-        <button class="btn" style="background:#6c5ce7" onclick="generateInApp('notes')">📖 बिंदुवार नोट्स</button>
-        <button class="btn" style="background:#00b894" onclick="generateInApp('textbook')">📚 सम्पूर्ण पाठ्यपुस्तक प्रश्नोत्तर (सभी प्रश्न)</button>
-        
-        <!-- प्रश्नों की संख्या चुनने का विकल्प -->
-        <div style="display:flex;align-items:center;gap:6px;background:#eef4ff;padding:6px 12px;border-radius:14px;border:1px solid #b6ccf5">
-          <label style="font-weight:bold;color:#1e3c72;font-size:14px">प्रश्नों की संख्या:</label>
-          <select id="customQCount" style="padding:6px 10px;border-radius:8px;border:1px solid #2444aa;font-weight:bold;color:#2444aa">
-            <option value="5">5 प्रश्न</option>
-            <option value="10" selected>10 प्रश्न</option>
-            <option value="15">15 प्रश्न</option>
-            <option value="20">20 प्रश्न</option>
-            <option value="25">25 प्रश्न</option>
-            <option value="30">30 प्रश्न</option>
-          </select>
+      <section class="section" style="border: 2px solid #6c5ce7; background: #faf9ff;">
+        <h2 style="color:#4a148c">⚡ AI शिक्षक सामग्री व 20 प्रश्नों का टेस्ट निर्माण केंद्र</h2>
+        <p class="note">कक्षा, पाठ या परीक्षा का टॉपिक लिखें। 1-क्लिक में 20 वस्तुनिष्ठ प्रश्न तैयार होंगे:</p>
+        <div class="search" style="margin:10px 0">
+          <input id="geminiQuery" placeholder="जैसे: कक्षा 8 विज्ञान सूक्ष्मजीव, या कक्षा 7 सामाजिक विज्ञान...">
         </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px;">
+          <button class="btn" style="background:#6c5ce7" onclick="generateWithFreeAI('notes')">✨ बिंदुवार नोट्स तैयार करें</button>
+          <button class="btn" style="background:#0984e3" onclick="generateWithFreeAI('quiz')">📝 20 वस्तुनिष्ठ प्रश्न बनाएँ</button>
+        </div>
+        <p id="geminiStatus" style="font-weight: bold; color: #2444aa; margin: 4px 0;"></p>
+      </section>
 
-        <button class="btn" style="background:#0984e3" onclick="generateInApp('quiz')">📝 वस्तुनिष्ठ प्रश्न (MCQ) बनाएँ</button>
-      </div>
-      <p id="geminiStatus" style="font-weight: bold; color: #2444aa; margin: 4px 0;"></p>
-    </section>
-
-    <!-- वेब सर्च सेक्शन -->
-    <section class="section">
-      <h2>🌐 शिक्षक Free Search Engine</h2>
-      <p class="note">वेब पर संदर्भ सामग्री खोजने हेतु:</p>
-      <div class="search">
-        <input id="teacherWebQuery" placeholder="शैक्षिक विषय, प्रश्न, पाठ या नोट्स खोजें...">
-        <button class="btn" onclick="teacherWebSearch()">🔎 खोजें</button>
-      </div>
-      <div class="tiles">
-        <button class="tile blue" onclick="teacherWebSearch('NCERT '+$('teacherWebQuery').value)">📘 NCERT खोजें</button>
-        <button class="tile purple" onclick="teacherWebSearch('RBSE '+$('teacherWebQuery').value)">📚 RBSE खोजें</button>
-        <button class="tile orange" onclick="teacherWebSearch('REET '+$('teacherWebQuery').value)">🎯 REET खोजें</button>
-        <button class="tile pink" onclick="teacherWebSearch('Hindi study notes '+$('teacherWebQuery').value)">📝 नोट्स खोजें</button>
-      </div>
-    </section>
-
-    <!-- समीक्षा, संपादन, PDF पूर्वावलोकन व प्रकाशन एडिटर -->
-    <section class="section" id="editorSection">
-      <h2>📝 नोट्स व प्रश्नोत्तर समीक्षा, PDF पूर्वावलोकन और प्रकाशन</h2>
-      <label>शीर्षक</label><input id="editorTitle" class="editorInput" placeholder="जैसे: कक्षा 8 विज्ञान - जंतुओं में जनन सम्पूर्ण अभ्यास">
-      <label>कक्षा/परीक्षा</label><select id="editorCategory" class="editorInput"></select>
-      <label>विषय</label><input id="editorSubject" class="editorInput" placeholder="जैसे: विज्ञान">
-      <label>मूल सामग्री / सम्पूर्ण प्रश्नोत्तर (यहाँ अपनी इच्छानुसार संपादन व जाँच करें)</label>
-      <textarea id="editorText" class="editorInput" rows="14" placeholder="यहाँ सामग्री लिखें या AI द्वारा तैयार होने पर स्वतः लोड होगी..."></textarea>
-      <label>विद्यार्थी के लिए शुल्क ₹ (0 = Free)</label><input id="editorPrice" class="editorInput" type="number" min="0" value="0">
-      
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
-        <button class="btn" style="background:#0984e3" onclick="printEditorPdf()">🖨️ PDF पूर्वावलोकन / Save as PDF</button>
+      <section class="section" id="editorSection">
+        <h2>📝 नोट्स तैयार करें, समीक्षा करें और प्रकाशित करें</h2>
+        <label>शीर्षक</label><input id="editorTitle" class="editorInput" placeholder="जैसे: कक्षा 7 सामाजिक विज्ञान नोट्स">
+        <label>कक्षा/परीक्षा</label><select id="editorCategory" class="editorInput"></select>
+        <label>विषय</label>
+        <select id="editorSubject" class="editorInput">
+          <option>सामाजिक विज्ञान</option>
+          <option>विज्ञान</option>
+          <option>गणित</option>
+          <option>अंग्रेजी</option>
+          <option>संस्कृत</option>
+          <option>हिंदी</option>
+          <option>सामान्य ज्ञान</option>
+        </select>
+        <label>मूल सामग्री / नोट्स</label>
+        <textarea id="editorText" class="editorInput" rows="8" placeholder="यहाँ सामग्री लिखें..."></textarea>
+        <label>विद्यार्थी के लिए शुल्क ₹ (0 = Free)</label>
+        <input id="editorPrice" class="editorInput" type="number" min="0" value="0">
+        <button class="btn" style="background:#2444aa" onclick="printEditorPdf()">🖨️ Print as PDF</button>
         <button class="btn pay" onclick="publishEditor()">🚀 सामग्री ऑनलाइन प्रकाशित करें</button>
-      </div>
-    </section>
+      </section>
 
-    <!-- सक्रिय आगामी घोषणाओं का प्रबंधन -->
-    <section class="section">
-      <h2>📢 सक्रिय आगामी सेवाएँ (Coming Soon Management)</h2>
-      <div id="adminComingSoonList" style="display:flex;flex-wrap:wrap;gap:10px"></div>
-    </section>
-
-    <!-- सामग्री प्रबंधन -->
-    <section class="section">
-      <h2>📋 प्रकाशित सामग्री व टेस्ट प्रबंधन</h2>
-      <div id="adminMaterials" class="materials"></div>
-    </section>
+      <section class="section">
+        <h2>📂 प्रकाशित सामग्री व टेस्ट प्रबंधन</h2>
+        <div id="adminMaterials" class="materials"></div>
+      </section>
+    </div>
   </div>
 
   <footer class="section" style="text-align:center">
@@ -261,34 +249,21 @@ small{display:block;margin-top:6px;font-size:13px;opacity:0.9}
   </footer>
 </div>
 
-<div id="modal" class="modal hidden"><div id="dialog" class="dialog"></div></div>
+<div id="modalBox" class="modal-overlay" style="display:none;"><div id="dialogBox" class="dialog"></div></div>
 
 <script>
 var classes = ['सभी', 'कक्षा 1', 'कक्षा 2', 'कक्षा 3', 'कक्षा 4', 'कक्षा 5', 'कक्षा 6', 'कक्षा 7', 'कक्षा 8', 'कक्षा 9', 'कक्षा 10', 'कक्षा 11', 'कक्षा 12'];
-var exams = ['REET', 'CTET', 'RAS', 'पटवारी', 'SSC', 'रेलवे', 'बैंकिंग', 'UPSC', 'पुलिस', 'RPSC', 'LDC', 'कंप्यूटर', 'अन्य'];
-var selected = 'सभी', freeFilter = false, typeFilter = null;
+var exams = ['REET', 'RPSC', 'पटवारी', 'SSC', 'RAS', 'CTET', 'रेलवे', 'बैंकिंग', 'UPSC', 'पुलिस', 'LDC', 'अन्य'];
+
+var selected = 'सभी', selectedSub = 'सभी', freeFilter = false, typeFilter = null;
 var isTeacherLoggedIn = false;
 var items = [];
-var comingSoonItems = [];
-var activeLiveClass = null;
+var currentQuizData = null, userAnswers = {}, unlockedItems = {};
 
 try {
   var stored = localStorage.getItem('gg_items_v2');
   if (stored) { items = JSON.parse(stored) || []; }
 } catch (e) { items = []; }
-
-try {
-  var storedCS = localStorage.getItem('gg_coming_soon');
-  if (storedCS) { comingSoonItems = JSON.parse(storedCS) || []; }
-} catch (e) { comingSoonItems = []; }
-
-try {
-  var storedLive = localStorage.getItem('gg_active_live');
-  if (storedLive) { activeLiveClass = JSON.parse(storedLive); }
-} catch(e) {}
-
-var currentQuizData = null, userAnswers = {}, unlockedItems = {};
-var mediaStream = null;
 
 try {
   var savedUnlocks = localStorage.getItem('gg_unlocked_items');
@@ -307,76 +282,123 @@ function save() {
   try { localStorage.setItem('gg_items_v2', JSON.stringify(items)); } catch (e) {}
 }
 
-function saveCS() {
-  try { localStorage.setItem('gg_coming_soon', JSON.stringify(comingSoonItems)); } catch (e) {}
+function openPopup(h) {
+  $('dialogBox').innerHTML = h;
+  $('modalBox').style.display = 'flex';
+}
+function closePopup() {
+  $('modalBox').style.display = 'none';
 }
 
-function show(h) { $('dialog').innerHTML = h; $('modal').classList.remove('hidden'); }
-function closeModal() { stopCamera(); $('modal').classList.add('hidden'); }
-
-function teacherTabClick() {
-  if (isTeacherLoggedIn) {
-    $('studentView').classList.add('hidden');
-    $('teacherView').classList.remove('hidden');
-    fillEditorCategories();
-    renderAdmin();
-    renderAdminComingSoon();
-  } else {
-    teacherLogin();
-  }
-}
-
-function studentTabClick() {
-  $('teacherView').classList.add('hidden');
-  $('studentView').classList.remove('hidden');
+function openStudentTab() {
+  $('teacherView').style.display = 'none';
+  $('studentView').style.display = 'block';
+  $('studentTabBtn').classList.add('active-tab');
+  $('teacherTabBtn').classList.remove('active-tab');
   renderStudent();
-  renderStudentComingSoon();
-  updateLiveClassIndicator();
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-function teacherLogin() {
-  show('<h2>🔐 शिक्षक लॉगिन</h2>' +
-       '<label>लॉगिन ID</label><input id="tid" placeholder="शिक्षक ID दर्ज करें">' +
-       '<label>पासवर्ड</label><input id="tpw" type="password" placeholder="पासवर्ड दर्ज करें">' +
-       '<p id="err" style="color:red;font-weight:bold"></p>' +
-       '<button class="btn" onclick="login()">लॉगिन करें</button> ' +
-       '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
-}
+function openTeacherTab() {
+  $('studentView').style.display = 'none';
+  $('teacherView').style.display = 'block';
+  $('teacherTabBtn').classList.add('active-tab');
+  $('studentTabBtn').classList.remove('active-tab');
 
-function login() {
-  var idVal = $('tid').value.trim().toLowerCase();
-  var pwVal = $('tpw').value.trim();
-  if (idVal === 'kalyan' && pwVal === '4804') {
+  if (isTeacherLoggedIn || localStorage.getItem('gg_teacher_auth') === 'true') {
     isTeacherLoggedIn = true;
-    closeModal();
-    $('studentView').classList.add('hidden');
-    $('teacherView').classList.remove('hidden');
+    $('teacherLoginCard').style.display = 'none';
+    $('teacherDashboard').style.display = 'block';
     fillEditorCategories();
     renderAdmin();
-    renderAdminComingSoon();
   } else {
-    $('err').textContent = 'अमान्य ID या पासवर्ड!';
+    $('teacherLoginCard').style.display = 'block';
+    $('teacherDashboard').style.display = 'none';
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function verifyTeacherLogin() {
+  var idVal = $('inpTeacherId').value.trim().toLowerCase();
+  var pwVal = $('inpTeacherPass').value.trim();
+  var errEl = $('teacherLoginErr');
+
+  if (idVal === 'kalyan' && pwVal === '4804') {
+    isTeacherLoggedIn = true;
+    try { localStorage.setItem('gg_teacher_auth', 'true'); } catch(e){}
+    errEl.style.display = 'none';
+    $('teacherLoginCard').style.display = 'none';
+    $('teacherDashboard').style.display = 'block';
+    fillEditorCategories();
+    renderAdmin();
+    alert('शिक्षक लॉगिन सफल!');
+  } else {
+    errEl.textContent = 'गलत यूज़र आईडी या पासवर्ड!';
+    errEl.style.display = 'block';
+    $('inpTeacherPass').value = '';
   }
 }
 
 function logoutTeacher() {
   if (confirm('क्या आप शिक्षक डैशबोर्ड से लॉगआउट करना चाहते हैं?')) {
     isTeacherLoggedIn = false;
-    studentTabClick();
+    try { localStorage.removeItem('gg_teacher_auth'); } catch(e){}
+    $('inpTeacherId').value = '';
+    $('inpTeacherPass').value = '';
+    $('teacherLoginCard').style.display = 'block';
+    $('teacherDashboard').style.display = 'none';
   }
+}
+
+var SYNONYMS = {
+  'गणित': ['गणित', 'math', 'maths', 'mathematics'],
+  'विज्ञान': ['विज्ञान', 'science', 'vigyan'],
+  'अंग्रेजी': ['अंग्रेजी', 'english'],
+  'संस्कृत': ['संस्कृत', 'sanskrit'],
+  'हिंदी': ['हिंदी', 'हिन्दी', 'hindi'],
+  'सामाजिक विज्ञान': ['सामाजिक', 'social', 'sst']
+};
+
+function matchSubjectWithQuery(itemSub, qSub) {
+  if (!qSub || qSub === 'सभी') return true;
+  var is = (itemSub || '').toLowerCase().trim();
+  var qs = (qSub || '').toLowerCase().trim();
+  if (is.indexOf(qs) !== -1 || qs.indexOf(is) !== -1) return true;
+  for (var key in SYNONYMS) {
+    var words = SYNONYMS[key];
+    var qMatches = words.some(function(w){ return qs.indexOf(w) !== -1; });
+    var itemMatches = words.some(function(w){ return is.indexOf(w) !== -1; });
+    if (qMatches && itemMatches) return true;
+  }
+  return false;
+}
+
+function selectSubject(sub, el) {
+  selectedSub = sub;
+  document.querySelectorAll('.sub-chip').forEach(function(c){ c.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  renderStudent();
 }
 
 function selectCat(c) { selected = c; freeFilter = false; typeFilter = null; renderStudent(); }
 function selectExam(c) { selected = c; freeFilter = false; typeFilter = null; renderStudent(); }
 function freeOnly() { selected = 'सभी'; freeFilter = true; typeFilter = null; renderStudent(); }
-function filterType(t) {
-  selected = 'सभी'; freeFilter = false; typeFilter = t; renderStudent();
-  var el = $('materials'); if (el) el.scrollIntoView({behavior:'smooth'});
+function filterType(t) { selected = 'सभी'; freeFilter = false; typeFilter = t; renderStudent(); }
+
+function resetFilters() {
+  if ($('search')) $('search').value = '';
+  selected = 'सभी';
+  selectedSub = 'सभी';
+  freeFilter = false;
+  typeFilter = null;
+  var list = document.querySelectorAll('.sub-chip');
+  list.forEach(function(c){ c.classList.remove('active'); });
+  if (list[0]) list[0].classList.add('active');
+  renderStudent();
 }
 
 function renderStudent() {
-  var q = ($('search') ? $('search').value : '').toLowerCase();
+  var rawQ = ($('search') ? $('search').value : '').toLowerCase().trim();
 
   var classHtml = '';
   for (var i = 0; i < classes.length; i++) {
@@ -397,63 +419,62 @@ function renderStudent() {
   $('exams').innerHTML = examHtml;
 
   var data = items.filter(function(x) {
-    var matchesCat = (selected === 'सभी' || x.category === selected);
-    var fullTxt = ('' + x.title + ' ' + x.category + ' ' + (x.subject || '')).toLowerCase();
-    var matchesSearch = fullTxt.indexOf(q) !== -1;
-    var matchesType = !typeFilter || x.type === typeFilter;
-    return matchesCat && matchesSearch && matchesType;
+    var itemCategory = (x.category || '').replace(/\\s+/g, ' ').trim();
+    var currentSel = selected.replace(/\\s+/g, ' ').trim();
+    var matchesCat = (currentSel === 'सभी' || itemCategory === currentSel);
+    var matchesType = (!typeFilter || x.type === typeFilter);
+    var matchesSubChip = matchSubjectWithQuery(x.subject, selectedSub);
+
+    var matchesSearch = true;
+    if (rawQ) {
+      var fullTxt = ('' + x.title + ' ' + x.category + ' ' + (x.subject || '') + ' ' + (x.text || '')).toLowerCase();
+      matchesSearch = fullTxt.indexOf(rawQ) !== -1;
+    }
+    return matchesCat && matchesType && matchesSubChip && matchesSearch;
   });
 
   if (freeFilter) {
     data = data.filter(function(x) { return Number(x.price || 0) === 0; });
   }
 
-  $('count').textContent = data.length + ' सामग्री / टेस्ट / वीडियो';
+  $('count').textContent = data.length + ' सामग्री उपलब्ध';
   
   if (data.length > 0) {
     var cards = '';
     for (var k = 0; k < data.length; k++) { cards += cardStudent(data[k]); }
     $('materials').innerHTML = cards;
   } else {
-    $('materials').innerHTML = '<p class="note" style="padding:15px;background:#f4f7fc;border-radius:10px">वर्तमान में इस श्रेणी में कोई सामग्री उपलब्ध नहीं है।</p>';
+    $('materials').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;background:#fff;border-radius:16px;border:1px dashed #cbd5e1">' +
+      '<div style="font-size:36px;margin-bottom:8px">📂</div>' +
+      '<h4>' + (selected === 'सभी' ? 'वर्तमान में कोई सामग्री नहीं है' : selected + ' में कोई सामग्री नहीं मिली') + '</h4>' +
+      '<p class="note" style="margin-top:4px">कृपया "सभी कक्षाएँ" बटन दबाकर देखें या शिक्षक पोर्टल से सामग्री जोड़ें।</p></div>';
   }
-  ticker();
-  renderStudentComingSoon();
-  updateLiveClassIndicator();
 }
 
 function cardStudent(x) {
   var p = Number(x.price || 0);
-  var typeTag = (x.type === 'quiz') ? '📝 लाइव टेस्ट सीरीज' : (x.type === 'video') ? '📺 वीडियो लेक्चर' : (x.type === 'pdf') ? '📄 PDF सामग्री' : '📖 ई-बुक / नोट्स';
-  var btnText = (x.type === 'quiz') ? '🎯 टेस्ट शुरू करें' : (x.type === 'video') ? '▶️ वीडियो क्लास देखें' : '📥 सामग्री खोलें';
+  var typeTag = (x.type === 'quiz') ? '📝 20 प्रश्न टेस्ट' : (x.type === 'pdf') ? '📑 पाठ PDF' : '📖 मुख्य नोट्स';
+  var btnText = (x.type === 'quiz') ? '20 अंकों का टेस्ट दें' : 'सामग्री खोलें';
   var isUnlocked = unlockedItems[x.id] || p === 0;
 
   var actionBtn = '';
   if (isUnlocked) {
     actionBtn = (p > 0 ? '<div class="free">🔓 अनलॉक किया गया</div>' : '<div class="free">✅ निःशुल्क (Free)</div>') +
-                '<button class="btn" onclick="openItem(' + x.id + ')">' + btnText + '</button>';
+                '<button class="btn" style="background:#2444aa;width:100%" onclick="openItem(' + x.id + ')">' + btnText + '</button>';
   } else {
-    actionBtn = '<div class="price">💳 शुल्क: ₹' + p + '</div>' +
-                '<button class="btn pay" onclick="handlePayOrOpen(' + x.id + ')">🔒 ₹' + p + ' शुल्क देकर अनलॉक करें</button>';
+    actionBtn = '<div class="price">शुल्क: ₹' + p + '</div>' +
+                '<button class="btn pay" style="width:100%" onclick="handlePayOrOpen(' + x.id + ')">₹' + p + ' देकर अनलॉक करें</button>';
   }
 
   return '<article class="card">' +
-    '<span class="badge">' + esc(x.category) + '</span> ' +
-    '<span class="badge" style="background:#e3fcef;color:#0b8a5a">' + typeTag + '</span>' +
-    '<h3 style="margin:10px 0 6px">' + esc(x.title) + '</h3>' +
-    '<p class="note" style="margin:0 0 10px">' + esc(x.subject || 'सामान्य') + '</p>' +
-    actionBtn +
+    '<div>' +
+      '<span class="badge">' + esc(x.category) + '</span> ' +
+      '<span class="badge badge-sub">' + esc(x.subject || 'सामान्य') + '</span> ' +
+      '<span class="badge" style="background:#f3e8ff;color:#7e22ce">' + typeTag + '</span>' +
+      '<h3 style="margin:10px 0 6px;line-height:1.4">' + esc(x.title) + '</h3>' +
+    '</div>' +
+    '<div>' + actionBtn + '</div>' +
   '</article>';
-}
-
-function ticker() {
-  if (items.length > 0) {
-    var txt = [];
-    for (var i = 0; i < Math.min(5, items.length); i++) { txt.push('📣 ' + items[i].title); }
-    $('tickerText').textContent = txt.join('  •  ');
-  } else {
-    $('tickerText').textContent = '📣 ज्ञान गंगा डिजिटल लर्निंग पर ऑनलाइन टेस्ट सीरीज, लाइव क्लास और नई अध्ययन सामग्री लगातार जुड़ रही है ✨';
-  }
 }
 
 function fillEditorCategories() {
@@ -466,461 +487,97 @@ function fillEditorCategories() {
   }
 }
 
-function teacherWebSearch(extra) {
-  var q = (extra !== undefined ? extra : $('teacherWebQuery').value).trim();
-  if (!q) { alert('पहले खोज शब्द लिखें'); return; }
-  window.open('https://www.google.com/search?q=' + encodeURIComponent(q + ' educational study material'), '_blank');
-}
-
-// ==================== सुव्यवस्थित A4 PDF पूर्वावलोकन व प्रिंट ====================
 function printEditorPdf() {
-  var title = $('editorTitle').value.trim() || 'ज्ञान गंगा - पाठ्यपुस्तक सम्पूर्ण अध्ययन सामग्री';
-  var cat = $('editorCategory').value || 'कक्षा 8';
-  var sub = $('editorSubject').value || 'विज्ञान';
+  var title = $('editorTitle').value.trim() || 'ज्ञान गंगा अध्ययन सामग्री';
   var text = $('editorText').value.trim();
-  if (!text) { alert('पहले सामग्री लोड या लिखें!'); return; }
-
+  if (!text) { alert('सामग्री लिखें'); return; }
   var w = window.open('', '_blank');
-  w.document.write('<!doctype html><html lang="hi"><head><meta charset="utf-8">' +
-    '<title>' + esc(title) + '</title>' +
-    '<style>' +
-    '@page{size:A4;margin:18mm}' +
-    'body{font-family:Arial,"Noto Sans Devanagari",sans-serif;line-height:1.7;color:#111;padding:10px}' +
-    '.header{border-bottom:3px double #240b8a;padding-bottom:12px;margin-bottom:18px;text-align:center}' +
-    '.header h1{margin:0;color:#240b8a;font-size:24px}' +
-    '.header p{margin:4px 0 0;font-weight:bold;color:#444;font-size:15px}' +
-    '.meta{display:flex;justify-content:space-between;background:#f0f4ff;padding:8px 14px;border-radius:6px;font-weight:bold;margin-bottom:16px}' +
-    'pre{white-space:pre-wrap;font:inherit;font-size:14.5px;line-height:1.8;text-align:justify}' +
-    '.footer{border-top:1px solid #ccc;margin-top:25px;padding-top:8px;text-align:center;font-size:12px;color:#666}' +
-    '</style></head><body>' +
-    '<div class="header">' +
-      '<h1>ज्ञान गंगा डिजिटल लर्निंग पोर्टल</h1>' +
-      '<p>NCERT / RBSE प्रामाणिक पाठ्यपुस्तक अध्ययन सामग्री</p>' +
-    '</div>' +
-    '<div class="meta"><span>विषय: ' + esc(sub) + '</span><span>' + esc(cat) + '</span><span>शीर्षक: ' + esc(title) + '</span></div>' +
-    '<pre>' + esc(text) + '</pre>' +
-    '<div class="footer">ज्ञान ही शक्ति है • ज्ञान गंगा डिजिटल लर्निंग</div>' +
-    '<script>window.onload=function(){window.print();}<\/script></body></html>');
+  w.document.write('<!doctype html><html lang="hi"><head><meta charset="utf-8"><title>' + esc(title) + '</title><style>body{font-family:Arial,sans-serif;padding:30px;line-height:1.8}h1{color:#3d25b8}pre{white-space:pre-wrap;font:inherit}</style></head><body><h1>' + esc(title) + '</h1><p><b>' + esc($('editorCategory').value) + ' | ' + esc($('editorSubject').value) + '</b></p><pre>' + esc(text) + '</pre><script>window.print()<\/script></body></html>');
   w.document.close();
 }
 
 function publishEditor() {
   var title = $('editorTitle').value.trim(), text = $('editorText').value.trim();
   if (!title || !text) { alert('शीर्षक और सामग्री दोनों भरें'); return; }
-  var x = { id: Date.now(), title: title, category: $('editorCategory').value, subject: $('editorSubject').value, price: Math.max(0, Number($('editorPrice').value || 0)), type: 'article', text: text };
+  var x = { 
+    id: Date.now(), 
+    title: title, 
+    category: $('editorCategory').value, 
+    subject: $('editorSubject').value, 
+    price: Math.max(0, Number($('editorPrice').value || 0)), 
+    type: 'article', 
+    text: text 
+  };
   items.unshift(x);
   save();
   if (window.syncToFirestore) window.syncToFirestore(x);
   renderAdmin();
-  ticker();
+  renderStudent();
   alert('सामग्री ऑनलाइन क्लाउड पर प्रकाशित हो गई!');
 }
 
-// ==================== 100% इन-ऐप AI इंजन (सम्पूर्ण पाठ्यपुस्तक अभ्यास) ====================
-async function generateInApp(type) {
+async function generateWithFreeAI(type) {
   var query = $('geminiQuery').value.trim();
   if (!query) { alert('कृपया पहले विषय या टॉपिक का नाम दर्ज करें!'); return; }
 
-  var qCount = $('customQCount') ? $('customQCount').value : 10;
-  $('geminiStatus').textContent = '⏳ AI सामग्री तैयार कर रहा है, कृपया 2-3 सेकंड रुकें...';
-
-  var matchedCat = "कक्षा 8";
-  for (var c = 1; c <= 12; c++) {
-    if (query.indexOf(c + '') !== -1 || query.indexOf('कक्षा ' + c) !== -1) {
-      matchedCat = 'कक्षा ' + c;
-      break;
-    }
-  }
-  var matchedSub = query.indexOf('गणित') !== -1 ? 'गणित' : (query.indexOf('विज्ञान') !== -1 ? 'विज्ञान' : 'सामान्य अध्ययन');
+  $('geminiStatus').textContent = '⏳ AI सामग्री तैयार कर रहा है, कृपया कुछ सेकंड रुकें...';
 
   var promptText = "";
   if (type === 'notes') {
-    promptText = "राजस्थान बोर्ड RBSE और NCERT के अनुसार अत्यंत सरल और शुद्ध हिंदी में निम्न विषय पर क्रमबद्ध व बिंदुवार मुख्य नोट्स तैयार करें:\nविषय: " + query;
-  } else if (type === 'textbook') {
-    promptText = "आप राजस्थान बोर्ड (RBSE) और NCERT के एक वरिष्ठ शिक्षक हैं। कृपया निम्न अध्याय के अंत में दिए गए पाठ्यपुस्तक के सम्पूर्ण अभ्यास प्रश्नों (प्रश्न 1 से लेकर अंतिम 10-12 प्रश्न तक: सही विकल्प, रिक्त स्थान, मिलान, सत्य/असत्य, लघु और दीर्घ उत्तरीय) के प्रामाणिक एवं विस्तृत उत्तर शुद्ध हिंदी में क्रमवार लिखें:\nअध्याय / विषय: " + query;
+    promptText = "राजस्थान बोर्ड RBSE और NCERT के स्तर पर अत्यंत सरल और शुद्ध हिंदी में निम्न विषय पर क्रमबद्ध बिंदुवार मुख्य नोट्स लिखें:\nविषय: " + query;
   } else {
-    promptText = "निम्न विषय पर कुल " + qCount + " बहुविकल्पीय वस्तुनिष्ठ प्रश्न (MCQ) तैयार करें। प्रत्येक प्रश्न के ठीक नीचे विकल्प और सही उत्तर इस फॉर्मेट में लिखें:\nप्रश्न 1: [प्रश्न]\nA: [विकल्प]\nB: [विकल्प]\nC: [विकल्प]\nD: [विकल्प]\nउत्तर: [सही विकल्प अक्षर A/B/C/D]\n\nविषय: " + query;
+    promptText = "राजस्थान बोर्ड RBSE/NCERT अनुसार निम्न विषय पर ठीक 20 बहुविकल्पीय वस्तुनिष्ठ प्रश्न (MCQ) तैयार करें। प्रत्येक प्रश्न 1 अंक का होगा:\nविषय: " + query;
   }
 
-  var generatedText = "";
-
-  // ऑनलाइन सुरक्षित फेच (शून्य रीडायरेक्ट)
   try {
-    var apiUrl = "https://text.pollinations.ai/" + encodeURIComponent(promptText) + "?seed=" + Date.now();
+    var apiUrl = "https://text.pollinations.ai/" + encodeURIComponent(promptText);
     var response = await fetch(apiUrl);
-    if (response.ok) {
-      var txt = await response.text();
-      if (txt && txt.length > 80 && txt.indexOf("error") === -1 && txt.indexOf("500") === -1) {
-        generatedText = txt;
-      }
-    }
-  } catch (err) {}
+    var resultText = await response.text();
 
-  // प्रामाणिक ऑफलाइन इनबिल्ट मॉडल (पूर्ण 11 पाठ्यपुस्तक अभ्यास प्रश्नोत्तर)
-  if (!generatedText) {
-    if (query.indexOf("जनन") !== -1 || query.indexOf("reproduction") !== -1) {
-      if (type === 'notes') {
-        generatedText = "कक्षा 8 विज्ञान - अध्याय: जंतुओं में जनन (मुख्य नोट्स)\n\n" +
-          "1. जनन की परिभाषा: जीवों द्वारा अपने जैसी नई संतान उत्पन्न करने की प्रक्रिया को जनन कहते हैं। यह प्रजाति की निरंतरता बनाए रखने हेतु अनिवार्य है।\n\n" +
-          "2. जनन की विधियाँ:\n" +
-          "  (क) लैंगिक जनन: जिसमें नर और मादा दोनों युग्मकों का संलयन होता है (जैसे: मनुष्य, गाय, मेंढक)।\n" +
-          "  (ख) अलैंगिक जनन: जिसमें केवल एक जनक ही नई संतान उत्पन्न करता है (जैसे: हाइड्रा, अमीबा)।\n\n" +
-          "3. नर जननांग: एक जोड़ी वृषण, दो शुक्राणु नलिकाएं और एक शिश्न। वृषण नर युग्मक 'शुक्राणु' उत्पन्न करते हैं।\n\n" +
-          "4. मादा जननांग: एक जोड़ी अंडाशय, अंडवाहिनी तथा गर्भाशय। अंडाशय मादा युग्मक 'अंडाणु' उत्पन्न करते हैं।\n\n" +
-          "5. निषेचन (Fertilization): शुक्राणु एवं अंडाणु के मिलने की क्रिया को निषेचन कहते हैं। इसके फलस्वरूप 'युग्मनज' (Zygote) बनता है।\n" +
-          "  - आंतरिक निषेचन: मादा शरीर के अंदर (मनुष्य, पशु, पक्षी)।\n" +
-          "  - बाह्य निषेचन: मादा शरीर के बाहर (मेंढक, मछली)।\n\n" +
-          "6. जरायुज एवं अंडप्रजक:\n" +
-          "  - जरायुज: जो सीधे शिशु को जन्म देते हैं (मनुष्य, गाय)।\n" +
-          "  - अंडप्रजक: जो अंडे देते हैं (मुर्गी, मेंढक, छिपकली)।\n\n" +
-          "7. अलैंगिक जनन की विधियाँ:\n" +
-          "  - मुकुलन: हाइड्रा में मुकुल (उभार) से नया जीव बनना।\n" +
-          "  - द्विखंडन: अमीबा में एक कोशिका का दो में विभाजित होना।";
-      } else if (type === 'textbook') {
-        generatedText = "कक्षा 8 विज्ञान — अध्याय: जंतुओं में जनन (पाठ्यपुस्तक के सम्पूर्ण अभ्यास प्रश्नोत्तर)\n\n" +
-          "प्रश्न 1. सजीवों के लिए जनन क्यों महत्वपूर्ण है? समझाइए।\n" +
-          "उत्तर: जनन सजीवों का एक अति महत्वपूर्ण लक्षण है। यह पृथ्वी पर जातियों (Species) की निरंतरता को बनाए रखने के लिए अनिवार्य है। यदि सजीवों में जनन न हो तो उस प्रजाति का अस्तित्व पृथ्वी से हमेशा के लिए समाप्त हो जाएगा।\n\n" +
-          "प्रश्न 2. मनुष्य में निषेचन प्रक्रम को समझाइए।\n" +
-          "उत्तर: जनन प्रक्रम का पहला चरण शुक्राणु (नर युग्मक) और अंडाणु (मादा युग्मक) का संलयन है। मैथुन के दौरान लाखों शुक्राणु मादा शरीर में प्रवेश करते हैं। अंडवाहिनी में जब एक शुक्राणु अंडाणु के संपर्क में आता है, तो दोनों के केंद्रक मिलकर एक हो जाते हैं। इसे निषेचन कहते हैं। निषेचन के परिणामस्वरूप द्विगुणित युग्मनज (Zygote) का निर्माण होता है।\n\n" +
-          "प्रश्न 3. सही उत्तर चुनिए:\n" +
-          "(क) आंतरिक निषेचन होता है:\n" +
-          "  (i) मादा के शरीर में  (ii) मादा के शरीर से बाहर  (iii) नर के शरीर में  (iv) नर के शरीर से बाहर\n" +
-          "उत्तर: (i) मादा के शरीर में।\n\n" +
-          "(ख) एक टैडपोल जिस प्रक्रम द्वारा वयस्क में विकसित होता है, वह है:\n" +
-          "  (i) निषेचन  (ii) कायांतरण  (iii) रोपण  (iv) मुकुलन\n" +
-          "उत्तर: (ii) कायांतरण।\n\n" +
-          "(ग) एक युग्मनज में पाए जाने वाले केंद्रकों की संख्या होती है:\n" +
-          "  (i) कोई नहीं  (ii) एक  (iii) दो  (iv) चार\n" +
-          "उत्तर: (ii) एक (दोनों युग्मकों के केंद्रक संलयित होकर एक केंद्रक बनाते हैं)।\n\n" +
-          "प्रश्न 4. निम्न कथन सही (T) हैं या गलत (F) बताइए:\n" +
-          "(क) अंडप्रजक जंतु विकसित शिशु को जन्म देते हैं। — (F / गलत)\n" +
-          "(ख) प्रत्येक शुक्राणु एक एकल कोशिका है। — (T / सही)\n" +
-          "(ग) मेंढक में बाह्य निषेचन होता है। — (T / सही)\n" +
-          "(घ) अलैंगिक जनन में भी निषेचन आवश्यक है। — (F / गलत)\n" +
-          "(ङ) मुकुलन अलैंगिक जनन की एक विधि है। — (T / सही)\n" +
-          "(च) द्विखंडन में एक जनक दो भागों में विभाजित होता है। — (T / सही)\n\n" +
-          "प्रश्न 5. युग्मनज और गर्भ में दो अंतर बताइए।\n" +
-          "उत्तर:\n" +
-          "1. युग्मनज (Zygote): यह निषेचन के तुरंत बाद बनने वाली एकल कोशिका है जिसमें शारीरिक अंगों की पहचान नहीं की जा सकती।\n" +
-          "2. गर्भ (Foetus): यह भ्रूण की वह विकसित बहुकोशिकीय अवस्था है जिसमें सभी शारीरिक अंगों (जैसे हाथ, पैर, सिर, आँख आदि) की स्पष्ट पहचान की जा सकती है।\n\n" +
-          "प्रश्न 6. अलैंगिक जनन की परिभाषा लिखिए। जंतुओं में अलैंगिक जनन की दो विधियों का वर्णन कीजिए।\n" +
-          "उत्तर: जनन की वह विधि जिसमें केवल एक ही जनक भाग लेता है और बिना युग्मकों के संलयन के नई संतान उत्पन्न करता है, अलैंगिक जनन कहलाती है।\n" +
-          "(i) मुकुलन (Budding): उदाहरण- हाइड्रा। इसमें जनक के शरीर पर एक उभार (मुकुल) निकलता है जो विकसित होकर नया जीव बनता है और अलग हो जाता है।\n" +
-          "(ii) द्विखंडन (Binary Fission): उदाहरण- अमीबा। इसमें एककोशिकीय जनक का केंद्रक व कोशिकाद्रव्य दो भागों में बंटकर दो संतति जीव बनाते हैं।\n\n" +
-          "प्रश्न 7. मादा के किस जनन अंग में भ्रूण का रोपण होता है?\n" +
-          "उत्तर: मादा के गर्भाशय (Uterus) की दीवार में भ्रूण का रोपण होता है, जहाँ उसका संपूर्ण विकास होता है।\n\n" +
-          "प्रश्न 8. कायांतरण (Metamorphosis) किसे कहते हैं? उदाहरण दीजिए।\n" +
-          "उत्तर: लार्वा या प्रारंभिक अवस्था के कुछ विशेष तथा अप्रत्याशित परिवर्तनों द्वारा वयस्क जंतु में बदलने की प्रक्रिया को कायांतरण कहते हैं। उदाहरण: मेंढक (टैडपोल से वयस्क मेंढक बनना) तथा रेशम कीट (कैटरपिलर से तितली बनना)।\n\n" +
-          "प्रश्न 9. आंतरिक निषेचन एवं बाह्य निषेचन में अंतर स्पष्ट कीजिए।\n" +
-          "उत्तर:\n" +
-          "- आंतरिक निषेचन: यह मादा के शरीर के भीतर संपन्न होता है। इसमें अंडों की संख्या कम होती है (जैसे: मनुष्य, गाय, कुत्ता, पक्षी)।\n" +
-          "- बाह्य निषेचन: यह मादा के शरीर के बाहर (प्रायः जल में) संपन्न होता है। इसमें मादा सैकड़ों अंडे पानी में देती है (जैसे: मेंढक, मछली, स्टारफिश)।\n\n" +
-          "प्रश्न 10. जरायुज और अंडप्रजक जंतुओं के दो-दो उदाहरण दीजिए।\n" +
-          "उत्तर:\n" +
-          "(क) जरायुज जंतु (सीधे शिशु देने वाले): मनुष्य, गाय, बिल्ली।\n" +
-          "(ख) अंडप्रजक जंतु (अंडे देने वाले): मुर्गी, मेंढक, छिपकली।\n\n" +
-          "प्रश्न 11. शुक्राणु की संरचना का संक्षिप्त विवरण दीजिए।\n" +
-          "उत्तर: शुक्राणु नर युग्मक है जो अत्यधिक सूक्ष्म होता है। इसके मुख्य रूप से तीन भाग होते हैं:\n" +
-          "1. सिर: जिसमें केंद्रक और आनुवंशिक पदार्थ होता है।\n" +
-          "2. मध्य भाग: जिसमें ऊर्जा उत्पन्न करने वाले माइटोकॉन्ड्रिया होते हैं।\n" +
-          "3. पूंछ: जो शुक्राणु को अंडाणु तक तैरने में गतिशीलता प्रदान करती है।";
-      } else {
-        var baseQ = [
-          { q: "शुक्राणु और अंडाणु के संलयन को क्या कहते हैं?", o: ["युग्मनज", "निषेचन", "मुकुलन", "कायांतरण"], a: "B" },
-          { q: "निम्न में से कौन सा आंतरिक निषेचन का उदाहरण है?", o: ["मेंढक", "मछली", "मनुष्य", "स्टारफिश"], a: "C" },
-          { q: "अमीबा में जनन किस विधि द्वारा होता है?", o: ["मुकुलन", "द्विखंडन", "कायांतरण", "बहुखंडन"], a: "B" },
-          { q: "हाइड्रा में अलैंगिक जनन की विधि कौन सी है?", o: ["मुकुलन", "द्विखंडन", "निषेचन", "विखंडन"], a: "A" },
-          { q: "जो जंतु सीधे शिशु को जन्म देते हैं, उन्हें क्या कहते हैं?", o: ["अंडप्रजक", "जरायुज", "लार्वा", "मुकुल"], a: "B" },
-          { q: "नर युग्मक क्या कहलाते हैं?", o: ["अंडाणु", "शुक्राणु", "युग्मनज", "भ्रूण"], a: "B" },
-          { q: "मादा युग्मक का निर्माण कहाँ होता है?", o: ["वृषण में", "अंडाशय में", "गर्भाशय में", "शिश्न में"], a: "B" },
-          { q: "टैडपोल का वयस्क में रूपांतरण क्या कहलाता है?", o: ["निषेचन", "कायांतरण", "रोपण", "मुकुलन"], a: "B" },
-          { q: "मुर्गी किस प्रकार का जंतु है?", o: ["जरायुज", "अंडप्रजक", "अलैंगिक", "उभयचर"], a: "B" },
-          { q: "निषेचित अंडा क्या कहलाता है?", o: ["भ्रूण", "युग्मनज", "गर्भ", "कोशिका"], a: "B" },
-          { q: "भ्रूण का विकास मादा के किस अंग में होता है?", o: ["अंडाशय", "गर्भाशय", "अंडवाहिनी", "वृषण"], a: "B" },
-          { q: "मेंढक में निषेचन कहाँ संपन्न होता है?", o: ["मादा शरीर में", "जल में", "भूमि पर", "वायु में"], a: "B" },
-          { q: "द्विखंडन किस प्रकार का जनन है?", o: ["लैंगिक", "अलैंगिक", "कायिक", "आंतरिक"], a: "B" },
-          { q: "शुक्राणु में कितने भाग होते हैं?", o: ["एक", "दो", "तीन", "चार"], a: "C" },
-          { q: "क्लोनिंग द्वारा बनाया गया पहला स्तनधारी कौन सा था?", o: ["गाय", "डॉली भेड़", "बिल्ली", "कुत्ता"], a: "B" }
-        ];
+    if (!resultText || resultText.length < 20) throw new Error('सामग्री लोड नहीं हो सकी');
 
-        var limit = Math.min(Number(qCount), baseQ.length);
-        var qStr = "";
-        for (var i = 0; i < limit; i++) {
-          qStr += "प्रश्न " + (i + 1) + ": " + baseQ[i].q + "\n" +
-                  "A: " + baseQ[i].o[0] + "\nB: " + baseQ[i].o[1] + "\nC: " + baseQ[i].o[2] + "\nD: " + baseQ[i].o[3] + "\n" +
-                  "उत्तर: " + baseQ[i].a + "\n\n";
-        }
-        generatedText = qStr;
-      }
-    } else {
-      if (type === 'notes') {
-        generatedText = query + " - मुख्य अध्ययन नोट्स\n\n1. मुख्य बिंदु: प्रस्तुत अध्याय राजस्थान बोर्ड (RBSE) एवं NCERT पाठ्यक्रम पर आधारित है।\n2. संकल्पना: इस पाठ के अंतर्गत मूलभूत नियमों, परिभाषाओं एवं व्यावहारिक उदाहरणों का क्रमबद्ध अध्ययन किया जाता है।\n3. महत्वपूर्ण सूत्र व शब्दावली: परीक्षा की दृष्टि से सभी महत्वपूर्ण तथ्यों को याद रखना आवश्यक है।\n4. परीक्षा उपयोगी तथ्य: लघु एवं दीर्घ उत्तरीय प्रश्नों के लिए यह पाठ अत्यंत उपयोगी है।";
-      } else if (type === 'textbook') {
-        generatedText = query + " - पाठ्यपुस्तक सम्पूर्ण अभ्यास प्रश्नोत्तर\n\n" +
-          "प्रश्न 1. पाठ के मुख्य विषय की परिभाषा और उद्देश्य स्पष्ट कीजिए।\nउत्तर: प्रस्तुत पाठ्यपुस्तक अध्याय का उद्देश्य विषय के मूलभूत नियमों व संकल्पनाओं को स्पष्ट करना है।\n\n" +
-          "प्रश्न 2. मुख्य घटकों का सचित्र व क्रमबद्ध वर्णन कीजिए।\nउत्तर: इसके अंतर्गत अध्याय के सभी प्रमुख उप-बिंदुओं का विश्लेषण किया गया है।\n\n" +
-          "प्रश्न 3. रिक्त स्थानों की पूर्ति कीजिए एवं सही/गलत का चयन कीजिए।\nउत्तर: पाठ्यपुस्तक के अभ्यास प्रश्नों के अनुसार सभी विकल्पों का सत्यापन किया गया है।\n\n" +
-          "प्रश्न 4. परीक्षा उपयोगी विस्तृत उत्तरीय प्रश्नोत्तर।\nउत्तर: विद्यार्थियों के अध्ययन हेतु अध्याय के सभी तार्किक प्रश्नों के बिंदुवार उत्तर प्रस्तुत हैं।";
-      } else {
-        var genQ = "";
-        for (var k = 1; k <= Number(qCount); k++) {
-          genQ += "प्रश्न " + k + ": " + query + " से संबंधित प्रश्न " + k + " क्या है?\nA: विकल्प A\nB: विकल्प B\nC: विकल्प C\nD: विकल्प D\nउत्तर: A\n\n";
-        }
-        generatedText = genQ;
-      }
-    }
-  }
-
-  $('geminiStatus').textContent = '✅ सम्पूर्ण सामग्री नीचे बॉक्स में लोड हो चुकी है! आप "🖨️ PDF पूर्वावलोकन" से देख सकते हैं।';
-
-  if (type === 'notes' || type === 'textbook') {
-    var tagTitle = type === 'notes' ? " - मुख्य नोट्स" : " - सम्पूर्ण पाठ्यपुस्तक प्रश्नोत्तर";
-    $('editorTitle').value = query + tagTitle;
-    $('editorCategory').value = matchedCat;
-    $('editorSubject').value = matchedSub;
-    $('editorText').value = generatedText;
+    $('geminiStatus').textContent = '✅ सामग्री तैयार है!';
+    $('editorTitle').value = query + (type === 'notes' ? " - मुख्य नोट्स" : " - 20 अंक मॉडल टेस्ट");
+    $('editorText').value = resultText;
     $('editorSection').scrollIntoView({ behavior: 'smooth' });
-  } else {
-    openTestMaker();
-    $('qzTitle').value = query + " - मॉडल टेस्ट (" + qCount + " प्रश्न)";
-    $('qzCat').value = matchedCat;
-    $('qzSub').value = matchedSub;
-    $('aiBulkInput').value = generatedText;
-    parseAiQuiz();
+  } catch (err) {
+    $('geminiStatus').textContent = 'सीधा AI व्यस्त है।';
   }
 }
 
-// ==================== लाइव क्लास लिंक प्रबंधन ====================
-function openLiveClassConfig() {
-  var curTitle = activeLiveClass ? activeLiveClass.title : '';
-  var curUrl = activeLiveClass ? activeLiveClass.url : '';
-
-  show('<h2>🎥 लाइव क्लास लिंक व्यवस्था</h2>' +
-       '<p class="note">शिक्षक यहाँ YouTube Live, Google Meet या Zoom का लिंक दर्ज कर सकते हैं। विद्यार्थी सीधे जुड़ सकेंगे।</p>' +
-       '<label>लाइव क्लास का विषय / शीर्षक</label>' +
-       '<input id="liveTitle" placeholder="जैसे: REET विज्ञान लाइव क्लास - शाम 6 बजे" value="' + esc(curTitle) + '">' +
-       '<label>लाइव क्लास लिंक (YouTube Live / Google Meet / Zoom)</label>' +
-       '<input id="liveUrl" placeholder="https://meet.google.com/... या https://youtube.com/live/..." value="' + esc(curUrl) + '">' +
-       '<br><button class="btn pay" onclick="saveLiveConfig()">🚀 लाइव क्लास सक्रिय करें (Broadcast)</button> ' +
-       (activeLiveClass ? '<button class="btn delete" onclick="endLiveBroadcast()">🔴 लाइव क्लास समाप्त करें</button> ' : '') +
-       '<button class="btn" style="background:#00b894" onclick="openCameraOnly()">📹 इनबिल्ट कैमरा टेस्ट करें</button> ' +
-       '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
-}
-
-function saveLiveConfig() {
-  var t = $('liveTitle').value.trim();
-  var u = $('liveUrl').value.trim();
-  if (!t || !u) return alert('कृपया शीर्षक और लाइव लिंक दोनों दर्ज करें!');
-
-  activeLiveClass = { title: t, url: u, active: true, time: Date.now() };
-  try { localStorage.setItem('gg_active_live', JSON.stringify(activeLiveClass)); } catch(e) {}
-  if (window.syncLiveToFirestore) window.syncLiveToFirestore(activeLiveClass);
-  closeModal();
-  updateLiveClassIndicator();
-  alert('लाइव क्लास लिंक सक्रिय हो गया है! अब विद्यार्थी सीधे इस लिंक पर जुड़ सकेंगे।');
-}
-
-function endLiveBroadcast() {
-  if (confirm('क्या आप आज की लाइव क्लास समाप्त करना चाहते हैं?')) {
-    activeLiveClass = null;
-    try { localStorage.removeItem('gg_active_live'); } catch(e) {}
-    if (window.deleteLiveFromFirestore) window.deleteLiveFromFirestore();
-    closeModal();
-    updateLiveClassIndicator();
-    alert('लाइव क्लास समाप्त कर दी गई है।');
-  }
-}
-
-function updateLiveClassIndicator() {
-  var txt = $('liveStatusText');
-  if (!txt) return;
-  if (activeLiveClass && activeLiveClass.active) {
-    txt.innerHTML = '<span style="color:#ffeb3b;font-weight:bold">🔴 LIVE NOW: ' + esc(activeLiveClass.title) + '</span>';
-  } else {
-    txt.textContent = 'कैमरा / लाइव क्लास';
-  }
-}
-
-function openLiveClassStudent() {
-  if (activeLiveClass && activeLiveClass.active && activeLiveClass.url) {
-    show('<h2>🔴 लाइव क्लास चालू है!</h2>' +
-         '<p><b>विषय: ' + esc(activeLiveClass.title) + '</b></p>' +
-         '<p class="note">शिक्षक द्वारा लाइव क्लास शुरू कर दी गई है। नीचे दिए गए बटन पर क्लिक करके सीधे क्लास में जुड़ें:</p>' +
-         '<a href="' + esc(activeLiveClass.url) + '" target="_blank" class="btn pay" style="display:block;text-align:center;text-decoration:none;font-size:17px;padding:15px">▶️ अभी लाइव क्लास में प्रवेश करें</a><br>' +
-         '<button class="btn danger" onclick="closeModal()">बंद करें</button>');
-  } else {
-    openCameraOnly();
-  }
-}
-
-function openCameraOnly() {
-  show('<h2>🎥 ज्ञान गंगा लाइव क्लास रूम</h2>' +
-       '<p class="note">कैमरा व माइक्रोफ़ोन चालू किया जा रहा है...</p>' +
-       '<video id="cameraVideo" autoplay playsinline muted></video><br>' +
-       '<p id="camStatus" style="font-weight:bold;color:#07955c">🔴 लाइव प्रसारण सक्रिय</p>' +
-       '<button class="btn danger" onclick="closeModal()">🔴 क्लास समाप्त करें</button>');
-
-  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      .then(function(stream) {
-        mediaStream = stream;
-        var videoEl = $('cameraVideo');
-        if (videoEl) { videoEl.srcObject = stream; }
-      })
-      .catch(function(err) {
-        if ($('camStatus')) {
-          $('camStatus').style.color = '#d92d50';
-          $('camStatus').textContent = 'कैमरा अनुमति दें: ' + err.message;
-        }
-      });
-  } else {
-    alert('कैमरा सपोर्ट उपलब्ध नहीं है।');
-  }
-}
-
-function stopCamera() {
-  if (mediaStream) {
-    mediaStream.getTracks().forEach(function(track) { track.stop(); });
-    mediaStream = null;
-  }
-}
-
-// ==================== आगामी सेवाएँ (COMING SOON) ====================
-function openComingSoonForm() {
-  show('<h2>📢 नई आगामी सेवा / कमिंग सून घोषणा</h2>' +
-       '<label>घोषणा / सेवा का नाम</label><input id="csTitle" placeholder="जैसे: REET 2026 स्पेशल टेस्ट सीरीज">' +
-       '<label>संभावित तिथि या विवरण</label><input id="csDate" placeholder="जैसे: 15 अक्टूबर से प्रारंभ">' +
-       '<button class="btn pay" onclick="saveComingSoon()">🚀 लाइव बोर्ड पर जोड़ें</button> ' +
-       '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
-}
-
-function saveComingSoon() {
-  var t = $('csTitle').value.trim();
-  var d = $('csDate').value.trim();
-  if (!t) return alert('शीर्षक दर्ज करें');
-  var obj = { id: Date.now(), title: t, date: d };
-  comingSoonItems.unshift(obj);
-  saveCS();
-  if (window.syncCSToFirestore) window.syncCSToFirestore(obj);
-  closeModal();
-  renderAdminComingSoon();
-  renderStudentComingSoon();
-  alert('आगामी सेवा सफलता से जुड़ गई!');
-}
-
-function renderAdminComingSoon() {
-  var el = $('adminComingSoonList');
-  if (!el) return;
-  if (comingSoonItems.length === 0) {
-    el.innerHTML = '<p class="note">अभी कोई विशेष आगामी घोषणा नहीं है। ऊपर बटन से जोड़ें।</p>';
-    return;
-  }
-  var h = '';
-  comingSoonItems.forEach(function(item) {
-    h += '<div style="background:#f1f2f6;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px">' +
-         '<b>' + esc(item.title) + '</b> <span class="note">(' + esc(item.date) + ')</span>' +
-         '<button class="btn delete" style="padding:4px 8px;font-size:12px" onclick="deleteCS(' + item.id + ')">हटाएँ</button></div>';
-  });
-  el.innerHTML = h;
-}
-
-function deleteCS(id) {
-  if (confirm('क्या आप यह घोषणा हटाना चाहते हैं?')) {
-    comingSoonItems = comingSoonItems.filter(function(x) { return x.id !== id; });
-    saveCS();
-    if (window.deleteCSFromFirestore) window.deleteCSFromFirestore(id);
-    renderAdminComingSoon();
-    renderStudentComingSoon();
-  }
-}
-
-function renderStudentComingSoon() {
-  var el = $('comingSoonList');
-  if (!el) return;
-  var base = '<span onclick="openLiveClassStudent()">🎥 लाइव क्लास चालू करें</span>' +
-             '<span onclick="filterType(\'quiz\')">📝 ऑनलाइन मॉक टेस्ट</span>' +
-             '<span onclick="filterType(\'quiz\')">🏆 टेस्ट सीरीज</span>' +
-             '<span onclick="filterType(\'video\')">📺 वीडियो लेक्चर</span>';
-  var dynamic = '';
-  comingSoonItems.forEach(function(item) {
-    dynamic += '<span style="background:rgba(255,255,0,0.25);border:1px solid #ffd700">⏳ ' + esc(item.title) + ' (' + esc(item.date) + ')</span>';
-  });
-  el.innerHTML = dynamic + base;
-}
-
-// ==================== AI स्मार्ट टेस्ट मेकर ====================
 function openTestMaker() {
-  var catOpts = '';
-  var list = classes.slice(1).concat(exams);
-  for (var i = 0; i < list.length; i++) { catOpts += '<option>' + list[i] + '</option>'; }
+  var catOpts = classes.slice(1).concat(exams).map(c => '<option>' + c + '</option>').join('');
+  var subOpts = ['विज्ञान', 'गणित', 'अंग्रेजी', 'संस्कृत', 'हिंदी', 'सामाजिक विज्ञान', 'सामान्य ज्ञान'].map(s => '<option>' + s + '</option>').join('');
 
-  show('<h2>📝 नया लाइव टेस्ट / मॉक टेस्ट बनाएँ</h2>' +
-       '<div style="background:#eef5ff;border:2px dashed #3510bf;border-radius:14px;padding:14px;margin-bottom:15px">' +
-       '<h4 style="margin:0 0 6px;color:#3510bf">🤖 AI टेस्ट पेपर यहाँ सीधा पेस्ट करें (One-Click Auto Import):</h4>' +
-       '<p class="note" style="margin:0 0 8px">AI से तैयार किया गया पूरा पेपर नीचे पेस्ट करके नीले बटन पर क्लिक करें।</p>' +
-       '<textarea id="aiBulkInput" rows="5" placeholder="यहाँ AI द्वारा दिए गए प्रश्न पेस्ट करें..."></textarea>' +
-       '<button type="button" class="btn" style="background:#6c5ce7;width:100%" onclick="parseAiQuiz()">⚡ AI टेक्स्ट से प्रश्न स्वतः लोड करें</button>' +
+  openPopup('<h2>📝 नया लाइव टेस्ट बनाएँ (20 प्रश्न • 20 अंक)</h2>' +
+       '<label>टेस्ट का शीर्षक</label><input id="qzTitle" placeholder="जैसे: कक्षा 8 विज्ञान मॉडल टेस्ट 1">' +
+       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
+       '<div><label>कक्षा / परीक्षा</label><select id="qzCat">' + catOpts + '</select></div>' +
+       '<div><label>विषय</label><select id="qzSub">' + subOpts + '</select></div>' +
        '</div>' +
-       '<label>टेस्ट का नाम (शीर्षक)</label><input id="qzTitle" placeholder="जैसे: REET विज्ञान मॉडल टेस्ट - 1">' +
-       '<label>कक्षा / परीक्षा</label><select id="qzCat">' + catOpts + '</select>' +
-       '<label>विषय</label><input id="qzSub" placeholder="विषय लिखें">' +
-       '<label>विद्यार्थी के लिए शुल्क ₹ (0 = Free)</label><input id="qzPrice" type="number" min="0" value="0">' +
-       '<hr><h3>वस्तुनिष्ठ प्रश्न (नीचे चेक या एडिट करें)</h3><div id="qzList"></div>' +
-       '<button type="button" class="btn" style="background:#0984e3;margin-top:8px" onclick="addQuestionBox()">➕ अलग से प्रश्न जोड़ें</button><br><br>' +
-       '<button type="button" class="btn pay" onclick="saveQuiz()">🚀 टेस्ट ऑनलाइन क्लाउड पर प्रकाशित करें</button> ' +
-       '<button type="button" class="btn danger" onclick="closeModal()">रद्द करें</button>');
+       '<label>शुल्क ₹ (0 = Free)</label><input id="qzPrice" type="number" min="0" value="0">' +
+       '<hr><h3 style="font-size:15px">वस्तुनिष्ठ प्रश्न सूची:</h3><div id="qzList"></div>' +
+       '<button type="button" class="btn" style="background:#0984e3;margin:8px 0" onclick="addQuestionBox()">➕ अलग से प्रश्न जोड़ें</button><br>' +
+       '<button type="button" class="btn pay" style="width:100%;margin-bottom:8px" onclick="saveQuiz()">🚀 20 प्रश्नों का टेस्ट ऑनलाइन प्रकाशित करें</button>' +
+       '<button type="button" class="btn danger" style="width:100%" onclick="closePopup()">रद्द करें</button>');
 }
 
-function parseAiQuiz() {
-  var raw = $('aiBulkInput').value.trim();
-  if (!raw) { alert('कृपया पहले AI द्वारा तैयार प्रश्न पेस्ट करें!'); return; }
-  var lines = raw.split('\n');
-  var questions = [];
-  var curQ = null;
-
-  for (var i = 0; i < lines.length; i++) {
-    var line = lines[i].trim();
-    if (!line) continue;
-    if (line.match(/^(प्रश्न\s*\d+|Q\d+|\d+[\.\)])/i)) {
-      if (curQ && curQ.q && curQ.options.length >= 2) { questions.push(curQ); }
-      curQ = { q: line.replace(/^(प्रश्न\s*\d+[:\.]*|Q\d+[:\.]*|\d+[\.\)])\s*/i, '').trim(), options: [], ans: 0 };
-    } else if (line.match(/^(\([A-D]\)|[A-D][\.:\)])/i)) {
-      if (curQ) { curQ.options.push(line.replace(/^(\([A-D]\)|[A-D][\.:\)])\s*/i, '').trim()); }
-    } else if (line.match(/^(उत्तर|Ans|Correct|Correct Option)[:\s]*([A-D])/i)) {
-      if (curQ) {
-        var match = line.match(/([A-D])/i);
-        if (match) {
-          var mapping = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
-          curQ.ans = mapping[match[1].toUpperCase()] !== undefined ? mapping[match[1].toUpperCase()] : 0;
-        }
-      }
-    }
-  }
-  if (curQ && curQ.q && curQ.options.length >= 2) { questions.push(curQ); }
-  if (questions.length === 0) { alert('प्रश्नों को सही फॉर्मेट में नहीं पाया गया!'); return; }
-
-  $('qzList').innerHTML = '';
-  questions.forEach(function(qObj) {
-    addQuestionBox(qObj.q, qObj.options[0]||'', qObj.options[1]||'', qObj.options[2]||'', qObj.options[3]||'', qObj.ans);
-  });
-}
-
-function addQuestionBox(qText, oA, oB, oC, oD, ansIdx) {
+function addQuestionBox() {
   var count = document.querySelectorAll('.q-box').length + 1;
   var div = document.createElement('div');
   div.className = 'q-box';
   div.innerHTML = '<b>प्रश्न ' + count + ':</b>' +
-    '<input class="q-text" placeholder="प्रश्न यहाँ लिखें..." value="' + esc(qText || '') + '">' +
-    '<div class="test-opt">A: <input class="q-opt" placeholder="विकल्प A" value="' + esc(oA || '') + '"></div>' +
-    '<div class="test-opt">B: <input class="q-opt" placeholder="विकल्प B" value="' + esc(oB || '') + '"></div>' +
-    '<div class="test-opt">C: <input class="q-opt" placeholder="विकल्प C" value="' + esc(oC || '') + '"></div>' +
-    '<div class="test-opt">D: <input class="q-opt" placeholder="विकल्प D" value="' + esc(oD || '') + '"></div>' +
-    '<label><b>सही उत्तर (Correct Option):</b></label>' +
+    '<input class="q-text" placeholder="प्रश्न यहाँ लिखें...">' +
+    '<div class="test-opt">A: <input class="q-opt" placeholder="विकल्प A"></div>' +
+    '<div class="test-opt">B: <input class="q-opt" placeholder="विकल्प B"></div>' +
+    '<div class="test-opt">C: <input class="q-opt" placeholder="विकल्प C"></div>' +
+    '<div class="test-opt">D: <input class="q-opt" placeholder="विकल्प D"></div>' +
+    '<label><b>सही उत्तर:</b></label>' +
     '<select class="q-ans">' +
-      '<option value="0" ' + (ansIdx === 0 ? 'selected' : '') + '>विकल्प A</option>' +
-      '<option value="1" ' + (ansIdx === 1 ? 'selected' : '') + '>विकल्प B</option>' +
-      '<option value="2" ' + (ansIdx === 2 ? 'selected' : '') + '>विकल्प C</option>' +
-      '<option value="3" ' + (ansIdx === 3 ? 'selected' : '') + '>विकल्प D</option>' +
+      '<option value="0">विकल्प A</option>' +
+      '<option value="1">विकल्प B</option>' +
+      '<option value="2">विकल्प C</option>' +
+      '<option value="3">विकल्प D</option>' +
     '</select>';
   $('qzList').appendChild(div);
 }
@@ -934,9 +591,8 @@ function saveQuiz() {
     var qt = box.querySelector('.q-text').value.trim();
     var opts = Array.from(box.querySelectorAll('.q-opt')).map(function(o) { return o.value.trim(); });
     var ans = Number(box.querySelector('.q-ans').value);
-    if (qt && opts[0] && opts[1]) { questions.push({ q: qt, options: opts, ans: ans }); }
+    if (qt && opts[0]) { questions.push({ q: qt, options: opts, ans: ans }); }
   });
-  if (questions.length === 0) { alert('कृपया कम से कम एक पूरा प्रश्न जोड़ें'); return; }
 
   var x = {
     id: Date.now(),
@@ -950,113 +606,80 @@ function saveQuiz() {
   items.unshift(x);
   save();
   if (window.syncToFirestore) window.syncToFirestore(x);
-  closeModal();
+  closePopup();
   renderAdmin();
   renderStudent();
-  ticker();
-  alert('ऑनलाइन टेस्ट सभी छात्रों के लिए तुरंत प्रकाशित हो गया!');
+  alert('20 प्रश्नों का टेस्ट ऑनलाइन प्रकाशित हो गया!');
 }
 
 function startQuiz(x) {
   currentQuizData = x;
   userAnswers = {};
+  var total = x.questions ? x.questions.length : 20;
+
   var h = '<h2>📝 ' + esc(x.title) + '</h2>' +
-          '<p class="note">कुल प्रश्न: ' + x.questions.length + ' | विषय: ' + esc(x.subject || '') + '</p><form id="testForm">';
-  x.questions.forEach(function(item, i) {
-    h += '<div class="q-box"><p style="font-size:16px"><b>प्र. ' + (i + 1) + ': ' + esc(item.q) + '</b></p>';
+          '<div style="display:flex;gap:12px;margin:10px 0;font-size:14px;color:#2444aa;font-weight:bold;background:#eef4ff;padding:8px 12px;border-radius:10px">' +
+          '<span>कुल प्रश्न: ' + total + '</span> • <span>पूर्णांक: ' + total + ' अंक (प्रत्येक 1 अंक)</span>' +
+          '</div><form id="testForm">';
+  (x.questions || []).forEach(function(item, i) {
+    h += '<div class="q-box"><p style="font-size:15px"><b>प्र. ' + (i + 1) + ': ' + esc(item.q) + '</b> <span style="float:right;color:#0984e3">[1 अंक]</span></p>';
     for (var oi = 0; oi < item.options.length; oi++) {
-      h += '<label style="display:block;margin:8px 0;cursor:pointer;padding:6px;background:#fff;border-radius:8px;border:1px solid #dce5f5">' +
+      h += '<label style="display:block;margin:6px 0;cursor:pointer;padding:6px;background:#fff;border-radius:8px;border:1px solid #dce5f5">' +
            '<input type="radio" name="q_' + i + '" value="' + oi + '" onchange="userAnswers[' + i + ']=' + oi + '"> ' + esc(item.options[oi]) + '</label>';
     }
     h += '</div>';
   });
-  h += '<button type="button" class="btn pay" style="font-size:16px;padding:15px 22px" onclick="submitQuiz()">✅ टेस्ट सबमिट करें और स्वतः रिजल्ट देखें</button> ' +
-       '<button type="button" class="btn danger" onclick="closeModal()">रद्द करें</button></form>';
-  show(h);
+  h += '<button type="button" class="btn pay" style="width:100%;padding:14px;font-size:16px" onclick="submitQuiz()">सबमिट करें और स्कोर देखें</button><br><br>' +
+       '<button type="button" class="btn danger" style="width:100%" onclick="closePopup()">रद्द करें</button></form>';
+  openPopup(h);
 }
 
 function submitQuiz() {
   if (!currentQuizData) return;
-  var total = currentQuizData.questions.length;
+  var total = currentQuizData.questions ? currentQuizData.questions.length : 1;
   var score = 0;
   var resultDetails = '';
-  currentQuizData.questions.forEach(function(item, i) {
+  (currentQuizData.questions || []).forEach(function(item, i) {
     var selected = userAnswers[i];
     var isCorrect = (selected !== undefined && selected === item.ans);
     if (isCorrect) score++;
-    resultDetails += '<div class="q-box" style="border-left:6px solid ' + (isCorrect ? '#07955c' : '#d92d50') + '">' +
-      '<p><b>प्र. ' + (i + 1) + ': ' + esc(item.q) + '</b></p>' +
-      '<p>आपका उत्तर: <b style="color:' + (isCorrect ? '#07955c' : '#d92d50') + '">' + (selected !== undefined ? esc(item.options[selected]) : 'हल नहीं किया ❌') + '</b></p>' +
-      '<p style="color:#07955c">सही उत्तर: <b>' + esc(item.options[item.ans]) + ' ✅</b></p></div>';
+    resultDetails += '<div class="q-box" style="border-left:5px solid ' + (isCorrect ? '#07955c' : '#d92d50') + '">' +
+      '<p><b>प्र. ' + (i + 1) + ': ' + esc(item.q) + '</b> <span style="float:right;font-weight:bold;color:' + (isCorrect ? '#07955c' : '#d92d50') + '">' + (isCorrect ? '+1 अंक' : '0 अंक') + '</span></p>' +
+      '<p>आपका उत्तर: <b style="color:' + (isCorrect ? '#07955c' : '#d92d50') + '">' + (selected !== undefined ? esc(item.options[selected]) : 'हल नहीं किया') + '</b></p>' +
+      '<p style="color:#07955c">सही उत्तर: <b>' + esc(item.options[item.ans]) + '</b></p></div>';
   });
 
   var pct = Math.round((score / total) * 100);
-  var grade = pct >= 85 ? 'A+' : pct >= 70 ? 'A' : pct >= 50 ? 'B' : 'C';
-  var remark = pct >= 85 ? 'उत्कृष्ट प्रदर्शन! 🌟' : pct >= 70 ? 'बहुत बढ़िया! 🎉' : pct >= 50 ? 'अच्छा प्रयास! 👍' : 'और अधिक तैयारी की आवश्यकता है।';
-
-  show('<h2>📊 ऑनलाइन टेस्ट परिणाम (Instant Result)</h2>' +
-       '<div style="text-align:center;padding:18px;background:#edf4ff;border-radius:18px;margin:12px 0">' +
-       '<h1 style="color:#2444aa;font-size:42px;margin:0">' + score + ' / ' + total + '</h1>' +
-       '<p style="font-size:20px;font-weight:900;margin:6px 0;color:#17233f">प्राप्तांक: ' + pct + '% | ग्रेड: <span style="color:#0984e3">' + grade + '</span></p>' +
-       '<p style="font-size:15px;color:#444;font-weight:bold">' + remark + '</p></div>' +
-       '<h3>📋 विस्तृत उत्तर कुंजी:</h3>' + resultDetails +
-       '<button class="btn" onclick="startQuiz(currentQuizData)">🔄 पुनः टेस्ट दें</button> ' +
-       '<button class="btn danger" onclick="closeModal()">परिणाम बंद करें</button>');
+  openPopup('<h2>🎯 ऑनलाइन टेस्ट परिणाम</h2>' +
+       '<div style="text-align:center;padding:16px;background:#edf4ff;border-radius:16px;margin:10px 0">' +
+       '<h1 style="color:#2444aa;font-size:38px;margin:0">' + score + ' / ' + total + ' अंक</h1>' +
+       '<p style="font-size:16px;font-weight:bold;margin:4px 0">प्राप्तांक: ' + pct + '% (प्रति प्रश्न 1 अंक)</p></div>' +
+       '<h3>विस्तृत उत्तर कुंजी:</h3>' + resultDetails +
+       '<button class="btn danger" style="width:100%;margin-top:10px" onclick="closePopup()">परिणाम बंद करें</button>');
 }
 
-function openVideoForm() {
-  var catOpts = '';
-  var list = classes.slice(1).concat(exams);
-  for (var i = 0; i < list.length; i++) { catOpts += '<option>' + list[i] + '</option>'; }
-  show('<h2>📺 नया वीडियो लेक्चर जोड़ें</h2>' +
-       '<label>वीडियो का शीर्षक</label><input id="vidTitle" placeholder="जैसे: REET बाल विकास क्लास - 1">' +
-       '<label>कक्षा / परीक्षा</label><select id="vidCat">' + catOpts + '</select>' +
-       '<label>विषय</label><input id="vidSub" placeholder="विषय लिखें">' +
-       '<label>YouTube या वीडियो लिंक (URL)</label><input id="vidUrl" placeholder="https://www.youtube.com/watch?v=...">' +
-       '<label>विद्यार्थी के लिए शुल्क ₹ (0 = Free)</label><input id="vidPrice" type="number" min="0" value="0">' +
-       '<button class="btn pay" onclick="saveVideo()">🚀 वीडियो लेक्चर क्लाउड पर डालें</button> ' +
-       '<button class="btn danger" onclick="closeModal()">रद्द करें</button>');
-}
-
-function saveVideo() {
-  var title = $('vidTitle').value.trim();
-  var url = $('vidUrl').value.trim();
-  if (!title || !url) { alert('कृपया शीर्षक और वीडियो लिंक दोनों भरें'); return; }
-  var x = { id: Date.now(), title: title, category: $('vidCat').value, subject: $('vidSub').value, url: url, price: Math.max(0, Number($('vidPrice').value || 0)), type: 'video' };
-  items.unshift(x);
-  save();
-  if (window.syncToFirestore) window.syncToFirestore(x);
-  closeModal();
-  renderAdmin();
-  renderStudent();
-  ticker();
-  alert('वीडियो लेक्चर ऑनलाइन प्रकाशित हो गया!');
-}
-
-// ==================== मल्टीपल 3 PDF अपलोड फ़ीचर ====================
 function openAddForm() {
-  var catOpts = '';
-  var list = classes.slice(1).concat(exams);
-  for (var i = 0; i < list.length; i++) { catOpts += '<option>' + list[i] + '</option>'; }
+  var catOpts = classes.slice(1).concat(exams).map(c => '<option>' + c + '</option>').join('');
+  var subOpts = ['सामाजिक विज्ञान', 'विज्ञान', 'गणित', 'अंग्रेजी', 'संस्कृत', 'हिंदी', 'सामान्य ज्ञान'].map(s => '<option>' + s + '</option>').join('');
 
-  show('<h2>📄 पाठ सामग्री (3 PDF तक जोड़ें)</h2>' +
-       '<label>पाठ / अध्याय का शीर्षक</label><input id="title" placeholder="जैसे: कक्षा 8 विज्ञान पाठ 1 संपूर्ण सामग्री">' +
+  openPopup('<h2>📑 पाठ सामग्री (3 PDF तक जोड़ें)</h2>' +
+       '<label>पाठ का शीर्षक</label><input id="title" placeholder="जैसे: कक्षा 7 सामाजिक विज्ञान पाठ 1">' +
        '<label>कक्षा/परीक्षा</label><select id="cat">' + catOpts + '</select>' +
-       '<label>विषय</label><input id="subject" placeholder="जैसे: विज्ञान">' +
-       '<label>विद्यार्थी शुल्क ₹ (0 = Free)</label><input id="price" type="number" min="0" value="0">' +
+       '<label>विषय (सटीक चयन)</label><select id="subject">' + subOpts + '</select>' +
+       '<label>शुल्क ₹ (0 = Free)</label><input id="price" type="number" min="0" value="0">' +
        '<hr>' +
        '<label><b>PDF 1 (मुख्य नोट्स):</b></label><input id="pdf1" type="file" accept="application/pdf">' +
-       '<label><b>PDF 2 (अभ्यास प्रश्नोत्तर / ऐच्छिक):</b></label><input id="pdf2" type="file" accept="application/pdf">' +
-       '<label><b>PDF 3 (कार्यपत्रक / टेस्ट / ऐच्छिक):</b></label><input id="pdf3" type="file" accept="application/pdf">' +
-       '<p id="formErr" class="note">प्रत्येक PDF 300KB - 400KB के अंदर रखें ताकि क्लाउड सिंक में समस्या न आए।</p>' +
-       '<button class="btn pay" onclick="savePdfBundle()">🚀 संपूर्ण पाठ सामग्री अपलोड करें</button> ' +
-       '<button class="btn danger" onclick="closeModal()">बंद करें</button>');
+       '<label><b>PDF 2 (अभ्यास प्रश्नोत्तर):</b></label><input id="pdf2" type="file" accept="application/pdf">' +
+       '<label><b>PDF 3 (कार्यपत्रक / टेस्ट):</b></label><input id="pdf3" type="file" accept="application/pdf">' +
+       '<p id="formErr" class="note">प्रत्येक PDF 300KB - 400KB के अंदर रखें।</p>' +
+       '<button class="btn pay" style="width:100%" onclick="savePdfBundle()">🚀 संपूर्ण पाठ सामग्री अपलोड करें</button><br><br>' +
+       '<button class="btn danger" style="width:100%" onclick="closePopup()">रद्द करें</button>');
 }
 
 function readFileAsDataURL(file) {
   return new Promise(function(resolve, reject) {
     if (!file) { resolve(null); return; }
-    if (file.size > 500000) { reject('फ़ाइल ' + file.name + ' का आकार 500KB से बड़ा है!'); return; }
+    if (file.size > 500000) { reject('फ़ाइल ' + file.name + ' 500KB से बड़ी है!'); return; }
     var r = new FileReader();
     r.onload = function() { resolve(r.result); };
     r.onerror = reject;
@@ -1070,11 +693,7 @@ async function savePdfBundle() {
   var f2 = $('pdf2').files[0];
   var f3 = $('pdf3').files[0];
 
-  if (!title || !f1) {
-    $('formErr').textContent = 'पाठ का शीर्षक और कम से कम PDF 1 अपलोड करना अनिवार्य है!';
-    return;
-  }
-
+  if (!title || !f1) return alert('पाठ का शीर्षक और कम से कम PDF 1 अपलोड करना अनिवार्य है!');
   $('formErr').textContent = 'अपलोड हो रहा है, कृपया प्रतीक्षा करें...';
 
   try {
@@ -1101,37 +720,13 @@ async function savePdfBundle() {
     items.unshift(x);
     save();
     if (window.syncToFirestore) window.syncToFirestore(x);
-    closeModal();
+    closePopup();
     renderAdmin();
     renderStudent();
-    ticker();
-    alert('पाठ की सभी PDF सफलता से प्रकाशित हो गईं!');
+    alert('पाठ की PDF सामग्री प्रकाशित हो गई!');
   } catch(err) {
     $('formErr').textContent = 'त्रुटि: ' + err;
   }
-}
-
-function openLinkForm() {
-  var catOpts = '';
-  var list = classes.slice(1).concat(exams);
-  for (var i = 0; i < list.length; i++) { catOpts += '<option>' + list[i] + '</option>'; }
-  show('<h2>🔗 लिंक जोड़ें</h2>' +
-       '<label>शीर्षक</label><input id="lt">' +
-       '<label>कक्षा/परीक्षा</label><select id="lc">' + catOpts + '</select>' +
-       '<label>लिंक</label><input id="lu" type="url" placeholder="https://...">' +
-       '<button class="btn" onclick="saveLink()">सेव करें</button> ' +
-       '<button class="btn danger" onclick="closeModal()">बंद करें</button>');
-}
-
-function saveLink() {
-  if (!$('lt').value || !$('lu').value) return alert('जानकारी भरें');
-  var x = { id: Date.now(), title: $('lt').value, category: $('lc').value, url: $('lu').value, type: 'link', price: 0 };
-  items.unshift(x);
-  save();
-  if (window.syncToFirestore) window.syncToFirestore(x);
-  closeModal();
-  renderAdmin();
-  ticker();
 }
 
 function renderAdmin() {
@@ -1139,14 +734,16 @@ function renderAdmin() {
     var cards = '';
     for (var i = 0; i < items.length; i++) {
       var x = items[i];
-      var typeText = (x.type === 'quiz') ? '📝 टेस्ट सीरीज' : (x.type === 'video') ? '📺 वीडियो' : (x.type === 'pdf') ? '📄 PDF बंडल' : (x.type === 'article') ? '📝 नोट्स' : '🔗 लिंक';
       cards += '<article class="card">' +
-        '<span class="badge">' + esc(x.category) + '</span>' +
-        '<h3>' + esc(x.title) + '</h3>' +
-        '<p>' + typeText + ' | शुल्क: ₹' + Number(x.price || 0) + '</p>' +
-        (x.type === 'quiz' ? '<button class="btn" style="background:#0984e3;margin-right:5px" onclick="startQuiz(items.find(function(a){return a.id===' + x.id + '}))">👁️ टेस्ट देखें</button>' : '') +
-        (x.type === 'video' ? '<button class="btn" style="background:#e17055;margin-right:5px" onclick="window.open(\'' + esc(x.url) + '\',\'_blank\')">▶️ चलाएं</button>' : '') +
-        '<button class="btn delete" onclick="deleteItem(' + x.id + ')">🗑️ डिलीट</button>' +
+        '<div>' +
+          '<span class="badge">' + esc(x.category) + '</span> ' +
+          '<span class="badge badge-sub">' + esc(x.subject) + '</span>' +
+          '<h3>' + esc(x.title) + '</h3>' +
+          '<p class="note">प्रकार: ' + x.type + ' | शुल्क: ₹' + Number(x.price || 0) + '</p>' +
+        '</div>' +
+        '<div style="margin-top:10px">' +
+          '<button class="btn delete" style="width:100%" onclick="deleteItem(' + x.id + ')">डिलीट करें</button>' +
+        '</div>' +
       '</article>';
     }
     $('adminMaterials').innerHTML = cards;
@@ -1162,63 +759,46 @@ function deleteItem(id) {
     if (window.deleteFromFirestore) window.deleteFromFirestore(id);
     renderAdmin();
     renderStudent();
-    ticker();
   }
 }
 
 function openItem(id) {
-  var x = items.find(function(a) { return a.id === id; });
+  var x = items.find(function(a) { return String(a.id) === String(id); });
   if (!x) return;
   if (x.type === 'quiz') {
     startQuiz(x);
-  } else if (x.type === 'video') {
-    window.open(x.url, '_blank');
   } else if (x.pdfBundle && x.pdfBundle.length > 0) {
     var btns = '';
     x.pdfBundle.forEach(function(p, idx) {
-      btns += '<a href="' + p.data + '" download="' + esc(x.title) + '_' + (idx+1) + '.pdf" class="btn" style="display:block;text-align:center;text-decoration:none;padding:12px;background:#2444aa">' + esc(p.name) + ' डाउनलोड करें 📥</a>';
+      btns += '<a href="' + p.data + '" download="' + esc(x.title) + '_' + (idx+1) + '.pdf" class="btn" style="display:block;text-align:center;text-decoration:none;padding:12px;background:#2444aa;margin-bottom:8px">' + esc(p.name) + ' डाउनलोड करें</a>';
     });
-    show('<h2>📂 ' + esc(x.title) + '</h2>' +
-         '<p>इस पाठ में निम्नलिखित अध्ययन सामग्री उपलब्ध है:</p>' +
-         '<div class="pdf-btn-group">' + btns + '</div><br>' +
-         '<button class="btn danger" onclick="closeModal()">बंद करें</button>');
+    openPopup('<h2>📑 ' + esc(x.title) + '</h2>' +
+         '<p>इस पाठ में निम्नलिखित फाइलें उपलब्ध हैं:</p>' +
+         '<div>' + btns + '</div><br>' +
+         '<button class="btn danger" style="width:100%" onclick="closePopup()">बंद करें</button>');
   } else if (x.data) {
-    var a = document.createElement('a');
-    a.href = x.data;
-    a.download = x.title + '.pdf';
-    a.click();
+    var a = document.createElement('a'); a.href = x.data; a.download = x.title + '.pdf'; a.click();
   } else if (x.text) {
-    show('<h2>' + esc(x.title) + '</h2><p><b>' + esc(x.category) + ' | ' + esc(x.subject || '') + '</b></p><pre style="white-space:pre-wrap;background:#f5f8ff;padding:12px;border-radius:10px">' + esc(x.text) + '</pre><button class="btn danger" onclick="closeModal()">बंद करें</button>');
-  } else if (x.url) {
-    window.open(x.url, '_blank');
+    openPopup('<h2>' + esc(x.title) + '</h2><p><b>' + esc(x.category) + ' | ' + esc(x.subject) + '</b></p><pre style="white-space:pre-wrap;background:#f5f8ff;padding:12px;border-radius:10px;max-height:50vh;overflow:auto">' + esc(x.text) + '</pre><button class="btn danger" style="width:100%" onclick="closePopup()">बंद करें</button>');
   }
 }
 
-// ==================== RAZORPAY PAYMENT ====================
 function handlePayOrOpen(id) {
-  var x = items.find(function(a) { return a.id === id; });
+  var x = items.find(function(a) { return String(a.id) === String(id); });
   if (!x) return;
   var amt = Number(x.price || 0);
 
-  show('<h2>🔒 सशुल्क सामग्री अनलॉक करें</h2>' +
+  openPopup('<h2>🔐 सशुल्क सामग्री अनलॉक करें</h2>' +
        '<p><b>' + esc(x.title) + '</b></p>' +
        '<h3>निर्धारित शुल्क: ₹' + amt + '</h3>' +
-       '<div style="text-align:center;padding:16px;background:#f0f8ff;border-radius:16px;margin:12px 0">' +
-       '<p style="margin:0 0 10px;font-weight:bold;color:#1e3c72">⚡ तुरंत ऑनलाइन भुगतान करें (Google Pay, PhonePe, Paytm, कार्ड या वॉलेट)</p>' +
-       '<button class="btn pay" style="font-size:16px;padding:14px 20px;width:100%" onclick="payWithRazorpay(' + x.id + ')">💳 Razorpay से ₹' + amt + ' सुरक्षित पे करें</button>' +
+       '<div style="text-align:center;padding:14px;background:#f0f8ff;border-radius:14px;margin:10px 0">' +
+       '<button class="btn pay" style="font-size:16px;padding:14px;width:100%" onclick="payWithRazorpay(\'' + x.id + '\')">⚡ Razorpay से ₹' + amt + ' सुरक्षित पे करें</button>' +
        '</div>' +
-       '<details style="margin-top:14px;border:1px dashed #b0c4de;padding:10px;border-radius:10px">' +
-       '<summary style="cursor:pointer;font-weight:bold;color:#555">वैकल्पिक: मैन्युअल UPI / UTR से सत्यापित करें</summary>' +
-       '<div class="ad" style="margin-top:8px"><b>UPI ID: 9783065620@ybl</b><br>' +
-       '<label style="display:block;margin-top:8px">12 अंकों का UTR / Transaction No.:</label>' +
-       '<input id="utr" placeholder="जैसे: 4289xxxxxxxx">' +
-       '<button class="btn" style="background:#0984e3;margin-top:6px" onclick="unlockItem(' + x.id + ')">✅ UTR से खोलें</button>' +
-       '</div></details>' +
-       '<br><button class="btn danger" onclick="closeModal()">रद्द करें</button>');
+       '<button class="btn danger" style="width:100%" onclick="closePopup()">रद्द करें</button>');
 }
 
 function payWithRazorpay(id) {
-  var x = items.find(function(a) { return a.id === id; });
+  var x = items.find(function(a) { return String(a.id) === String(id); });
   if (!x) return;
   var amt = Math.max(1, Number(x.price || 5));
 
@@ -1229,15 +809,15 @@ function payWithRazorpay(id) {
     "name": "ज्ञान गंगा डिजिटल लर्निंग",
     "description": x.title + " - अनलॉक",
     "handler": function (response) {
-      alert("भुगतान सफल! पेमेंट आईडी: " + response.razorpay_payment_id);
+      alert("भुगतान सफल! आईडी: " + response.razorpay_payment_id);
       unlockedItems[id] = true;
       try { localStorage.setItem('gg_unlocked_items', JSON.stringify(unlockedItems)); } catch(e) {}
-      closeModal();
+      closePopup();
       renderStudent();
       openItem(id);
     },
     "prefill": { "name": "विद्यार्थी", "contact": "" },
-    "theme": { "color": "#1e3c72" }
+    "theme": { "color": "#1a237e" }
   };
 
   try {
@@ -1248,23 +828,7 @@ function payWithRazorpay(id) {
   }
 }
 
-function unlockItem(id) {
-  var utr = $('utr').value.trim();
-  if (!utr || utr.length < 8) {
-    alert('कृपया वैध UTR / Transaction नंबर दर्ज करें!');
-    return;
-  }
-  unlockedItems[id] = true;
-  try { localStorage.setItem('gg_unlocked_items', JSON.stringify(unlockedItems)); } catch(e) {}
-  closeModal();
-  renderStudent();
-  alert('भुगतान सत्यापित! सामग्री खोली जा रही है...');
-  openItem(id);
-}
-
 renderStudent();
-renderStudentComingSoon();
-updateLiveClassIndicator();
 </script>
 
 <!-- ==================== FIREBASE REALTIME CLOUD SYNC ==================== -->
@@ -1281,4 +845,28 @@ updateLiveClassIndicator();
     appId: "1:22015841406:web:d33bc6888f04caebf0b42f"
   };
 
-  const
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const colRef = collection(db, "materials");
+
+  window.syncToFirestore = async function(item) {
+    try { await setDoc(doc(db, "materials", String(item.id)), item); } catch(err) { console.error(err); }
+  };
+
+  window.deleteFromFirestore = async function(id) {
+    try { await deleteDoc(doc(db, "materials", String(id))); } catch(err) { console.error(err); }
+  };
+
+  onSnapshot(colRef, (snapshot) => {
+    let cloudItems = [];
+    snapshot.forEach((docSnap) => { cloudItems.push(docSnap.data()); });
+    if (cloudItems.length > 0) {
+      items = cloudItems.sort((a,b) => b.id - a.id);
+      save();
+      renderStudent();
+      if (isTeacherLoggedIn) renderAdmin();
+    }
+  });
+</script>
+</body>
+</html>
