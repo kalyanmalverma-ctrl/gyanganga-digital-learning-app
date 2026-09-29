@@ -178,7 +178,7 @@ small{display:block;margin-top:4px;font-size:12px;opacity:0.9}
 
   <div class="tabs-wrap">
     <button id="studentTabBtn" class="tab student active-tab" onclick="openStudentTab()">👨‍🎓 विद्यार्थी टैब <small>KBG गेम • सामग्री • PDF</small></button>
-    <button id="teacherTabBtn" class="tab teacher" onclick="openTeacherTab()">👩‍🏫 शिक्षक टैब <small>पासवर्ड सुरक्षित • Gemini AI स्टूडियो</small></button>
+    <button id="teacherTabBtn" class="tab teacher" onclick="openTeacherTab()">👩‍🏫 शिक्षक टैब <small>पासवर्ड सुरक्षित • AI स्टूडियो</small></button>
   </div>
 
   <!-- ==================== 1. विद्यार्थी व्यू ==================== -->
@@ -291,11 +291,11 @@ small{display:block;margin-top:4px;font-size:12px;opacity:0.9}
         <button class="btn danger" onclick="logoutTeacher()">🔒 लॉगआउट करें</button>
       </div>
 
-      <!-- 👑 Google Gemini AI उन्नत प्रश्न निर्माण व पब्लिशिंग केंद्र -->
+      <!-- 👑 उन्नत AI प्रश्न निर्माण व पब्लिशिंग केंद्र -->
       <section class="section" style="border: 2.5px solid #ffd700; background: #fffdf5;">
-        <h2 style="color:#b7791f;margin-top:0">👑 Google Gemini AI प्रश्न निर्माण व पब्लिशिंग सेंटर</h2>
+        <h2 style="color:#b7791f;margin-top:0">👑 AI उन्नत प्रश्न निर्माण, समीक्षा व पब्लिशिंग सेंटर</h2>
         <p style="font-size:13px;color:#64748b;margin-bottom:12px">
-          विषय और कक्षा चुनें। आधिकारिक Gemini AI इंजन द्वारा स्पष्टीकरण सहित 15 श्रेणीबद्ध प्रश्न तैयार किए जाएंगे। पिछले प्रश्न सुरक्षित रहते हुए नए प्रश्न रैंडम सरल से कठिनता की ओर गेम में लाइव जुड़ जाएंगे।
+          विषय और कक्षा चुनें। AI स्पष्टीकरण सहित 15 श्रेणीबद्ध प्रश्न बनाएगा। फिर तय करें कि इन्हें **कौन बनेगा ज्ञानपति** में डालना है या **सामान्य टेस्ट पेपर** के रूप में प्रकाशित करना है।
         </p>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;background:#fff;padding:14px;border-radius:14px;border:1px solid #fed7aa;margin-bottom:14px">
@@ -342,7 +342,7 @@ small{display:block;margin-top:4px;font-size:12px;opacity:0.9}
         </div>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button class="btn" style="background:#6c5ce7;font-size:14px" onclick="generateGraded15QuestionsWithGemini()">✨ Gemini AI से 15 प्रश्न बनाएँ</button>
+          <button class="btn" style="background:#6c5ce7;font-size:14px" onclick="generateGraded15Questions()">⚡ 15 प्रश्न और स्पष्टीकरण बनाएँ (AI)</button>
           <button class="btn" style="background:linear-gradient(90deg,#ff8c00,#e65100);font-size:14px" onclick="saveKbgSettingsOnly()">💾 केवल शुल्क सेव करें</button>
         </div>
 
@@ -361,7 +361,7 @@ small{display:block;margin-top:4px;font-size:12px;opacity:0.9}
           <div style="margin-top:16px;padding:12px;background:#f8fafc;border-radius:12px;border:1px solid #cbd5e1">
             <label style="font-weight:bold;color:#1e293b;font-size:14px;display:block;margin-bottom:6px">🎯 इन प्रश्नों को कहाँ लाइव प्रकाशित करना चाहते हैं?</label>
             <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
-              <label style="cursor:pointer;font-weight:bold;color:#047857"><input type="radio" name="publishTarget" value="kbg" checked> 👑 'कौन बनेगा ज्ञानपति' गेम में (रैंडम / श्रेणीबद्ध)</label>
+              <label style="cursor:pointer;font-weight:bold;color:#047857"><input type="radio" name="publishTarget" value="kbg" checked> 👑 'कौन बनेगा ज्ञानपति' गेम में</label>
               <label style="cursor:pointer;font-weight:bold;color:#1d4ed8"><input type="radio" name="publishTarget" value="test"> 📝 सामान्य टेस्ट पेपर सूची में (क्विज)</label>
             </div>
             
@@ -374,13 +374,13 @@ small{display:block;margin-top:4px;font-size:12px;opacity:0.9}
       </section>
 
       <section class="section" style="border: 2px solid #6c5ce7; background: #faf9ff;">
-        <h2 style="color:#4a148c;margin-top:0">⚡ Gemini AI सामान्य नोट्स व टेस्ट केंद्र</h2>
+        <h2 style="color:#4a148c;margin-top:0">⚡ AI सामान्य नोट्स व टेस्ट केंद्र</h2>
         <div class="search" style="margin:10px 0">
           <input id="geminiQuery" placeholder="जैसे: कक्षा 8 विज्ञान सूक्ष्मजीव...">
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button class="btn" style="background:#6c5ce7" onclick="generateWithGeminiAI('notes')">✨ बिंदुवार नोट्स बनाएँ</button>
-          <button class="btn" style="background:#0984e3" onclick="generateWithGeminiAI('quiz')">📝 20 वस्तुनिष्ठ प्रश्न बनाएँ</button>
+          <button class="btn" style="background:#6c5ce7" onclick="generateWithFreeAI('notes')">✨ बिंदुवार नोट्स बनाएँ</button>
+          <button class="btn" style="background:#0984e3" onclick="generateWithFreeAI('quiz')">📝 20 वस्तुनिष्ठ प्रश्न बनाएँ</button>
         </div>
         <p id="geminiStatus" style="font-weight: bold; color: #2444aa; margin: 6px 0 0;"></p>
       </section>
@@ -704,28 +704,27 @@ function logoutTeacher() {
   }
 }
 
-// 👑 Google Gemini AI API आधारित उन्नत प्रश्न निर्माण व पब्लिशिंग इंजन
-async function generateGraded15QuestionsWithGemini() {
+// उन्नत और सटीक AI प्रश्न जनरेटर इंजन
+async function generateGraded15Questions() {
   var sub = $('kbgSubjectSelect').value;
   var cls = $('kbgClassSelect').value;
   var topic = $('kbgTopicSpecific').value.trim();
   var price = Number($('kbgGamePrice').value || 0);
 
   var topicStr = topic ? ("विषय/टॉपिक: " + topic) : ("मानक पाठ्यक्रम");
-  $('kbgAiStatus').textContent = '⏳ Google Gemini AI इंजन से 15 श्रेणीबद्ध प्रश्न तैयार किए जा रहे हैं...';
+  $('kbgAiStatus').textContent = '⏳ AI स्पष्टीकरण सहित 15 श्रेणीबद्ध प्रश्न तैयार कर रहा है...';
 
-  var systemInstruction = "आप राजस्थान बोर्ड RBSE और NCERT के वरिष्ठ शिक्षक हैं। आपको कक्षा " + cls + " के लिए '" + sub + "' (" + topicStr + ") पर ठीक 15 वस्तुनिष्ठ बहुविकल्पीय प्रश्न (MCQ) और उनका स्पष्टीकरण (explanation) तैयार करना है।\n" +
+  var promptText = "आप राजस्थान बोर्ड RBSE और NCERT के वरिष्ठ शिक्षक हैं। आपको कक्षा " + cls + " के लिए '" + sub + "' (" + topicStr + ") पर ठीक 15 वस्तुनिष्ठ बहुविकल्पीय प्रश्न (MCQ) और उनका स्पष्टीकरण (explanation) तैयार करना है।\n" +
   "कड़ाई से पालन करें:\n" +
   "- प्रश्न 1 से 3: बहुत सरल (बुनियादी)\n" +
   "- प्रश्न 4 से 8: मध्यम स्तर\n" +
   "- प्रश्न 9 से 12: कठिन विश्लेषणात्मक\n" +
   "- प्रश्न 13 से 15: अत्यंत कठिन (HOTS)\n" +
-  "- आउटपुट केवल और केवल शुद्ध मान्य JSON एरे में होना चाहिए, बिना किसी अतिरिक्त टेक्स्ट के:\n" +
+  "- उत्तर प्रारूप केवल और केवल शुद्ध मान्य JSON एरे में होना चाहिए:\n" +
   '[{"q":"प्रश्न यहाँ लिखें","options":["विकल्प A","विकल्प B","विकल्प C","विकल्प D"],"ans":0,"diff":"सरल","exp":"स्पष्टीकरण यहाँ लिखें"}]';
 
   try {
-    // आधिकारिक Gemini AI मॉडल एंडपॉइंट (Pollinations AI आधारित सुरक्षित गेटवे)
-    var apiUrl = "https://text.pollinations.ai/" + encodeURIComponent(systemInstruction);
+    var apiUrl = "https://text.pollinations.ai/" + encodeURIComponent(promptText);
     var response = await fetch(apiUrl);
     var text = await response.text();
 
@@ -745,9 +744,9 @@ async function generateGraded15QuestionsWithGemini() {
     }
 
     renderKbgReviewList(sub, cls, price);
-    $('kbgAiStatus').textContent = '✅ Gemini AI द्वारा 15 प्रश्न सफलतापूर्वक तैयार कर लिए गए हैं! नीचे समीक्षा करें।';
+    $('kbgAiStatus').textContent = '✅ 15 प्रश्न सफलतापूर्वक तैयार हो गए हैं! नीचे समीक्षा करें।';
   } catch (err) {
-    $('kbgAiStatus').textContent = 'Gemini AI कनेक्ट करने में असमर्थ। हमने उच्च गुणवत्ता का श्रेणीबद्ध सेट लोड किया है, समीक्षा करें।';
+    $('kbgAiStatus').textContent = 'AI व्यस्त है। हमने उच्च गुणवत्ता का श्रेणीबद्ध सेट लोड किया है, समीक्षा करें।';
     kbgPendingQuestions = JSON.parse(JSON.stringify(GRADED_DEFAULT_QUESTIONS));
     renderKbgReviewList(sub, cls, price);
   }
@@ -796,7 +795,7 @@ function approveAndPublishKbg() {
   if (target === 'kbg') {
     kbgActiveQuestions = JSON.parse(JSON.stringify(kbgPendingQuestions));
     localStorage.setItem('kbg_active_questions', JSON.stringify(kbgActiveQuestions));
-    alert('सफलता! Gemini AI द्वारा बनाए गए 15 प्रश्न "कौन बनेगा ज्ञानपति" गेम में लाइव इंजेक्ट हो गए हैं।');
+    alert('सफलता! ये 15 प्रश्न "कौन बनेगा ज्ञानपति" गेम में लाइव प्रसारित हो गए हैं।');
   } else {
     var quizItem = {
       id: Date.now(),
@@ -1269,17 +1268,17 @@ function publishEditor() {
   alert('प्रकाशित हो गया!');
 }
 
-async function generateWithGeminiAI(type) {
+async function generateWithFreeAI(type) {
   var query = $('geminiQuery').value.trim();
   if (!query) return;
-  $('geminiStatus').textContent = '⏳ Gemini AI नोट्स तैयार कर रहा है...';
+  $('geminiStatus').textContent = '⏳ तैयार हो रहा है...';
   try {
-    var res = await fetch("https://text.pollinations.ai/" + encodeURIComponent("आप एक विशेषज्ञ शिक्षक हैं। निम्न टॉपिक पर विस्तृत और स्पष्ट नोट्स तैयार करें: " + query));
+    var res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(query));
     var txt = await res.text();
     $('editorTitle').value = query;
     $('editorText').value = txt;
-    $('geminiStatus').textContent = '✅ तैयार हो गया!';
-  } catch(e) { $('geminiStatus').textContent = 'त्रुटि हुई।'; }
+    $('geminiStatus').textContent = '✅ तैयार!';
+  } catch(e) { $('geminiStatus').textContent = ''; }
 }
 
 function openTestMaker() {
