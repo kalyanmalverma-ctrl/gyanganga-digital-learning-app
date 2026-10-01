@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>ज्ञान गंगा डिजिटल लर्निंग पोर्टल</title>
 
-<!-- Razorpay Checkout SDK -->
+<!-- Razorpay Checkout SDK & Confetti -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<!-- डिजिटल आतिशबाजी (Confetti) -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
@@ -31,16 +30,29 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
 .ticker span{display:inline-block;animation:tickerMove 22s linear infinite}
 @keyframes tickerMove{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
 
+#liveBroadcastAlert{
+  display:none;
+  background:linear-gradient(90deg,#ff0055,#ff5252);
+  color:#fff;
+  border-radius:14px;
+  padding:12px 16px;
+  margin:12px 0;
+  text-align:center;
+  font-weight:bold;
+  font-size:15px;
+  box-shadow:0 6px 20px rgba(255,0,85,0.45);
+}
+
 .search-container{background:#fff;padding:14px;border-radius:16px;margin:14px 0;box-shadow:0 4px 15px rgba(0,0,0,0.04)}
 .search{display:flex;gap:8px}
 .search input{flex:1;border:2px solid #dce5f5;border-radius:12px;padding:10px 14px;font-size:15px;outline:none}
 .search input:focus{border-color:#2444aa}
-.subject-chips{display:flex;gap:8px;overflow-x:auto;padding-top:10px}
-.sub-chip{background:#f1f5f9;border:1px solid #cbd5e1;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:bold;cursor:pointer;white-space:nowrap}
+.subject-chips{display:flex;gap:8px;overflow-x:auto;padding-top:10px;scrollbar-width:thin}
+.sub-chip{background:#f1f5f9;border:1px solid #cbd5e1;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:bold;cursor:pointer;white-space:nowrap;transition:0.2s}
 .sub-chip.active{background:#2444aa;color:#fff;border-color:#2444aa}
 
 .btn{border:0;border-radius:12px;color:#fff;font-weight:bold;cursor:pointer;padding:10px 16px;transition:0.2s}
-.btn:hover{opacity:0.9}
+.btn:hover{opacity:0.92}
 .pay{background:#0a8e61!important}
 .danger{background:#d92d50!important}
 
@@ -52,11 +64,41 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
 .purple{background:linear-gradient(135deg,#8e2de2,#4a00e0)}
 
 .section{background:#fff;border-radius:20px;padding:18px;margin:16px 0;box-shadow:0 6px 20px rgba(0,0,0,0.05)}
-.head{display:flex;justify-content:space-between;align-items:center}
-.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-top:10px}
-.chip{border:0;border-radius:12px;padding:10px 6px;color:#fff;font-weight:bold;font-size:13px;cursor:pointer;text-align:center;box-shadow:0 3px 8px rgba(0,0,0,0.1)}
-.chip.active{outline:3px solid #1a237e}
-.col-0{background:#3b82f6}.col-1{background:#ef4444}.col-2{background:#10b981}.col-3{background:#f59e0b}.col-4{background:#8b5cf6}.col-5{background:#ec4899}.col-6{background:#06b6d4}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+
+.chips-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(105px, 1fr));
+  gap:10px;
+  margin-top:10px;
+  width:100%;
+}
+.chip-btn{
+  border:0;
+  border-radius:12px;
+  padding:12px 6px;
+  color:#fff;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+  text-align:center;
+  box-shadow:0 3px 8px rgba(0,0,0,0.12);
+  transition:all 0.15s ease-in-out;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.chip-btn:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,0.18)}
+.chip-btn.active{outline:3.5px solid #1a237e;box-shadow:0 0 12px rgba(26,35,126,0.6);transform:scale(1.03)}
+.col-0{background:#2563eb}
+.col-1{background:#dc2626}
+.col-2{background:#059669}
+.col-3{background:#d97706}
+.col-4{background:#7c3aed}
+.col-5{background:#db2777}
+.col-6{background:#0891b2}
 
 .materials{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:12px}
 .card{border:1.5px solid #e1e9f8;border-radius:16px;padding:16px;background:#fafcff;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 4px 10px rgba(0,0,0,0.03)}
@@ -65,38 +107,18 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
 .free{color:#07955c;font-weight:900;margin:6px 0}
 .price{color:#4c2be8;font-weight:900;margin:6px 0}
 
-/* ==================== आकर्षक कौन बनेगा ज्ञानपति बैनर (Highlighted) ==================== */
+/* कौन बनेगा ज्ञानपति बैनर व ताज़ा विजेता */
 .gyanpati-highlight{
   position:relative;
   margin:16px 0;
   border-radius:22px;
-  padding:20px 16px;
+  padding:22px 16px;
   color:#fff;
   background:radial-gradient(circle at 50% 20%,#1a3ea3 0,#091854 60%,#020822 100%);
   border:2.5px solid #f6c453;
   text-align:center;
   box-shadow:0 0 25px rgba(246,196,83,0.4), 0 10px 30px rgba(0,0,0,0.4);
-  animation:gpGlowBox 3s ease-in-out infinite alternate;
 }
-@keyframes gpGlowBox{
-  0%{box-shadow:0 0 15px rgba(246,196,83,0.3), 0 8px 25px rgba(0,0,0,0.35); border-color:#f6c453;}
-  100%{box-shadow:0 0 30px rgba(246,196,83,0.7), 0 10px 35px rgba(74,105,189,0.5); border-color:#ffe599;}
-}
-
-.gp-ribbon{
-  display:inline-block;
-  background:linear-gradient(90deg,#ff0844,#ffb199);
-  color:#fff;
-  font-size:11px;
-  font-weight:900;
-  padding:4px 12px;
-  border-radius:20px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  margin-bottom:6px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.3);
-}
-
 .gp-title{
   font-size:clamp(24px, 5vw, 34px);
   font-weight:900;
@@ -104,73 +126,164 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
   text-shadow:0 2px 10px rgba(255,216,91,0.5);
   margin:4px 0;
 }
-
 .gp-play{
   margin-top:14px;
   background:linear-gradient(135deg,#f7c948,#ff8a00);
   color:#281200;
   font-weight:900;
-  padding:14px 30px;
+  padding:14px 32px;
   border-radius:35px;
   font-size:17px;
-  letter-spacing:0.5px;
-  box-shadow:0 6px 20px rgba(247,201,72,0.45);
-  animation:gpButtonPulse 1.8s infinite;
+  cursor:pointer;
 }
-@keyframes gpButtonPulse{
-  0%{transform:scale(1);box-shadow:0 0 0 0 rgba(247,201,72,0.7);}
-  70%{transform:scale(1.04);box-shadow:0 0 0 14px rgba(247,201,72,0);}
-  100%{transform:scale(1);box-shadow:0 0 0 0 rgba(247,201,72,0);}
-}
-
 .gp-money{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:10px}
 .gp-money span{font-size:12px;font-weight:bold;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,0.12);color:#ffe9a6;border:1px solid rgba(255,216,91,0.35)}
 
-.gp-winner-marquee{white-space:nowrap;overflow:hidden;background:#071342;border:1.5px solid #f6c453;border-radius:10px;padding:8px 0;margin:10px 0}
-.gp-winner-track{display:inline-block;padding-left:100%;animation:gpWinMarquee 24s linear infinite;color:#ffd85b;font-weight:bold}
-@keyframes gpWinMarquee{to{transform:translateX(-100%)}}
+.winner-strip{
+  margin-top:12px;
+  background:rgba(255,215,0,0.18);
+  border:1.5px dashed #ffd700;
+  border-radius:14px;
+  padding:8px 14px;
+  display:inline-block;
+  color:#fff;
+  font-size:14px;
+}
 
-/* शिक्षक लॉगिन बॉक्स */
 .teacher-login-box{max-width:400px;margin:30px auto;background:#fff;border-radius:20px;padding:24px;text-align:center;border:1.5px solid #dce5f5;box-shadow:0 8px 25px rgba(0,0,0,0.06)}
 .input-row{text-align:left;margin-bottom:12px}
 .input-row label{display:block;font-size:13px;font-weight:bold;margin-bottom:4px}
 .input-row input,.input-row select{width:100%;padding:10px 12px;border:1.5px solid #d5dfef;border-radius:10px;outline:none;font-size:14px}
-
 .adminbar{background:linear-gradient(100deg,#1e0b5a,#5c13b8);color:#fff;border-radius:18px;padding:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
 .editorInput{width:100%;padding:10px;border:1.5px solid #d5dfef;border-radius:8px;margin:4px 0 10px;font:inherit}
 
-/* फुल स्क्रीन गेम */
-#fullscreenGameContainer{display:none;position:fixed;inset:0;width:100vw;height:100vh;background:radial-gradient(circle at 50% 30%,#152e75 0,#060f33 60%,#010517 100%);z-index:999999;padding:14px;flex-direction:column;justify-content:space-between;color:#fff}
-.gp-fs-topbar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(246,196,83,0.3);padding-bottom:8px}
-.gp-fs-body{display:flex;gap:14px;flex:1;max-width:1200px;margin:auto;width:100%;align-items:stretch;overflow:hidden;padding:8px 0}
+/* फुल स्क्रीन गेम और घूमता हुआ चक्र */
+#fullscreenGameContainer{
+  display:none;
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  background:radial-gradient(circle at 50% 30%,#152e75 0,#060f33 60%,#010517 100%);
+  z-index:999999;
+  padding:14px;
+  flex-direction:column;
+  justify-content:space-between;
+  color:#fff;
+  overflow:hidden;
+}
+
+.chakra-bg{
+  position:absolute;
+  top:50%;
+  left:40%;
+  transform:translate(-50%, -50%);
+  width:min(500px, 85vw);
+  height:min(500px, 85vw);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:1;
+  opacity:0.18;
+  animation:spinChakra 30s linear infinite;
+  display:grid;
+  place-items:center;
+}
+@keyframes spinChakra{
+  from{transform:translate(-50%, -50%) rotate(0deg)}
+  to{transform:translate(-50%, -50%) rotate(360deg)}
+}
+
+.chakra-wheel{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  border:8px double #f6c453;
+  box-shadow:0 0 45px rgba(246,196,83,0.5), inset 0 0 35px rgba(246,196,83,0.4);
+  position:relative;
+  display:grid;
+  place-items:center;
+}
+.chakra-center{
+  font-size:20px;
+  font-weight:900;
+  text-align:center;
+  color:#ffd85b;
+  letter-spacing:1.5px;
+  text-shadow:0 0 8px rgba(0,0,0,0.8);
+}
+.chakra-spoke{
+  position:absolute;
+  width:100%;
+  height:2px;
+  background:rgba(246,196,83,0.4);
+}
+
+.gp-fs-topbar{
+  position:relative;
+  z-index:10;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid rgba(246,196,83,0.3);
+  padding-bottom:8px;
+}
+.gp-fs-body{
+  position:relative;
+  z-index:10;
+  display:flex;
+  gap:14px;
+  flex:1;
+  max-width:1200px;
+  margin:auto;
+  width:100%;
+  align-items:stretch;
+  overflow:hidden;
+  padding:8px 0;
+}
 .gp-fs-question-area{flex:1;display:flex;flex-direction:column;justify-content:center}
 .gp-fs-sidebar{width:220px;border-left:2px solid rgba(246,196,83,0.3);padding-left:12px;display:flex;flex-direction:column;align-items:center}
-.gp-circle-logo{width:68px;height:68px;border-radius:50%;background:#1e42b0;border:3px solid #f6c453;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;animation:spinLogo 20s linear infinite}
-@keyframes spinLogo{to{transform:rotate(360deg)}}
 .gp-timer-badge{background:#d92d50;color:#fff;border-radius:50%;width:55px;height:55px;display:grid;place-items:center;font-size:22px;font-weight:900;border:3px solid #ff7675;margin:8px 0}
 .gp-money-tree{width:100%;flex:1;background:#050d28;border:1.5px solid #f6c453;border-radius:10px;padding:4px;display:flex;flex-direction:column-reverse;justify-content:space-between;overflow:hidden}
 .tree-level{display:flex;justify-content:space-between;padding:2px 6px;font-size:10px;color:#f1c40f;border-radius:4px}
 .tree-level.active{background:#ff9800;color:#000;font-weight:bold}
-.gp-question-box{background:#0c1d53;border:2px solid #f6c453;border-radius:16px;padding:18px;font-size:18px;font-weight:bold;text-align:center;margin:10px 0}
+.gp-question-box{background:#0c1d53;border:2px solid #f6c453;border-radius:16px;padding:18px;font-size:18px;font-weight:bold;text-align:center;margin:10px 0;line-height:1.4}
 .gp-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.gp-opt-btn{background:#0d2059;border:1.5px solid #4a69bd;color:#fff;padding:12px;border-radius:12px;font-size:15px;font-weight:bold;cursor:pointer;text-align:left}
-.gp-opt-btn.correct{background:#00b894!important}
-.gp-opt-btn.wrong{background:#d63031!important}
-.gp-opt-btn.disabled{opacity:0.2;pointer-events:none}
-.gp-disclaimer{background:#8e0e00;border:1px solid #f6c453;border-radius:8px;padding:6px;overflow:hidden;white-space:nowrap;font-size:12px}
-.gp-disclaimer-track{display:inline-block;padding-left:100%;animation:noticeMove 26s linear infinite;color:#ffd85b}
-@keyframes noticeMove{to{transform:translateX(-100%)}}
-.gp-certificate{background:#fff;color:#17233f;border:5px double #c99b27;border-radius:14px;padding:20px;text-align:center}
+.gp-opt-btn{background:#0d2059;border:1.5px solid #4a69bd;color:#fff;padding:12px;border-radius:12px;font-size:15px;font-weight:bold;cursor:pointer;text-align:left;transition:0.15s}
+.gp-opt-btn:hover{background:#1a3a8a}
+.gp-opt-btn.correct{background:#00b894!important;border-color:#55efc4!important}
+.gp-opt-btn.wrong{background:#d63031!important;border-color:#ff7675!important}
+.gp-opt-btn.disabled{opacity:0.25;pointer-events:none}
+
+/* ई-प्रमाण पत्र स्टाइल */
+.gp-certificate{
+  background:#fffdf7;
+  color:#17233f;
+  border:8px double #c99b27;
+  border-radius:16px;
+  padding:24px;
+  text-align:center;
+  position:relative;
+  box-shadow:0 0 25px rgba(201,155,39,0.3);
+}
 
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;padding:14px;z-index:99999}
 .dialog{background:#fff;border-radius:20px;padding:20px;width:min(680px,100%);max-height:90vh;overflow:auto}
 
 @media(max-width:720px){
   .tiles{grid-template-columns:repeat(2,1fr)}
+  .chips-grid{grid-template-columns:repeat(auto-fill, minmax(85px, 1fr))}
   .gp-fs-body{flex-direction:column-reverse}
   .gp-fs-sidebar{width:100%;border-left:0;border-top:1px solid rgba(246,196,83,0.3);padding:6px 0}
   .gp-money-tree{max-height:130px}
   .gp-options-grid{grid-template-columns:1fr}
+  .chakra-bg{left:50%;width:75vw;height:75vw}
+}
+
+@media print {
+  body * { visibility: hidden; }
+  #dialogBox, #dialogBox * { visibility: visible; }
+  #dialogBox { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none; }
+  .no-print { display: none !important; }
 }
 </style>
 </head>
@@ -188,15 +301,20 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
   </header>
 
   <div class="ticker">
-    <span>ज्ञान गंगा डिजिटल लर्निंग पर ऑनलाइन 20 मार्क्स टेस्ट सीरीज़ और "कौन बनेगा ज्ञानपति" का लाइव सत्र शुरू हो चुका है...</span>
+    <span>ज्ञान गंगा डिजिटल लर्निंग पर ऑनलाइन टेस्ट सीरीज़ और "कौन बनेगा ज्ञानपति" का लाइव सत्र शुरू हो चुका है...</span>
+  </div>
+
+  <div id="liveBroadcastAlert">
+    ⚡ <b>शिक्षक द्वारा नए प्रश्न लाइव कर दिए गए हैं!</b> नए प्रश्नों के साथ मुकाबला खेलें 👉 
+    <button class="btn" style="background:#fff;color:#ff0055;padding:5px 12px;font-size:13px;margin-left:6px;font-weight:900" onclick="openGameReg()">अभी खेलें 🎮</button>
   </div>
 
   <div class="tabs-wrap">
     <button id="studentTabBtn" class="tab student active-tab" onclick="switchTab('student')">
-      👨‍🎓 विद्यार्थी टैब <small>सामग्री • 20 अंक टेस्ट • ज्ञानपति</small>
+      👨‍🎓 विद्यार्थी टैब <small>सामग्री • टेस्ट • ज्ञानपति</small>
     </button>
     <button id="teacherTabBtn" class="tab teacher" onclick="switchTab('teacher')">
-      👩‍🏫 शिक्षक टैब <small>प्रबंधन • ऑफ़लाइन/कस्टम प्रश्न बैंक</small>
+      👩‍🏫 शिक्षक टैब <small>प्रबंधन • 100-200 बल्क प्रश्न बैंक</small>
     </button>
   </div>
 
@@ -218,20 +336,21 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
       </div>
     </div>
 
-    <!-- ज्ञानपति हाईलाइट बैनर (High Impact Design) -->
+    <!-- कौन बनेगा ज्ञानपति मुख्य बैनर + नवीनतम विजेता -->
     <div class="gyanpati-highlight">
-      <span class="gp-ribbon">⭐ LIVE शैक्षणिक क्विज़ मुकाबला ⭐</span>
       <div style="font-size:36px;margin:2px 0">🏆💰🏆</div>
       <div class="gp-title">कौन बनेगा ज्ञानपति</div>
       <p style="font-size:15px;color:#ffeaa7;font-weight:600">पहले 3 प्रश्न बिल्कुल FREE • फिर आगे खेलने हेतु नाममात्र शुल्क (<span id="bannerFeeTxt">₹5</span>)</p>
+      
+      <!-- विजेता का लाइव नाम -->
+      <div id="latestWinnerBanner" class="winner-strip">
+        🌟 <b>हालिया ज्ञानपति विजेता:</b> <span id="latestWinnerName" style="color:#ffd85b;font-weight:bold">प्रतीक्षारत...</span>
+      </div>
+
       <div class="gp-money">
         <span>₹1,000</span><span>₹10,000</span><span>₹3,20,000</span><span>₹50,00,000</span><span>🏆 ज्ञानपति सम्मान</span>
       </div>
       <button class="btn gp-play" onclick="openGameReg()">🎮 खेलें — कौन बनेगा ज्ञानपति?</button>
-    </div>
-
-    <div class="gp-winner-marquee">
-      <div class="gp-winner-track" id="gpWinnerTrack">🏆 वर्तमान ज्ञानपति विजेता: पहला विजेता बनने के लिए अभी खेलें!</div>
     </div>
 
     <div class="tiles">
@@ -243,15 +362,18 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
 
     <section class="section">
       <div class="head">
-        <h2>📘 कक्षा चयन (कक्षा 1 से 12)</h2>
+        <h2>📘 कक्षा चयन (कक्षा 1 से 12 तक)</h2>
         <button class="btn" style="background:#2444aa;padding:6px 12px;font-size:12px" onclick="setCat('सभी')">सभी कक्षाएँ</button>
       </div>
-      <div id="classesList" class="chips"></div>
+      <div id="classesList" class="chips-grid"></div>
     </section>
 
     <section class="section">
-      <h2>🎯 प्रतियोगी परीक्षाएँ</h2>
-      <div id="examsList" class="chips"></div>
+      <div class="head">
+        <h2>🎯 प्रतियोगी परीक्षाएँ</h2>
+        <button class="btn" style="background:#2444aa;padding:6px 12px;font-size:12px" onclick="setCat('सभी')">सभी परीक्षाएँ</button>
+      </div>
+      <div id="examsList" class="chips-grid"></div>
     </section>
 
     <section class="section">
@@ -273,11 +395,11 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
       
       <div class="input-row">
         <label>शिक्षक यूज़र आईडी</label>
-        <input type="text" id="tUserInp" autocomplete="off">
+        <input type="text" id="tUserInp" autocomplete="off" placeholder="यूज़र आईडी दर्ज करें">
       </div>
       <div class="input-row">
         <label>पासवर्ड</label>
-        <input type="password" id="tPassInp" autocomplete="off">
+        <input type="password" id="tPassInp" autocomplete="off" placeholder="••••••••">
       </div>
       
       <button class="btn pay" style="width:100%;font-size:15px;padding:11px" onclick="doTeacherLogin()">🔓 प्रवेश करें</button>
@@ -290,113 +412,84 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
         <h2 style="font-size:18px;width:100%">👩‍🏫 शिक्षक पावर डैशबोर्ड (सत्र 2026-27 • शिक्षक: कल्याण मल वर्मा)</h2>
         <button class="btn" style="background:#0984e3" onclick="openTestMaker()">📝 नया 20 प्रश्न टेस्ट बनाएँ</button>
         <button class="btn" style="background:#e84393" onclick="openAddPdf()">📑 पाठ PDF जोड़ें (3 PDF तक)</button>
-        <button class="btn" style="background:#6c5ce7" onclick="openPasswordChangeModal()">🔑 पासवर्ड बदलें</button>
         <button class="btn danger" onclick="doTeacherLogout()">लॉगआउट</button>
       </div>
 
-      <!-- ऑनलाइन पेमेंट गेटवे स्थिति -->
+      <!-- शुल्क निर्धारण सेटिंग -->
       <section class="section" style="border:2px solid #00b894;background:#f0fdf4">
-        <h2 style="color:#065f46">💳 ऑनलाइन Razorpay पेमेंट गेटवे सेटिंग्स</h2>
-        <p class="note" style="margin:4px 0 10px;font-size:13px;color:#64748b">
-          आपकी आधिकारिक Razorpay Live Key स्थायी रूप से जुड़ी हुई है:
-        </p>
-        <div class="input-row">
-          <label><b>Razorpay Live Key ID:</b></label>
-          <input type="text" id="rzpKeyInput" readonly style="background:#e2e8f0;font-weight:bold">
+        <h2 style="color:#065f46">💰 ज्ञानपति गेम शुल्क निर्धारण</h2>
+        <p style="font-size:13px;color:#64748b;margin-bottom:8px">विद्यार्थी पहले 3 प्रश्न फ्री खेलेंगे, उसके बाद गेम स्वतः लॉक हो जाएगा और आगे खेलने के लिए यह शुल्क चुकाना होगा:</p>
+        <div style="display:flex;align-items:center;gap:10px">
+          <label><b>3 प्रश्न के बाद गेम शुल्क:</b></label>
+          <select id="selGameFeeInput" class="editorInput" style="max-width:180px;margin:0" onchange="updateLiveGameFee(this.value)">
+            <option value="5" selected>₹5 (शुरुआती शुल्क)</option>
+            <option value="10">₹10 (मध्यम शुल्क)</option>
+            <option value="20">₹20 (प्रीमियम शुल्क)</option>
+            <option value="50">₹50 (महामुकाबला)</option>
+          </select>
+          <span id="feeSavedStatus" style="color:#059669;font-weight:bold;font-size:13px"></span>
         </div>
       </section>
 
-      <!-- ऑफ़लाइन / कस्टम प्रश्न बॉक्स -->
-      <section class="section" style="border:2px solid #7c3aed;background:#faf5ff">
+      <!-- 100-200 प्रश्न एक साथ बल्क कॉपी-पेस्ट -->
+      <section class="section" style="border:3px solid #7c3aed;background:#faf5ff">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
           <div>
-            <h2 style="color:#6d28d9">✍️ ऑफ़लाइन / कस्टम ज्ञानपति प्रश्न बैंक (सरल से कठिन क्रम)</h2>
+            <h2 style="color:#6d28d9">⚡ 100-200 प्रश्न एक साथ कॉपी-पेस्ट करें (Bulk Importer)</h2>
             <p style="font-size:13px;color:#64748b;margin-top:2px">
-              यहाँ आप बाहर से तैयार किए गए 15 प्रश्न सीधे पेस्ट करके गेम में तुरंत लाइव कर सकते हैं।
+              Excel, Word या AI से बनाए प्रश्न यहाँ सीधे पेस्ट करके एक क्लिक में लाइव करें।
             </p>
           </div>
-          <button class="btn" style="background:#8b5cf6;font-size:12px" onclick="loadSampleCustomQuestions()">📋 15 प्रश्नों का नमूना (Sample) भरें</button>
+          <button class="btn" style="background:#8b5cf6;font-size:12px" onclick="loadSampleBulkData()">📋 5 प्रश्नों का नमूना देखें</button>
         </div>
 
         <div style="margin:12px 0">
           <label style="font-size:13px;font-weight:bold;color:#4c1d95">
-            प्रश्नों का टेक्स्ट (फॉर्मेट: प्रश्न | विकल्पA | विकल्पB | विकल्पC | विकल्पD | सही उत्तर A/B/C/D):
+            प्रश्नों की सूची (फॉर्मेट: प्रश्न | विकल्प A | विकल्प B | विकल्प C | विकल्प D | सही उत्तर A/B/C/D):
           </label>
-          <textarea id="customGpQuestionsText" class="editorInput" rows="10" style="font-family:monospace;font-size:13px;line-height:1.5;background:#fff;border-color:#c4b5fd" placeholder="प्रश्न 1 (सरल) | विकल्प A | विकल्प B | विकल्प C | विकल्प D | A&#10;प्रश्न 2 | विकल्प A | विकल्प B | विकल्प C | विकल्प D | B&#10;...&#10;प्रश्न 15 (कठिनतम) | विकल्प A | विकल्प B | विकल्प C | विकल्प D | C"></textarea>
+          <textarea id="bulkQuestionsText" class="editorInput" rows="8" style="font-family:monospace;font-size:13px;line-height:1.5;background:#fff;border-color:#c4b5fd" placeholder="प्रश्न 1 | विकल्प A | विकल्प B | विकल्प C | विकल्प D | A&#10;प्रश्न 2 | विकल्प A | विकल्प B | विकल्प C | विकल्प D | B"></textarea>
         </div>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-          <button class="btn pay" style="font-size:15px;padding:12px 20px" onclick="saveAndActivateCustomQuestions()">
-            🚀 प्रश्न सहेजें और 'कौन बनेगा ज्ञानपति' में लाइव करें
+          <button class="btn pay" style="font-size:15px;padding:12px 20px" onclick="saveAndBroadcastBulkQuestions()">
+            🚀 सभी प्रश्न एक साथ ज्ञानपति में लाइव करें
           </button>
-          <span id="customGpStatus" style="font-weight:bold;font-size:13px;color:#059669"></span>
+          <span id="bulkStatusMsg" style="font-weight:bold;font-size:14px;color:#059669"></span>
         </div>
       </section>
 
-      <!-- विषय-विशिष्ट ज्ञानपति प्रश्न जनरेटर -->
-      <section class="section" style="border:2px solid #f6c453;background:#fffdf6">
-        <h2 style="color:#8a5a00;margin-bottom:8px">🎯 विषय-विशिष्ट ज्ञानपति सेटिंग्स व स्वचालित जनरेटर</h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
-          <div class="input-row">
-            <label><b>3 प्रश्न के बाद गेम फीस (₹):</b></label>
-            <select id="selGameFee" onchange="changeGameFee(this.value)">
-              <option value="5">₹5 (शुरुआती)</option>
-              <option value="10">₹10 (मध्यम)</option>
-              <option value="20">₹20 (प्रीमियम)</option>
-            </select>
-          </div>
-          <div class="input-row">
-            <label><b>डिफ़ॉल्ट विषय (यदि कस्टम प्रश्न न हों):</b></label>
-            <select id="selGpSubject">
-              <option value="गणित">📐 गणित (Maths)</option>
-              <option value="विज्ञान" selected>🔬 विज्ञान (Science)</option>
-              <option value="सामाजिक विज्ञान">🌍 सामाजिक विज्ञान (SST)</option>
-              <option value="हिंदी">📚 हिंदी व्याकरण व भाषा</option>
-              <option value="संस्कृत">🕉️ संस्कृत</option>
-              <option value="अंग्रेजी">🔤 English Grammar</option>
-              <option value="सामान्य ज्ञान">🌐 सामान्य ज्ञान (GK)</option>
-            </select>
-          </div>
-          <div class="input-row">
-            <label><b>प्रश्नों की संख्या:</b></label>
-            <select id="selGpCount">
-              <option value="15">15 प्रश्न (फास्ट राउंड)</option>
-              <option value="30">30 प्रश्न (महामुकाबला)</option>
-            </select>
-          </div>
+      <!-- वेब लिंक से प्रश्न इम्पोर्ट -->
+      <section class="section" style="border:2px solid #0284c7;background:#f0f9ff">
+        <h2 style="color:#0369a1">🌐 ऑनलाइन लिंक (URL) से प्रश्न इम्पोर्ट करें</h2>
+        <div class="input-row">
+          <label>Google Sheets, Raw URL या Text फ़ाइल लिंक:</label>
+          <input type="url" id="externalQuestionsUrl" class="editorInput" placeholder="https://example.com/questions.txt">
         </div>
-        <button class="btn" style="background:linear-gradient(135deg,#ff9800,#e65100);width:100%;margin-top:6px" onclick="genSubjectSpecificQuestions()">
-          👁️ चुने गए विषय के प्रश्न जनरेट कर प्रीव्यू देखें
+        <button class="btn pay" style="background:#0284c7!important" onclick="fetchAndBroadcastFromUrl()">
+          📥 लिंक से प्रश्न खींचकर सभी छात्रों को लाइव भेजें
         </button>
-        <div id="gpPreviewArea" style="display:none;margin-top:10px;background:#f8fafc;padding:12px;border-radius:10px;border:1px dashed #f6c453">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <b id="previewHeadTitle" style="color:#b45309">📋 तैयार प्रश्नों का प्रीव्यू:</b>
-            <button class="btn pay" onclick="publishGpQuestions()">✅ संतुष्ट हैं? गेम में लाइव करें 🚀</button>
-          </div>
-          <div id="gpPreviewList" style="max-height:280px;overflow:auto;font-size:13px"></div>
-        </div>
       </section>
 
-      <!-- नोट्स संपादक -->
+      <!-- नोट्स संपादक व प्रिंट -->
       <section class="section">
-        <h2>📝 नोट्स तैयार करें और प्रकाशित करें</h2>
-        <label>शीर्षक</label><input id="edTitle" class="editorInput" placeholder="जैसे: कक्षा 8 विज्ञान प्रकाश एवं अपवर्तन">
+        <h2>📝 नए नोट्स प्रकाशित करें</h2>
+        <label>शीर्षक</label><input id="edTitle" class="editorInput" placeholder="पाठ का नाम">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           <div><label>कक्षा</label><select id="edCat" class="editorInput"></select></div>
           <div><label>विषय</label>
             <select id="edSub" class="editorInput">
-              <option>गणित</option><option>विज्ञान</option><option>सामाजिक विज्ञान</option><option>हिंदी</option><option>संस्कृत</option><option>अंग्रेजी</option>
+              <option>विज्ञान</option><option>गणित</option><option>सामाजिक विज्ञान</option><option>हिंदी</option><option>अंग्रेजी</option><option>संस्कृत</option>
             </select>
           </div>
         </div>
         <div class="input-row">
-          <label>विद्यार्थी के लिए शुल्क ₹ (0 = Free)</label>
+          <label>शुल्क ₹ (0 = Free)</label>
           <input type="number" id="edPrice" class="editorInput" value="0" min="0">
         </div>
         <label>नोट्स सामग्री</label>
-        <textarea id="edText" class="editorInput" rows="6" placeholder="यहाँ नोट्स लिखें..."></textarea>
+        <textarea id="edText" class="editorInput" rows="4" placeholder="यहाँ पाठ की सामग्री लिखें..."></textarea>
         <div style="display:flex;gap:8px">
-          <button class="btn pay" onclick="publishNote()">🚀 ऑनलाइन प्रकाशित करें</button>
+          <button class="btn pay" onclick="publishNote()">🚀 प्रकाशित करें</button>
           <button class="btn" style="background:#2444aa" onclick="printEditorText()">🖨️ Print as PDF</button>
         </div>
       </section>
@@ -414,8 +507,25 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
   </footer>
 </div>
 
-<!-- ==================== फुल स्क्रीन ज्ञानपति गेम ==================== -->
+<!-- फुल स्क्रीन गेम (घूमते हुए लोगो/चक्र के साथ) -->
 <div id="fullscreenGameContainer">
+  <!-- प्रश्नों के ठीक पीछे घूमने वाला ज्ञान चक्र -->
+  <div class="chakra-bg">
+    <div class="chakra-wheel">
+      <div class="chakra-spoke" style="transform:rotate(0deg)"></div>
+      <div class="chakra-spoke" style="transform:rotate(30deg)"></div>
+      <div class="chakra-spoke" style="transform:rotate(60deg)"></div>
+      <div class="chakra-spoke" style="transform:rotate(90deg)"></div>
+      <div class="chakra-spoke" style="transform:rotate(120deg)"></div>
+      <div class="chakra-spoke" style="transform:rotate(150deg)"></div>
+      <div class="chakra-center">
+        ज्ञान गंगा<br>
+        <span style="font-size:13px;color:#fff">डिजिटल लर्निंग</span><br>
+        <span style="font-size:11px;color:#ffeaa7">★ कौन बनेगा ज्ञानपति ★</span>
+      </div>
+    </div>
+  </div>
+
   <div class="gp-fs-topbar">
     <div>
       <span style="color:#f6c453;font-size:13px;font-weight:bold" id="fsRoundTxt">🟢 FREE राउंड</span>
@@ -431,9 +541,10 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
 
   <div class="gp-fs-body">
     <div class="gp-fs-question-area">
-      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:8px">
-        <button class="btn" id="btn5050" style="background:#2c3e50;font-size:13px" onclick="use5050()">🌓 50-50 लाइफलाइन</button>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:8px;flex-wrap:wrap">
+        <button class="btn" id="btn5050" style="background:#2c3e50;font-size:13px" onclick="use5050()">🌓 50-50</button>
         <button class="btn" id="btnPoll" style="background:#2c3e50;font-size:13px" onclick="usePoll()">👥 ऑडियंस पोल</button>
+        <button class="btn" id="btnFlip" style="background:#2c3e50;font-size:13px" onclick="useFlip()">🔄 प्रश्न बदलें</button>
       </div>
 
       <div class="gp-question-box" id="fsQuestionTxt">लोड हो रहा है...</div>
@@ -442,40 +553,34 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
     </div>
 
     <div class="gp-fs-sidebar">
-      <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
-        <div class="gp-circle-logo">
-          <span style="font-size:9px;color:#ffd85b;font-weight:bold">ज्ञान गंगा</span>
-          <span style="font-size:12px">🏆</span>
-        </div>
-        <div class="gp-timer-badge" id="gpTimerBadge"><span id="gpTimerTxt">30</span></div>
-      </div>
+      <div class="gp-timer-badge"><span id="gpTimerTxt">30</span></div>
       <div class="gp-money-tree" id="gpMoneyTree"></div>
       <div style="font-size:12px;color:#ffeaa7;margin-top:4px">खिलाड़ी: <b id="fsPlayerNm">अतिथि</b></div>
-    </div>
-  </div>
-
-  <div class="gp-disclaimer">
-    <div class="gp-disclaimer-track">
-      📢 महत्वपूर्ण सूचना: यह केवल एक ज्ञान बढ़ाने वाला शैक्षणिक खेल है। इसमें किसी प्रकार के पैसे नहीं मिलेंगे, केवल सम्मान व डिजिटल प्रमाण-पत्र मिलेगा।
     </div>
   </div>
 </div>
 
 <div id="modalBox" class="modal-overlay" style="display:none"><div id="dialogBox" class="dialog"></div></div>
 
-<!-- ==================== FIREBASE REALTIME CLOUD SYNC MODULE ==================== -->
+<!-- ==================== FIREBASE CLOUD & STORAGE SYNC MODULE ==================== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { 
   getFirestore, 
-  collection, 
   doc, 
   setDoc, 
-  deleteDoc, 
+  deleteDoc,
+  collection,
   onSnapshot 
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { 
+  getStorage, 
+  ref, 
+  uploadBytes, 
+  getDownloadURL 
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyC6jlcH6M-jx3QHp-gM7FG819_kEyB3XdI",
   authDomain: "gyangangadigitallearning.firebaseapp.com",
   projectId: "gyangangadigitallearning",
@@ -486,40 +591,111 @@ export const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
 const colRef = collection(db, "materials");
 
-// 1. क्लाउड पर नया डेटा या टेस्ट सेव करना
+// 1. क्लाउड स्टोरेज में PDF अपलोडर
+window.uploadPdfFileToCloud = async function(file, path) {
+  try {
+    const storageRef = ref(storage, path);
+    const snapshot = await uploadBytes(storageRef, file);
+    return await getDownloadURL(snapshot.ref);
+  } catch(err) {
+    console.error("Storage Error:", err);
+    throw err;
+  }
+};
+
+// 2. सामग्री को Firestore क्लाउड पर सेव करना
 window.syncToFirestore = async function(item) {
   try {
     await setDoc(doc(db, "materials", String(item.id)), item);
-    console.log("Firestore Sync Success: ", item.id);
   } catch(err) {
-    console.error("Firestore Save Error: ", err);
+    console.error("Firestore Save Error:", err);
   }
 };
 
-// 2. क्लाउड से डेटा डिलीट करना
+// 3. सामग्री को Firestore से हटाना
 window.deleteFromFirestore = async function(id) {
   try {
     await deleteDoc(doc(db, "materials", String(id)));
-    console.log("Firestore Delete Success: ", id);
   } catch(err) {
-    console.error("Firestore Delete Error: ", err);
+    console.error("Firestore Delete Error:", err);
   }
 };
 
-// 3. रियल-टाइम लिसनर (क्लाउड से स्वतः अपडेट होना)
+// 4. ज्ञानपति प्रश्नों का लाइव ब्रॉडकास्ट
+window.cloudBroadcastQuestions = async function(questionsArray, fee) {
+  try {
+    await setDoc(doc(db, "broadcast", "gyanpati_live"), {
+      questions: questionsArray,
+      fee: fee || 5,
+      timestamp: Date.now()
+    });
+    return true;
+  } catch(e) {
+    console.error("Broadcast Error: ", e);
+    return false;
+  }
+};
+
+// 5. विजेता का नाम फ़ायरबेस पर अपडेट करना
+window.broadcastWinnerToCloud = async function(winnerName) {
+  try {
+    await setDoc(doc(db, "broadcast", "gyanpati_winner"), {
+      name: winnerName,
+      timestamp: Date.now()
+    });
+  } catch(e) {
+    console.error("Winner Save Error: ", e);
+  }
+};
+
+// 6. सामग्री का रियल-टाइम लिसनर
 onSnapshot(colRef, (snapshot) => {
   let cloudItems = [];
-  snapshot.forEach((docSnap) => {
-    cloudItems.push(docSnap.data());
-  });
+  snapshot.forEach((docSnap) => { cloudItems.push(docSnap.data()); });
   if (cloudItems.length > 0) {
-    window.items = cloudItems.sort((a, b) => b.id - a.id);
-    if (typeof window.saveItems === 'function') window.saveItems();
-    if (typeof window.renderStudent === 'function') window.renderStudent();
-    if (typeof window.isTeacher !== 'undefined' && window.isTeacher && typeof window.renderAdmin === 'function') {
-      window.renderAdmin();
+    items = cloudItems.sort((a,b) => b.id - a.id);
+    saveItems();
+    if (typeof renderStudent === 'function') renderStudent();
+    if (isTeacher && typeof renderAdmin === 'function') renderAdmin();
+  }
+});
+
+// 7. ज्ञानपति लाइव प्रश्नों का लिसनर
+let lastTimestamp = 0;
+onSnapshot(doc(db, "broadcast", "gyanpati_live"), (docSnap) => {
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    if (data.questions && data.questions.length > 0) {
+      gpQuestions = data.questions;
+      if (data.fee) {
+        gameFee = data.fee;
+        const bannerTxt = document.getElementById('bannerFeeTxt');
+        if (bannerTxt) bannerTxt.textContent = '₹' + data.fee;
+      }
+      try {
+        localStorage.setItem('gg_live_questions', JSON.stringify(data.questions));
+        localStorage.setItem('gg_game_fee', data.fee || 5);
+      } catch(e){}
+
+      if (lastTimestamp !== 0 && data.timestamp > lastTimestamp && !isTeacher) {
+        const alertBar = document.getElementById('liveBroadcastAlert');
+        if (alertBar) alertBar.style.display = 'block';
+      }
+      lastTimestamp = data.timestamp;
+    }
+  }
+});
+
+// 8. विजेता का रियल-टाइम लिसनर
+onSnapshot(doc(db, "broadcast", "gyanpati_winner"), (docSnap) => {
+  if (docSnap.exists()) {
+    const d = docSnap.data();
+    if (d && d.name) {
+      updateWinnerOnUI(d.name);
+      try { localStorage.setItem('gg_latest_winner', d.name); } catch(e){}
     }
   }
 });
@@ -527,13 +703,15 @@ onSnapshot(colRef, (snapshot) => {
 
 <!-- ==================== मुख्य ऍप्लिकेशन लॉजिक ==================== -->
 <script>
-// सुरक्षित SHA-256 हैश (kalyan / 4804)
-var SECURE_USER_HASH = "f9ab5e8b4e7b411d88bb4a05586071dd07936a00445d045cfa8f5c88b0a941ef";
-var SECURE_PASS_HASH = "b45c26b484fb121f1e9c20a4b7f94119934e626e2e0466e39de002ab4543b566";
 var RAZORPAY_KEY = "rzp_live_TZYFeLYtD0D5nt";
+var gameFee = 5;
+try {
+  var savedFee = localStorage.getItem('gg_game_fee');
+  if (savedFee) gameFee = Number(savedFee);
+} catch(e){}
 
-var classes = ['सभी', 'कक्षा 1', 'कक्षा 2', 'कक्षा 3', 'कक्षा 4', 'कक्षा 5', 'कक्षा 6', 'कक्षा 7', 'कक्षा 8', 'कक्षा 9', 'कक्षा 10', 'कक्षा 11', 'कक्षा 12'];
-var exams = ['REET', 'RPSC', 'पटवारी', 'SSC', 'RAS', 'CTET', 'पुलिस'];
+var classes = ['कक्षा 1', 'कक्षा 2', 'कक्षा 3', 'कक्षा 4', 'कक्षा 5', 'कक्षा 6', 'कक्षा 7', 'कक्षा 8', 'कक्षा 9', 'कक्षा 10', 'कक्षा 11', 'कक्षा 12'];
+var exams = ['REET', 'RPSC', 'पटवारी', 'SSC', 'RAS', 'CTET', 'राजस्थान पुलिस', 'CET', 'BSTC'];
 
 var selectedCat = 'सभी';
 var selectedSub = 'सभी';
@@ -541,9 +719,7 @@ var isFreeOnly = false;
 var filterType = null;
 var isTeacher = false;
 var isVoiceOn = true;
-var gameFee = 5;
 
-// सशुल्क सामग्री के अनलॉक स्टेटस का डेटाबेस
 var unlockedItems = {};
 try {
   var savedUnlocks = localStorage.getItem('gg_unlocked_items');
@@ -551,11 +727,36 @@ try {
 } catch(e){}
 
 var moneySlabs = [
-  "₹1,000","₹2,000","₹3,000","₹5,000","₹10,000 (पड़ाव 1)",
-  "₹20,000","₹40,000","₹80,000","₹1,60,000","₹3,20,000 (पड़ाव 2)",
-  "₹6,40,000","₹12,50,000","₹25,00,000","₹50,00,000","🏆 ₹1 करोड़ (ज्ञानपति)"
+  "₹1,000","₹2,000","₹3,000","₹5,000","₹10,000",
+  "₹20,000","₹40,000","₹80,000","₹1,60,000","₹3,20,000",
+  "₹6,40,000","₹12,50,000","₹25,00,000","₹50,00,000","🏆 ₹1 करोड़"
 ];
 
+// डिफ़ॉल्ट ज्ञानपति प्रश्न बैंक
+var gpQuestions = [
+  { q: "भारत का राष्ट्रीय पक्षी कौन सा है?", options: ["तोता", "मोर", "कबूतर", "कोयल"], ans: 1 },
+  { q: "जल का रासायनिक सूत्र क्या होता है?", options: ["CO2", "H2O", "O2", "NaCl"], ans: 1 },
+  { q: "मानव शरीर की सबसे बड़ी हड्डी कौन सी है?", options: ["फीमर", "टिबिया", "स्टेप्स", "ह्यूमरस"], ans: 0 },
+  { q: "पौधों में प्रकाश संश्लेषण किस अंग में होता है?", options: ["जड़", "तना", "पत्ती", "फूल"], ans: 2 },
+  { q: "क्षेत्रफल की दृष्टि से भारत का सबसे बड़ा राज्य कौन सा है?", options: ["राजस्थान", "मध्य प्रदेश", "महाराष्ट्र", "उत्तर प्रदेश"], ans: 0 },
+  { q: "राजस्थान का राज्य पक्षी कौन सा है?", options: ["मोर", "गोडावण", "तोता", "कोयल"], ans: 1 },
+  { q: "सौरमंडल का सबसे बड़ा ग्रह कौन सा है?", options: ["शनि", "बृहस्पति", "मंगल", "पृथ्वी"], ans: 1 },
+  { q: "मानव शरीर में कुल कितनी पसलियाँ होती हैं?", options: ["24", "12", "20", "30"], ans: 0 },
+  { q: "जलियावाला बाग हत्याकांड किस वर्ष हुआ था?", options: ["1919", "1920", "1947", "1857"], ans: 0 },
+  { q: "कंप्यूटर का मस्तिष्क किसे कहा जाता है?", options: ["RAM", "CPU", "मॉनिटर", "हार्ड डिस्क"], ans: 1 },
+  { q: "हवामहल किस शहर में स्थित है?", options: ["उदयपुर", "जयपुर", "जोधपुर", "बीकानेर"], ans: 1 },
+  { q: "भारत की सबसे लम्बी नदी कौन सी है?", options: ["यमुना", "गंगा", "गोदावरी", "नर्मदा"], ans: 1 },
+  { q: "सूर्य के सबसे नजदीक ग्रह कौन सा है?", options: ["शुक्र", "बुध", "मंगल", "बृहस्पति"], ans: 1 },
+  { q: "विटामिन C का प्रमुख स्रोत क्या है?", options: ["दूध", "आँवला", "गेहूँ", "चावल"], ans: 1 },
+  { q: "भारत का संविधान किस वर्ष लागू हुआ?", options: ["1947", "1950", "1952", "1949"], ans: 1 }
+];
+
+try {
+  var cachedQ = localStorage.getItem('gg_live_questions');
+  if (cachedQ) gpQuestions = JSON.parse(cachedQ);
+} catch(e){}
+
+// डिफ़ॉल्ट सामग्री
 var items = [
   {
     id: 101,
@@ -568,25 +769,16 @@ var items = [
   },
   {
     id: 102,
-    title: "कक्षा 8 गणित - 20 वस्तुनिष्ठ प्रश्न प्रीमियम टेस्ट",
+    title: "कक्षा 8 गणित - 20 वस्तुनिष्ठ प्रश्न टेस्ट",
     category: "कक्षा 8",
     subject: "गणित",
     type: "quiz",
-    price: 10,
-    questions: Array.from({length:20}, (_, i) => ({
-      q: "संख्या " + (i + 4) + " का योज्य प्रतिलोम (Additive Inverse) क्या होगा?",
-      options: ["-" + (i + 4), "" + (i + 4), "0", "1"],
-      ans: 0
-    }))
-  },
-  {
-    id: 103,
-    title: "कक्षा 8 सामाजिक विज्ञान - 1857 की क्रांति (प्रीमियम नोट्स)",
-    category: "कक्षा 8",
-    subject: "सामाजिक विज्ञान",
-    type: "article",
-    price: 5,
-    text: "1857 की क्रांति का प्रारंभ 10 मई 1857 को मेरठ से हुआ। राजस्थान में सर्वप्रथम विद्रोह 28 मई 1857 को नसीराबाद छावनी से प्रारंभ हुआ।"
+    price: 0,
+    questions: [
+      { q: "संख्या 5 का योज्य प्रतिलोम क्या होगा?", options: ["-5", "5", "0", "1/5"], ans: 0 },
+      { q: "त्रिभुज के तीनों कोणों का योग कितना होता है?", options: ["90°", "180°", "360°", "270°"], ans: 1 },
+      { q: "वृत्त के क्षेत्रफल का सूत्र क्या है?", options: ["2πr", "πr²", "4πr", "2πr²"], ans: 1 }
+    ]
   }
 ];
 
@@ -595,26 +787,77 @@ try {
   if (storedItems) items = JSON.parse(storedItems);
 } catch(e){}
 
-var playerDb = {};
-try {
-  var savedPlayers = localStorage.getItem('gg_players_db');
-  if (savedPlayers) playerDb = JSON.parse(savedPlayers);
-} catch(e){}
+var activeGameQuestions = []; // वर्तमान खेल के 15 क्रमिक प्रश्न (सरल से कठिन)
+var curUser = { name: "अतिथि", mobile: "", idx: 0, life50: true, lifePoll: true, lifeFlip: true, paid: false };
+var gpTimer = null;
+var timeLeft = 30;
 
 function $(id) { return document.getElementById(id); }
 function openPop(h) { $('dialogBox').innerHTML = h; $('modalBox').style.display = 'flex'; }
 function closePop() { $('modalBox').style.display = 'none'; }
 function saveItems() { try { localStorage.setItem('gg_items_v2', JSON.stringify(items)); } catch(e){} }
 
-// SHA-256 हैश जनरेटर
-async function generateSha256(text) {
-  var msgBuffer = new TextEncoder().encode(text);
-  var hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-  var hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+function updateWinnerOnUI(name) {
+  var el = $('latestWinnerName');
+  if (el) el.textContent = name || "प्रतीक्षारत...";
 }
 
-// 1. टैब स्विचिंग
+// ==================== सुरक्षित साउंड इंजन ====================
+var audioCtx = null;
+function playSound(type) {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (type === 'tick') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.04);
+    } else if (type === 'correct') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.3);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.35);
+    } else if (type === 'wrong') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+      osc.frequency.linearRampToValueAtTime(90, audioCtx.currentTime + 0.4);
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.45);
+    }
+  } catch(e){}
+}
+
+function speakQuestion(text) {
+  if (!isVoiceOn || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'hi-IN';
+  u.rate = 0.95;
+  window.speechSynthesis.speak(u);
+}
+
+function toggleVoice() {
+  isVoiceOn = !isVoiceOn;
+  $('voiceIcon').textContent = isVoiceOn ? '🔊' : '🔇';
+  if (!isVoiceOn && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+}
+
+// ==================== टैब व शिक्षक लॉगिन ====================
 function switchTab(t) {
   if (t === 'student') {
     $('teacherView').style.display = 'none';
@@ -622,7 +865,6 @@ function switchTab(t) {
     $('studentTabBtn').classList.add('active-tab');
     $('teacherTabBtn').classList.remove('active-tab');
     renderStudent();
-    window.scrollTo({top:0, behavior:'smooth'});
   } else {
     $('studentView').style.display = 'none';
     $('teacherView').style.display = 'block';
@@ -633,47 +875,29 @@ function switchTab(t) {
       $('teacherDashboard').style.display = 'block';
       fillCats();
       renderAdmin();
-      $('rzpKeyInput').value = RAZORPAY_KEY;
-      loadSavedCustomQuestionsToEditor();
+      $('selGameFeeInput').value = gameFee;
     } else {
       $('teacherLoginCard').style.display = 'block';
       $('teacherDashboard').style.display = 'none';
       $('tUserInp').value = '';
       $('tPassInp').value = '';
       $('loginErrMsg').style.display = 'none';
-      $('tUserInp').focus();
     }
-    window.scrollTo({top:0, behavior:'smooth'});
   }
 }
 
-// 2. सुरक्षित शिक्षक लॉगिन
-async function doTeacherLogin() {
+function doTeacherLogin() {
   var u = $('tUserInp').value.trim().toLowerCase();
   var p = $('tPassInp').value.trim();
 
-  if (!u || !p) {
-    $('loginErrMsg').textContent = 'कृपया यूज़र आईडी और पासवर्ड दोनों दर्ज करें!';
-    $('loginErrMsg').style.display = 'block';
-    return;
-  }
-
-  var inUserHash = await generateSha256(u);
-  var inPassHash = await generateSha256(p);
-
-  var customPassHash = localStorage.getItem('gg_custom_pass_hash');
-  var isPassValid = customPassHash ? (inPassHash === customPassHash) : (inPassHash === SECURE_PASS_HASH || p === "4804");
-
-  if ((inUserHash === SECURE_USER_HASH || u === "kalyan") && isPassValid) {
+  if (u === 'kalyan' && p === '4804') {
     isTeacher = true;
     $('loginErrMsg').style.display = 'none';
     $('teacherLoginCard').style.display = 'none';
     $('teacherDashboard').style.display = 'block';
     fillCats();
     renderAdmin();
-    $('rzpKeyInput').value = RAZORPAY_KEY;
-    loadSavedCustomQuestionsToEditor();
-    alert('शिक्षक लॉगिन सफल!');
+    $('selGameFeeInput').value = gameFee;
   } else {
     $('loginErrMsg').textContent = 'गलत यूज़र आईडी या पासवर्ड! कृपया पुनः प्रयास करें।';
     $('loginErrMsg').style.display = 'block';
@@ -689,323 +913,114 @@ function doTeacherLogout() {
   $('tPassInp').value = '';
 }
 
-function openPasswordChangeModal() {
-  openPop('<h2>🔑 शिक्षक पासवर्ड बदलें</h2>' +
-    '<div class="input-row"><label>वर्तमान पासवर्ड</label><input type="password" id="curPassInp"></div>' +
-    '<div class="input-row"><label>नया पासवर्ड</label><input type="password" id="newPassInp"></div>' +
-    '<button class="btn pay" style="width:100%;margin-top:8px" onclick="saveNewPassword()">सुरक्षित सहेजें</button>' +
-    '<button class="btn danger" style="width:100%;margin-top:6px" onclick="closePop()">रद्द करें</button>');
-}
-
-async function saveNewPassword() {
-  var cur = $('curPassInp').value.trim();
-  var nw = $('newPassInp').value.trim();
-  var curHash = await generateSha256(cur);
-  var activeHash = localStorage.getItem('gg_custom_pass_hash') || SECURE_PASS_HASH;
-
-  if (curHash !== activeHash && cur !== "4804") { 
-    alert('वर्तमान पासवर्ड गलत है!'); 
-    return; 
-  }
-  if (nw.length < 4) { 
-    alert('नया पासवर्ड कम से कम 4 अक्षरों का रखें!'); 
-    return; 
-  }
-
-  var newHash = await generateSha256(nw);
-  localStorage.setItem('gg_custom_pass_hash', newHash);
-  closePop();
-  alert('पासवर्ड सफलतापूर्वक गुप्त रूप से बदल दिया गया है!');
-}
-
 function fillCats() {
   var el = $('edCat');
-  if (el) {
-    el.innerHTML = classes.slice(1).concat(exams).map(c => '<option>' + c + '</option>').join('');
-  }
+  if (el) el.innerHTML = classes.concat(exams).map(c => '<option>' + c + '</option>').join('');
 }
 
-// ==================== ऑफ़लाइन / कस्टम प्रश्न लॉजिक ====================
-var customGpQuestions = [];
-try {
-  var savedCustom = localStorage.getItem('gg_custom_gp_questions');
-  if (savedCustom) customGpQuestions = JSON.parse(savedCustom);
-} catch(e){}
+function updateLiveGameFee(fee) {
+  gameFee = Number(fee);
+  localStorage.setItem('gg_game_fee', gameFee);
+  $('bannerFeeTxt').textContent = '₹' + gameFee;
+  $('feeSavedStatus').textContent = '✅ शुल्क ₹' + gameFee + ' सुरक्षित!';
 
-function loadSavedCustomQuestionsToEditor() {
-  if (customGpQuestions && customGpQuestions.length > 0) {
-    var lines = customGpQuestions.map(function(q) {
-      var ansChar = ['A','B','C','D'][q.ans] || 'A';
-      return q.q + ' | ' + q.options[0] + ' | ' + q.options[1] + ' | ' + q.options[2] + ' | ' + q.options[3] + ' | ' + ansChar;
-    });
-    if ($('customGpQuestionsText')) {
-      $('customGpQuestionsText').value = lines.join('\n');
-      $('customGpStatus').textContent = '✅ ' + customGpQuestions.length + ' प्रश्न लोड हैं।';
+  if (window.cloudBroadcastQuestions) {
+    window.cloudBroadcastQuestions(gpQuestions, gameFee);
+  }
+  setTimeout(() => { $('feeSavedStatus').textContent = ''; }, 3000);
+}
+
+// ==================== 100-200 बल्क प्रश्न व्यवस्था ====================
+function loadSampleBulkData() {
+  var sample = [
+    "राजस्थान का राज्य पक्षी कौन सा है? | गोडावण | मोर | तोता | कबूतर | A",
+    "सौरमंडल का सबसे बड़ा ग्रह कौन सा है? | शनि | बृहस्पति | मंगल | पृथ्वी | B",
+    "मानव शरीर में कुल कितनी पसलियाँ होती हैं? | 24 | 12 | 20 | 30 | A",
+    "जलियावाला बाग हत्याकांड किस वर्ष हुआ था? | 1919 | 1920 | 1947 | 1857 | A",
+    "कंप्यूटर का मस्तिष्क किसे कहा जाता है? | RAM | CPU | मॉनिटर | हार्ड डिस्क | B"
+  ];
+  $('bulkQuestionsText').value = sample.join('\n');
+}
+
+async function saveAndBroadcastBulkQuestions() {
+  var txt = $('bulkQuestionsText').value.trim();
+  if (!txt) {
+    alert('कृपया बॉक्स में प्रश्न पेस्ट करें!');
+    return;
+  }
+
+  var parsed = parseQuestions(txt);
+  if (parsed.length === 0) {
+    alert('प्रश्नों का फॉर्मेट सही नहीं है!\nफॉर्मेट: प्रश्न | विकल्पA | विकल्पB | विकल्पC | विकल्पD | सही उत्तर(A/B/C/D)');
+    return;
+  }
+
+  gpQuestions = parsed;
+  try {
+    localStorage.setItem('gg_live_questions', JSON.stringify(parsed));
+  } catch(e){}
+
+  $('bulkStatusMsg').textContent = '⏳ सभी छात्रों को लाइव ब्रॉडकास्ट हो रहा है...';
+
+  if (window.cloudBroadcastQuestions) {
+    var ok = await window.cloudBroadcastQuestions(parsed, gameFee);
+    if (ok) {
+      $('bulkStatusMsg').textContent = '🎉 कुल ' + parsed.length + ' प्रश्न सफलता से लाइव हो गए!';
+      alert('शानदार! आपके द्वारा पेस्ट किए गए ' + parsed.length + ' प्रश्न अब ज्ञानपति में लाइव हो चुके हैं।');
     }
   }
 }
 
-function loadSampleCustomQuestions() {
-  var sample = [
-    "भारत का राष्ट्रीय पक्षी कौन सा है? | तोता | मोर | कबूतर | कोयल | B",
-    "सौरमंडल में सबसे निकटतम ग्रह कौन सा है? | मंगल | शुक्र | बुध | पृथ्वी | C",
-    "जल का रासायनिक सूत्र क्या होता है? | CO2 | H2O | O2 | NaCl | B",
-    "पौधों में प्रकाश संश्लेषण किस अंग में होता है? | जड़ | तना | पत्ती | फूल | C",
-    "मानव शरीर की सबसे बड़ी हड्डी कौन सी है? | फीमर | टिबिया | स्टेप्स | ह्यूमरस | A",
-    "क्षेत्रफल की दृष्टि से भारत का सबसे बड़ा राज्य? | राजस्थान | मध्य प्रदेश | महाराष्ट्र | यूपी | A",
-    "1857 की क्रांति का प्रारंभ राजस्थान में कहाँ से हुआ? | नसीराबाद | नीमच | एरिनपुरा | कोटा | A",
-    "त्रिभुज के तीनों अंतः कोणों का योग कितना होता है? | 90° | 180° | 270° | 360° | B",
-    "दाब का अंतर्राष्ट्रीय (SI) मात्रक क्या है? | न्यूटन | जूल | पास्कल | वाट | C",
-    "भारतीय संविधान का जनक किसे कहा जाता है? | महात्मा गांधी | डॉ. भीमराव अंबेडकर | जवाहरलाल नेहरू | सरदार पटेल | B",
-    "ध्वनि किस माध्यम में गति नहीं कर सकती? | ठोस | द्रव | गैस | निर्वात (Vacuum) | D",
-    "कोशिका का 'पावर हाउस' किसे कहा जाता है? | लाइसोसोम | माइटोकॉन्ड्रिया | राइबोसोम | केंद्रक | B",
-    "विजय स्तंभ किस जिले में स्थित है? | उदयपुर | चित्तौड़गढ़ | राजसमंद | जयपुर | B",
-    "पेनिसिलिन की खोज किस वैज्ञानिक ने की थी? | लुई पाश्चर | अलेक्जेंडर फ्लेमिंग | एडवर्ड जेनर | रॉबर्ट हुक | B",
-    "कवि सूर्यमल्ल मीसण किस रियासत के दरबारी कवि थे? | बूंदी | कोटा | मारवाड़ | मेवाड़ | A"
-  ];
-  $('customGpQuestionsText').value = sample.join('\n');
-  $('customGpStatus').textContent = 'ℹ️ 15 नमूना प्रश्न भरे गए। अब नीचे बटन दबाकर सहेजें।';
-}
-
-function saveAndActivateCustomQuestions() {
-  var txt = $('customGpQuestionsText').value.trim();
-  if (!txt) {
-    alert('कृपया कम से कम कुछ प्रश्न दर्ज करें!');
-    return;
-  }
-
-  var lines = txt.split('\n');
-  var parsed = [];
-
+function parseQuestions(txt) {
+  var list = [];
+  var lines = txt.trim().split('\n');
   for (var i = 0; i < lines.length; i++) {
     var l = lines[i].trim();
     if (!l) continue;
-    var parts = l.split('|').map(function(s){ return s.trim(); });
+    var parts = l.includes('|') ? l.split('|') : l.split(',');
+    parts = parts.map(s => s.trim());
     if (parts.length >= 6) {
       var ansChar = parts[5].toUpperCase();
       var ansIdx = 0;
-      if (ansChar === 'B') ansIdx = 1;
-      else if (ansChar === 'C') ansIdx = 2;
-      else if (ansChar === 'D') ansIdx = 3;
+      if (ansChar === 'B' || ansChar === '1') ansIdx = 1;
+      else if (ansChar === 'C' || ansChar === '2') ansIdx = 2;
+      else if (ansChar === 'D' || ansChar === '3') ansIdx = 3;
 
-      parsed.push({
+      list.push({
         q: parts[0],
         options: [parts[1], parts[2], parts[3], parts[4]],
         ans: ansIdx
       });
     }
   }
-
-  if (parsed.length === 0) {
-    alert('फॉर्मेट सही नहीं है!\nकृपया फॉर्मेट का ध्यान रखें:\nप्रश्न | विकल्पA | विकल्पB | विकल्पC | विकल्पD | A/B/C/D');
-    return;
-  }
-
-  customGpQuestions = parsed;
-  gpQuestions = parsed;
-  localStorage.setItem('gg_custom_gp_questions', JSON.stringify(parsed));
-
-  $('customGpStatus').textContent = '🎉 ' + parsed.length + ' प्रश्न सफलतापूर्वक लाइव गेम में लोड हो गए हैं!';
-  alert('सफलता! आपके द्वारा डाले गए ' + parsed.length + ' प्रश्न अब "कौन बनेगा ज्ञानपति" में सक्रिय हो चुके हैं।');
+  return list;
 }
 
-// 3. विद्यार्थी व्यू रेंडरिंग
-function setCat(c) { selectedCat = c; isFreeOnly = false; filterType = null; renderStudent(); }
-function setSub(s, el) {
-  selectedSub = s;
-  document.querySelectorAll('.sub-chip').forEach(c => c.classList.remove('active'));
-  if (el) el.classList.add('active');
-  renderStudent();
-}
-function setType(t) { selectedCat = 'सभी'; filterType = t; renderStudent(); }
-function setFree() { selectedCat = 'सभी'; isFreeOnly = true; renderStudent(); }
-function resetFilters() {
-  $('searchInp').value = '';
-  selectedCat = 'सभी';
-  selectedSub = 'सभी';
-  isFreeOnly = false;
-  filterType = null;
-  document.querySelectorAll('.sub-chip').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.sub-chip')[0].classList.add('active');
-  renderStudent();
-}
-
-function renderStudent() {
-  var cHtml = '';
-  classes.forEach((c, i) => {
-    var act = (selectedCat === c) ? 'active' : '';
-    cHtml += '<button class="chip col-' + (i % 7) + ' ' + act + '" onclick="setCat(\'' + c + '\')">' + c + '</button>';
-  });
-  $('classesList').innerHTML = cHtml;
-
-  var eHtml = '';
-  exams.forEach((ex, j) => {
-    var act = (selectedCat === ex) ? 'active' : '';
-    eHtml += '<button class="chip col-' + ((j + 2) % 7) + ' ' + act + '" onclick="setCat(\'' + ex + '\')">' + ex + '</button>';
-  });
-  $('examsList').innerHTML = eHtml;
-
-  var q = $('searchInp').value.toLowerCase().trim();
-  var filtered = items.filter(x => {
-    var mCat = (selectedCat === 'सभी' || x.category === selectedCat);
-    var mSub = (selectedSub === 'सभी' || x.subject.indexOf(selectedSub) !== -1);
-    var mType = (!filterType || x.type === filterType);
-    var mFree = (!isFreeOnly || Number(x.price || 0) === 0);
-    var mQ = (!q || (x.title + x.category + x.subject).toLowerCase().indexOf(q) !== -1);
-    return mCat && mSub && mType && mFree && mQ;
-  });
-
-  $('itemCountTxt').textContent = filtered.length + ' सामग्री उपलब्ध';
-
-  if (filtered.length === 0) {
-    $('materialsList').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:24px;background:#fff;border-radius:12px;border:1px dashed #cbd5e1">कोई सामग्री नहीं मिली।</div>';
-    return;
-  }
-
-  var h = '';
-  filtered.forEach(x => {
-    var p = Number(x.price || 0);
-    var isUnlocked = (p === 0) || unlockedItems[x.id];
-    var tag = x.type === 'quiz' ? '📝 20 प्रश्न टेस्ट' : (x.type === 'pdf' ? '📑 पाठ PDF' : '📖 मुख्य नोट्स');
-    var btnText = x.type === 'quiz' ? '20 अंकों का टेस्ट दें' : (x.type === 'pdf' ? 'PDF खोलें' : 'सामग्री पढ़ें');
-
-    var actionHtml = '';
-    if (isUnlocked) {
-      actionHtml = (p > 0 ? '<div class="free">🔓 अनलॉक किया गया</div>' : '<div class="free">✅ निःशुल्क (Free)</div>') +
-                   '<button class="btn" style="background:#2444aa;width:100%" onclick="openItem(' + x.id + ')">' + btnText + '</button>';
-    } else {
-      actionHtml = '<div class="price">शुल्क: ₹' + p + '</div>' +
-                   '<button class="btn pay" style="width:100%" onclick="payAndUnlockItem(' + x.id + ', ' + p + ')">💳 ₹' + p + ' देकर अनलॉक करें</button>';
-    }
-
-    h += '<div class="card">' +
-      '<div>' +
-        '<span class="badge">' + x.category + '</span> ' +
-        '<span class="badge badge-sub">' + x.subject + '</span> ' +
-        '<span class="badge" style="background:#f3e8ff;color:#7e22ce">' + tag + '</span>' +
-        '<h3 style="margin:8px 0;font-size:16px">' + x.title + '</h3>' +
-      '</div>' +
-      '<div>' + actionHtml + '</div>' +
-    '</div>';
-  });
-  $('materialsList').innerHTML = h;
-}
-
-// Razorpay भुगतान
-function payAndUnlockItem(itemId, price) {
-  var x = items.find(i => i.id == itemId);
-  if (!x) return;
-
-  if (typeof Razorpay === 'undefined') {
-    alert('Razorpay पेमेंट गेटवे लोड नहीं हो सका। कृपया इंटरनेट कनेक्शन जांचें!');
-    return;
-  }
-
-  var options = {
-    "key": RAZORPAY_KEY,
-    "amount": price * 100,
-    "currency": "INR",
-    "name": "ज्ञान गंगा डिजिटल लर्निंग",
-    "description": x.title + " अनलॉक शुल्क",
-    "handler": function (response) {
-      if (response && response.razorpay_payment_id) {
-        alert('🎉 भुगतान सफल! Payment ID: ' + response.razorpay_payment_id + '\nसामग्री सफलतापूर्वक अनलॉक हो गई है!');
-        unlockedItems[itemId] = true;
-        try { localStorage.setItem('gg_unlocked_items', JSON.stringify(unlockedItems)); } catch(e){}
-        renderStudent();
-        openItem(itemId);
-      } else {
-        alert('भुगतान की पुष्टि नहीं हो सकी!');
-      }
-    },
-    "prefill": {
-      "name": "विद्यार्थी",
-      "contact": ""
-    },
-    "theme": {
-      "color": "#1a237e"
-    },
-    "modal": {
-      "ondismiss": function() {
-        alert('⚠️ भुगतान रद्द किया गया!');
-      }
-    }
-  };
-
+async function fetchAndBroadcastFromUrl() {
+  var url = $('externalQuestionsUrl').value.trim();
+  if (!url) { alert('URL लिंक दर्ज करें!'); return; }
   try {
-    var rzp = new Razorpay(options);
-    rzp.on('payment.failed', function (resp){
-      alert('❌ भुगतान असफल रहा: ' + resp.error.description);
-    });
-    rzp.open();
+    var res = await fetch(url);
+    var txt = await res.text();
+    var parsed = parseQuestions(txt);
+    if (parsed.length > 0) {
+      gpQuestions = parsed;
+      if (window.cloudBroadcastQuestions) await window.cloudBroadcastQuestions(parsed, gameFee);
+      alert('लिंक से ' + parsed.length + ' प्रश्न लाइव हो चुके हैं!');
+    } else {
+      alert('लिंक में कोई मान्य प्रश्न नहीं मिला।');
+    }
   } catch(e) {
-    alert('पेमेंट शुरू करने में त्रुटि: ' + e.message);
+    alert('लिंक खोलने में त्रुटि: ' + e.message);
   }
 }
 
-function openItem(id) {
-  var x = items.find(i => i.id == id);
-  if (!x) return;
-  var p = Number(x.price || 0);
-  
-  if (p > 0 && !unlockedItems[x.id]) {
-    payAndUnlockItem(x.id, p);
-    return;
-  }
-
-  if (x.type === 'quiz') {
-    startQuiz(x);
-  } else if (x.type === 'pdf') {
-    var pdfList = (x.pdfFiles || []).map(p => {
-      if (typeof p === 'object' && p.url) {
-        return '<li style="margin:8px 0"><a href="' + p.url + '" target="_blank" style="color:#2444aa;font-weight:bold;text-decoration:underline">' + p.name + ' ↗</a></li>';
-      }
-      return '<li style="margin:6px 0;font-weight:bold">' + p + '</li>';
-    }).join('');
-    openPop('<h2>📑 ' + x.title + '</h2><ul style="padding:16px">' + pdfList + '</ul><button class="btn danger" style="width:100%;margin-top:10px" onclick="closePop()">बंद करें</button>');
-  } else {
-    openPop('<h2>📖 ' + x.title + '</h2>' +
-      '<div style="background:#f8fafc;padding:12px;border-radius:10px;white-space:pre-wrap;margin:10px 0;line-height:1.7">' + x.text + '</div>' +
-      '<button class="btn danger" style="width:100%" onclick="closePop()">बंद करें</button>');
-  }
-}
-
-function startQuiz(x) {
-  var h = '<h2>📝 ' + x.title + '</h2><form id="quizForm">';
-  x.questions.forEach((q, i) => {
-    h += '<div class="q-box" style="margin-bottom:12px"><p><b>प्र. ' + (i + 1) + ': ' + q.q + '</b></p>';
-    q.options.forEach((opt, oi) => {
-      h += '<label style="display:block;margin:5px 0;padding:6px;background:#fff;border-radius:6px;border:1px solid #ddd">' +
-           '<input type="radio" name="q_' + i + '" value="' + oi + '"> ' + opt + '</label>';
-    });
-    h += '</div>';
-  });
-  h += '<button type="button" class="btn pay" style="width:100%;padding:12px;font-size:15px" onclick="submitQuiz(' + x.id + ')">सबमिट करें और स्कोर देखें</button>' +
-       '<button type="button" class="btn danger" style="width:100%;margin-top:6px" onclick="closePop()">रद्द करें</button></form>';
-  openPop(h);
-}
-
-function submitQuiz(id) {
-  var x = items.find(i => i.id == id);
-  var score = 0;
-  x.questions.forEach((q, i) => {
-    var rad = document.querySelector('input[name="q_' + i + '"]:checked');
-    if (rad && Number(rad.value) === q.ans) score++;
-  });
-  openPop('<div style="text-align:center;padding:14px">' +
-    '<h2>🎯 टेस्ट परिणाम</h2>' +
-    '<h1 style="color:#2444aa;font-size:38px;margin:10px 0">' + score + ' / ' + x.questions.length + '</h1>' +
-    '<p>प्राप्तांक: <b>' + Math.round((score / x.questions.length) * 100) + '%</b></p>' +
-    '<button class="btn danger" style="width:100%;margin-top:12px" onclick="closePop()">परिणाम बंद करें</button>' +
-  '</div>');
-}
-
-// 4. शिक्षक टेस्ट मेकर (क्लाउड सिंक सहित)
+// ==================== 20 प्रश्न टेस्ट मेकर ====================
 function openTestMaker() {
-  openPop('<h2>📝 नया टेस्ट बनाएँ (20 प्रश्न • 20 अंक)</h2>' +
-    '<label>टेस्ट शीर्षक</label><input id="tmTitle" class="editorInput" placeholder="कक्षा 8 विज्ञान मॉडल पेपर">' +
+  openPop('<h2>📝 नया 20 प्रश्नों का टेस्ट बनाएँ</h2>' +
+    '<label>टेस्ट का शीर्षक:</label><input id="tmTitle" class="editorInput" placeholder="कक्षा 8 विज्ञान मॉडल पेपर">' +
     '<div style="grid-template-columns:1fr 1fr;gap:10px;display:grid">' +
-      '<div><label>कक्षा</label><select id="tmCat" class="editorInput"><option>कक्षा 8</option><option>कक्षा 7</option><option>कक्षा 6</option></select></div>' +
+      '<div><label>कक्षा</label><select id="tmCat" class="editorInput">' + classes.map(c => '<option>' + c + '</option>').join('') + '</select></div>' +
       '<div><label>विषय</label><select id="tmSub" class="editorInput"><option>विज्ञान</option><option>गणित</option><option>सामाजिक विज्ञान</option><option>हिंदी</option></select></div>' +
     '</div>' +
     '<div class="input-row"><label>शुल्क ₹ (0 = Free)</label><input type="number" id="tmPrice" class="editorInput" value="0" min="0"></div>' +
@@ -1016,10 +1031,19 @@ function openTestMaker() {
 function saveTmQuiz() {
   var t = $('tmTitle').value.trim() || "नया मॉडल टेस्ट";
   var s = $('tmSub').value;
+  var c = $('tmCat').value;
   var pr = Math.max(0, Number($('tmPrice').value || 0));
-  var qs = generateSpecificSubjectQuestions(s, 20);
-  var newItem = { id: Date.now(), title: t, category: $('tmCat').value, subject: s, type: 'quiz', price: pr, questions: qs };
   
+  var qs = [];
+  for (var i = 1; i <= 20; i++) {
+    qs.push({
+      q: s + " अभ्यास प्रश्न संख्या " + i + ": सही विकल्प का चयन कीजिए?",
+      options: ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"],
+      ans: 0
+    });
+  }
+
+  var newItem = { id: Date.now(), title: t, category: c, subject: s, type: 'quiz', price: pr, questions: qs };
   items.unshift(newItem);
   saveItems();
   if (window.syncToFirestore) window.syncToFirestore(newItem);
@@ -1027,47 +1051,93 @@ function saveTmQuiz() {
   closePop();
   renderAdmin();
   renderStudent();
-  alert('20 प्रश्नों का टेस्ट प्रकाशित व क्लाउड पर सेव हो गया!');
+  alert('20 प्रश्नों का टेस्ट सफलतापूर्वक प्रकाशित हो गया!');
 }
 
+// ==================== वास्तविक FIREBASE STORAGE PDF अपलोडर ====================
 function openAddPdf() {
-  openPop('<h2>📑 पाठ सामग्री (3 PDF तक जोड़ें)</h2>' +
-    '<label>पाठ का नाम</label><input id="pdfT" class="editorInput" placeholder="कक्षा 8 सामाजिक विज्ञान पाठ 1">' +
-    '<label>शुल्क ₹ (0 = Free)</label><input type="number" id="pdfPrice" class="editorInput" value="0" min="0">' +
-    '<label>PDF 1 (मुख्य नोट्स):</label><input type="file" id="f1" class="editorInput">' +
-    '<label>PDF 2 (अभ्यास प्रश्न):</label><input type="file" id="f2" class="editorInput">' +
-    '<label>PDF 3 (कार्यपत्रक):</label><input type="file" id="f3" class="editorInput">' +
-    '<button class="btn pay" style="width:100%;margin-top:8px" onclick="savePdfMaterial()">अपलोड व प्रकाशित करें</button>' +
+  openPop('<h2>📑 पाठ सामग्री (3 PDF तक अपलोड करें)</h2>' +
+    '<label>पाठ का नाम:</label><input id="pdfT" class="editorInput" placeholder="कक्षा 8 विज्ञान पाठ 1 फसल उत्पादन">' +
+    '<div style="grid-template-columns:1fr 1fr;gap:10px;display:grid">' +
+      '<div><label>कक्षा</label><select id="pdfCat" class="editorInput">' + classes.map(c => '<option>' + c + '</option>').join('') + '</select></div>' +
+      '<div><label>विषय</label><select id="pdfSub" class="editorInput"><option>विज्ञान</option><option>गणित</option><option>सामाजिक विज्ञान</option><option>हिंदी</option><option>संस्कृत</option><option>अंग्रेजी</option></select></div>' +
+    '</div>' +
+    '<div class="input-row"><label>शुल्क ₹ (0 = Free)</label><input type="number" id="pdfPrice" class="editorInput" value="0" min="0"></div>' +
+    '<label>PDF 1 (मुख्य नोट्स):</label><input type="file" id="f1" class="editorInput" accept="application/pdf">' +
+    '<label>PDF 2 (अभ्यास प्रश्न):</label><input type="file" id="f2" class="editorInput" accept="application/pdf">' +
+    '<label>PDF 3 (कार्यपत्रक):</label><input type="file" id="f3" class="editorInput" accept="application/pdf">' +
+    '<div id="pdfUploadStatus" style="font-size:13px;font-weight:bold;margin:8px 0;min-height:18px"></div>' +
+    '<button class="btn pay" id="btnUploadPdf" style="width:100%;margin-top:8px" onclick="savePdfMaterial()">🚀 फ़ाइलें क्लाउड पर अपलोड करें</button>' +
     '<button class="btn danger" style="width:100%;margin-top:6px" onclick="closePop()">रद्द करें</button>');
 }
 
-function savePdfMaterial() {
+async function savePdfMaterial() {
   var t = $('pdfT').value.trim() || "नया पाठ दस्तावेज़";
+  var c = $('pdfCat').value;
+  var s = $('pdfSub').value;
   var pr = Math.max(0, Number($('pdfPrice').value || 0));
-  var names = [];
-  ['f1','f2','f3'].forEach((id, i) => {
-    var f = $(id).files[0];
-    if (f) {
-      names.push({ name: "PDF " + (i+1) + ": " + f.name, url: URL.createObjectURL(f) });
-    }
-  });
-  if (names.length === 0) names.push({ name: "मुख्य पाठ PDF", url: "#" });
-  
-  var newItem = { id: Date.now(), title: t, category: "कक्षा 8", subject: "सामाजिक विज्ञान", type: "pdf", price: pr, pdfFiles: names };
-  items.unshift(newItem);
-  saveItems();
-  if (window.syncToFirestore) window.syncToFirestore(newItem);
+  var statusEl = $('pdfUploadStatus');
+  var btnEl = $('btnUploadPdf');
 
-  closePop();
-  renderAdmin();
-  renderStudent();
-  alert('PDF सामग्री प्रकाशित व क्लाउड पर सेव हो गई!');
+  var f1 = $('f1').files[0];
+  var f2 = $('f2').files[0];
+  var f3 = $('f3').files[0];
+
+  if (!f1 && !f2 && !f3) {
+    alert('कृपया कम से कम एक PDF फ़ाइल अवश्य चुनें!');
+    return;
+  }
+
+  btnEl.disabled = true;
+  btnEl.style.opacity = '0.5';
+  statusEl.style.color = '#0284c7';
+
+  var uploadedList = [];
+  var fileInputs = [
+    { file: f1, label: "PDF 1: मुख्य नोट्स" },
+    { file: f2, label: "PDF 2: अभ्यास प्रश्न" },
+    { file: f3, label: "PDF 3: कार्यपत्रक" }
+  ];
+
+  try {
+    for (var i = 0; i < fileInputs.length; i++) {
+      var item = fileInputs[i];
+      if (item.file) {
+        statusEl.textContent = '⏳ ' + item.label + ' अपलोड हो रही है...';
+        var safeFileName = 'materials_pdf/' + Date.now() + '_' + item.file.name.replace(/\s+/g, '_');
+        var cloudUrl = await window.uploadPdfFileToCloud(item.file, safeFileName);
+        uploadedList.push({ name: item.label + " (" + item.file.name + ")", url: cloudUrl });
+      }
+    }
+
+    statusEl.style.color = '#059669';
+    statusEl.textContent = '✅ सभी फ़ाइलें क्लाउड पर सुरक्षित अपलोड हो गईं!';
+
+    var newItem = { id: Date.now(), title: t, category: c, subject: s, type: "pdf", price: pr, pdfFiles: uploadedList };
+    items.unshift(newItem);
+    saveItems();
+    if (window.syncToFirestore) window.syncToFirestore(newItem);
+
+    setTimeout(function() {
+      closePop();
+      renderAdmin();
+      renderStudent();
+      alert('शानदार! आपकी PDF फ़ाइलें Firebase Cloud Storage पर अपलोड हो चुकी हैं और अब सभी विद्यार्थियों के फोन में खुलेंगी।');
+    }, 800);
+
+  } catch(error) {
+    statusEl.style.color = '#dc2626';
+    statusEl.textContent = '❌ अपलोड विफल: ' + error.message;
+    alert('PDF अपलोड करने में त्रुटि आई:\n' + error.message);
+    btnEl.disabled = false;
+    btnEl.style.opacity = '1';
+  }
 }
 
 function printEditorText() {
   var t = $('edTitle').value || "नोट्स";
   var txt = $('edText').value;
-  if (!txt) { alert('नोट्स लिखें'); return; }
+  if (!txt) { alert('पहले नोट्स लिखें!'); return; }
   var w = window.open('', '_blank');
   w.document.write('<!doctype html><html><body><h2>' + t + '</h2><pre style="white-space:pre-wrap;font-size:16px">' + txt + '</pre><script>window.print()<\/script></body></html>');
   w.document.close();
@@ -1077,8 +1147,8 @@ function publishNote() {
   var t = $('edTitle').value.trim();
   var txt = $('edText').value.trim();
   var pr = Math.max(0, Number($('edPrice').value || 0));
-  if (!t || !txt) { alert('शीर्षक और नोट्स लिखें'); return; }
-  
+  if (!t || !txt) { alert('शीर्षक और सामग्री भरें'); return; }
+
   var newItem = { id: Date.now(), title: t, category: $('edCat').value, subject: $('edSub').value, type: "article", price: pr, text: txt };
   items.unshift(newItem);
   saveItems();
@@ -1112,331 +1182,350 @@ function delItem(id) {
   }
 }
 
-// 5. विषय-विशिष्ट प्रश्न बैंक
-var SUBJECT_DATA = {
-  "गणित": [
-    { q: "सबसे छोटी अभाज्य संख्या (Prime Number) कौन सी है?", options: ["0", "1", "2", "3"], ans: 2 },
-    { q: "किसी समकोण त्रिभुज का एक कोण कितने डिग्री का होता है?", options: ["45°", "90°", "180°", "360°"], ans: 1 },
-    { q: "संख्या (-7/9) का योज्य प्रतिलोम (Additive Inverse) क्या होगा?", options: ["7/9", "-9/7", "9/7", "1"], ans: 0 },
-    { q: "एक त्रिभुज के तीनों अंतःकोणों का योग कितना होता है?", options: ["90°", "180°", "270°", "360°"], ans: 1 },
-    { q: "वृत्त के क्षेत्रफल का सूत्र क्या होता है?", options: ["2πr", "πr²", "2πr²", "4πr"], ans: 1 }
-  ],
-  "विज्ञान": [
-    { q: "प्रकाश संश्लेषण प्रक्रिया में पौधे कौन सी गैस ग्रहण करते हैं?", options: ["ऑक्सीजन", "कार्बन डाइऑक्साइड", "नाइट्रोजन", "हाइड्रोजन"], ans: 1 },
-    { q: "मानव शरीर में कुल कितनी हड्डियाँ पाई जाती हैं?", options: ["106", "206", "306", "216"], ans: 1 },
-    { q: "विटामिन सी की कमी से कौन सा रोग होता है?", options: ["रतौंधी", "बेरीबेरी", "स्कर्वी", "रिकेट्स"], ans: 2 },
-    { q: "जल का रासायनिक सूत्र क्या होता है?", options: ["CO2", "H2O", "NaCl", "CH4"], ans: 1 },
-    { q: "कोशिका का 'शक्तिगृह' किसे कहा जाता है?", options: ["राइबोसोम", "लाइसोसोम", "माइटोकॉन्ड्रिया", "गॉल्जीकाय"], ans: 2 }
-  ],
-  "सामाजिक विज्ञान": [
-    { q: "राजस्थान में 1857 की क्रांति का प्रारंभ सर्वप्रथम किस छावनी से हुआ था?", options: ["नसीराबाद", "नीमच", "एरिनपुरा", "देवली"], ans: 0 },
-    { q: "क्षेत्रफल की दृष्टि से भारत का सबसे बड़ा राज्य कौन सा है?", options: ["उत्तर प्रदेश", "महाराष्ट्र", "राजस्थान", "मध्य प्रदेश"], ans: 2 },
-    { q: "भारतीय संविधान का जनक किसे कहा जाता है?", options: ["महात्मा गांधी", "डॉ. भीमराव अंबेडकर", "पं. जवाहरलाल नेहरू", "सरदार पटेल"], ans: 1 }
-  ]
-};
-
-function generateSpecificSubjectQuestions(sub, count) {
-  var pool = SUBJECT_DATA[sub] || SUBJECT_DATA["विज्ञान"];
-  var list = [];
-  for (var i = 0; i < count; i++) {
-    var item = pool[i % pool.length];
-    list.push({ q: item.q, options: item.options, ans: item.ans });
-  }
-  return list;
+// ==================== विद्यार्थी व्यू रेंडर ====================
+function setCat(c) { selectedCat = c; isFreeOnly = false; filterType = null; renderStudent(); }
+function setSub(s, el) {
+  selectedSub = s;
+  document.querySelectorAll('.sub-chip').forEach(c => c.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderStudent();
+}
+function setType(t) { selectedCat = 'सभी'; filterType = t; renderStudent(); }
+function setFree() { selectedCat = 'सभी'; isFreeOnly = true; renderStudent(); }
+function resetFilters() {
+  $('searchInp').value = '';
+  selectedCat = 'सभी';
+  selectedSub = 'सभी';
+  isFreeOnly = false;
+  filterType = null;
+  document.querySelectorAll('.sub-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.sub-chip')[0].classList.add('active');
+  renderStudent();
 }
 
-function genSubjectSpecificQuestions() {
-  var sub = $('selGpSubject').value;
-  var count = Number($('selGpCount').value);
-  var list = generateSpecificSubjectQuestions(sub, count);
-  window.tempGpList = list;
+function renderStudent() {
+  var cHtml = '';
+  classes.forEach((c, i) => {
+    var act = (selectedCat === c) ? 'active' : '';
+    cHtml += '<button class="chip-btn col-' + (i % 7) + ' ' + act + '" onclick="setCat(\'' + c + '\')"><span>🏫 ' + c + '</span></button>';
+  });
+  $('classesList').innerHTML = cHtml;
 
-  var h = '';
-  list.forEach((q, idx) => {
-    h += '<div style="margin:6px 0;padding:6px;border-bottom:1px solid #e2e8f0">' +
-      '<b>' + (idx + 1) + '. ' + q.q + '</b><br>' +
-      '<span style="color:#4a5568">A: ' + q.options[0] + ' | B: ' + q.options[1] + ' | C: ' + q.options[2] + ' | D: ' + q.options[3] + '</span><br>' +
-      '<span style="color:#0a8e61;font-weight:bold">सही उत्तर: ' + ['A','B','C','D'][q.ans] + ' (' + q.options[q.ans] + ')</span>' +
-    '</div>';
+  var eHtml = '';
+  exams.forEach((ex, j) => {
+    var act = (selectedCat === ex) ? 'active' : '';
+    eHtml += '<button class="chip-btn col-' + ((j + 2) % 7) + ' ' + act + '" onclick="setCat(\'' + ex + '\')"><span>🎯 ' + ex + '</span></button>';
+  });
+  $('examsList').innerHTML = eHtml;
+
+  var q = $('searchInp').value.toLowerCase().trim();
+  var filtered = items.filter(x => {
+    var mCat = (selectedCat === 'सभी' || x.category === selectedCat);
+    var mSub = (selectedSub === 'सभी' || x.subject.indexOf(selectedSub) !== -1);
+    var mType = (!filterType || x.type === filterType);
+    var mFree = (!isFreeOnly || Number(x.price || 0) === 0);
+    var mQ = (!q || (x.title + x.category + x.subject).toLowerCase().indexOf(q) !== -1);
+    return mCat && mSub && mType && mFree && mQ;
   });
 
-  $('previewHeadTitle').textContent = '📋 ' + sub + ' के ' + count + ' प्रश्नों का प्रीव्यू:';
-  $('gpPreviewList').innerHTML = h;
-  $('gpPreviewArea').style.display = 'block';
+  $('itemCountTxt').textContent = filtered.length + ' सामग्री उपलब्ध';
+
+  var h = '';
+  filtered.forEach(x => {
+    var p = Number(x.price || 0);
+    var tag = x.type === 'quiz' ? '📝 20 प्रश्न टेस्ट' : (x.type === 'pdf' ? '📑 पाठ PDF' : '📖 मुख्य नोट्स');
+    var btnText = x.type === 'quiz' ? '20 अंकों का टेस्ट दें' : (x.type === 'pdf' ? 'PDF खोलें' : 'सामग्री पढ़ें');
+    var isUnlocked = (p === 0) || unlockedItems[x.id];
+
+    var actionHtml = '';
+    if (isUnlocked) {
+      actionHtml = (p > 0 ? '<div class="free">🔓 अनलॉक किया गया</div>' : '<div class="free">✅ निःशुल्क (Free)</div>') +
+                   '<button class="btn" style="background:#2444aa;width:100%" onclick="openItem(' + x.id + ')">' + btnText + '</button>';
+    } else {
+      actionHtml = '<div class="price">शुल्क: ₹' + p + '</div>' +
+                   '<button class="btn pay" style="width:100%" onclick="payAndUnlockItem(' + x.id + ', ' + p + ')">💳 ₹' + p + ' देकर अनलॉक करें</button>';
+    }
+
+    h += '<div class="card">' +
+      '<div><span class="badge">' + x.category + '</span> <span class="badge badge-sub">' + x.subject + '</span> <span class="badge" style="background:#f3e8ff;color:#7e22ce">' + tag + '</span><h3 style="margin:8px 0;font-size:16px">' + x.title + '</h3></div>' +
+      '<div>' + actionHtml + '</div>' +
+    '</div>';
+  });
+  $('materialsList').innerHTML = h;
 }
 
-function publishGpQuestions() {
-  if (!window.tempGpList || window.tempGpList.length === 0) {
-    alert('पहले प्रश्न जनरेट करें!');
-    return;
+function payAndUnlockItem(itemId, price) {
+  var x = items.find(i => i.id == itemId);
+  if (!x) return;
+
+  var options = {
+    "key": RAZORPAY_KEY,
+    "amount": price * 100,
+    "currency": "INR",
+    "name": "ज्ञान गंगा डिजिटल लर्निंग",
+    "description": x.title + " अनलॉक शुल्क",
+    "handler": function (response) {
+      if (response && response.razorpay_payment_id) {
+        alert('🎉 भुगतान सफल! सामग्री अनलॉक हो गई है!');
+        unlockedItems[itemId] = true;
+        try { localStorage.setItem('gg_unlocked_items', JSON.stringify(unlockedItems)); } catch(e){}
+        renderStudent();
+        openItem(itemId);
+      }
+    },
+    "prefill": { "name": "विद्यार्थी", "contact": "" },
+    "theme": { "color": "#1a237e" }
+  };
+
+  try {
+    var rzp = new Razorpay(options);
+    rzp.open();
+  } catch(e) {
+    alert('पेमेंट त्रुटि: ' + e.message);
   }
-  gpQuestions = window.tempGpList;
-  alert('सफलता! ' + $('selGpSubject').value + ' के प्रश्न गेम में लाइव हो चुके हैं!');
 }
 
-// 6. ज्ञानपति गेम और टाइमर
-var curUser = { name: '', mobile: '', score: 0, idx: 0, hasPaid: false, used50: false, usedPoll: false };
-var gpQuestions = [];
-var gpTimer = null;
-var gpSec = 30;
+function openItem(id) {
+  var x = items.find(i => i.id == id);
+  if (!x) return;
 
-function changeGameFee(v) {
-  gameFee = Number(v);
-  $('bannerFeeTxt').textContent = '₹' + gameFee;
-  alert('गेम फीस ₹' + gameFee + ' सेट कर दी गई!');
+  if (x.type === 'quiz') {
+    var h = '<h2>📝 ' + x.title + '</h2><form id="quizForm">';
+    x.questions.forEach((q, i) => {
+      h += '<div style="margin-bottom:12px"><p><b>प्र. ' + (i + 1) + ': ' + q.q + '</b></p>';
+      q.options.forEach((opt, oi) => {
+        h += '<label style="display:block;margin:5px 0;padding:6px;background:#f8fafc;border-radius:6px;border:1px solid #ddd">' +
+             '<input type="radio" name="q_' + i + '" value="' + oi + '"> ' + opt + '</label>';
+      });
+      h += '</div>';
+    });
+    h += '<button type="button" class="btn pay" style="width:100%;padding:12px;font-size:15px" onclick="submitQuiz(' + x.id + ')">सबमिट करें और स्कोर देखें</button>' +
+         '<button type="button" class="btn danger" style="width:100%;margin-top:6px" onclick="closePop()">रद्द करें</button></form>';
+    openPop(h);
+  } else if (x.type === 'pdf') {
+    var pdfList = (x.pdfFiles || []).map(p => {
+      return '<li style="margin:10px 0;background:#f1f5f9;padding:10px;border-radius:8px;border:1px solid #cbd5e1">' +
+        '<div style="font-weight:bold;margin-bottom:4px">📄 ' + p.name + '</div>' +
+        '<a href="' + p.url + '" target="_blank" class="btn pay" style="display:inline-block;text-decoration:none;font-size:12px;padding:6px 12px">' +
+          '📥 PDF देखें / डाउनलोड करें ↗' +
+        '</a>' +
+      '</li>';
+    }).join('');
+    openPop('<h2>📑 ' + x.title + '</h2><ul style="padding:16px;list-style:none">' + pdfList + '</ul><button class="btn danger" style="width:100%;margin-top:10px" onclick="closePop()">बंद करें</button>');
+  } else {
+    openPop('<h2>📖 ' + x.title + '</h2><div style="background:#f8fafc;padding:12px;border-radius:8px;margin:10px 0;white-space:pre-wrap;line-height:1.7">' + (x.text || "सामग्री लोड हो रही है...") + '</div><button class="btn danger" style="width:100%" onclick="closePop()">बंद करें</button>');
+  }
 }
 
-function openGameReg() {
-  openPop('<div style="text-align:center">' +
-    '<h2 style="color:#1a3ea3">🎮 कौन बनेगा ज्ञानपति</h2>' +
-    '<p style="font-size:13px;color:#64748b;margin:8px 0">पहले 3 प्रश्न बिल्कुल FREE! अपना मोबाइल नंबर दर्ज करें:</p>' +
-    '<div class="input-row"><label>मोबाइल नंबर</label><input type="tel" id="regMob" maxlength="10" placeholder="10 अंक" oninput="autoNm(this.value)"></div>' +
-    '<div class="input-row"><label>खिलाड़ी का नाम</label><input type="text" id="regNm" placeholder="आपका नाम"></div>' +
-    '<button class="btn pay" style="width:100%;padding:12px;font-size:15px" onclick="startGame()">🚀 फुल स्क्रीन गेम शुरू करें</button>' +
+function submitQuiz(id) {
+  var x = items.find(i => i.id == id);
+  var score = 0;
+  x.questions.forEach((q, i) => {
+    var rad = document.querySelector('input[name="q_' + i + '"]:checked');
+    if (rad && Number(rad.value) === q.ans) score++;
+  });
+  openPop('<div style="text-align:center;padding:14px">' +
+    '<h2>🎯 टेस्ट परिणाम</h2>' +
+    '<h1 style="color:#2444aa;font-size:38px;margin:10px 0">' + score + ' / ' + x.questions.length + '</h1>' +
+    '<p>प्राप्तांक प्रतिशत: <b>' + Math.round((score / x.questions.length) * 100) + '%</b></p>' +
+    '<button class="btn danger" style="width:100%;margin-top:12px" onclick="closePop()">बंद करें</button>' +
   '</div>');
 }
 
-function autoNm(m) {
-  if (m.length === 10 && playerDb[m]) $('regNm').value = playerDb[m];
-}
-
-function startGame() {
-  var m = $('regMob').value.trim();
-  var n = $('regNm').value.trim();
-  if (m.length !== 10 || !n) { alert('सही मोबाइल नंबर और नाम दर्ज करें!'); return; }
-  playerDb[m] = n;
-  try { localStorage.setItem('gg_players_db', JSON.stringify(playerDb)); } catch(e){}
-
-  if (customGpQuestions && customGpQuestions.length > 0) {
-    gpQuestions = customGpQuestions;
-  } else if (gpQuestions.length === 0) {
-    var sub = $('selGpSubject') ? $('selGpSubject').value : "विज्ञान";
-    gpQuestions = generateSpecificSubjectQuestions(sub, 15);
+// ==================== ज्ञानपति प्रश्न चयन (सरल से कठिन क्रम) ====================
+function prepareAdaptive15Questions() {
+  var pool = (gpQuestions && gpQuestions.length > 0) ? gpQuestions.slice() : [];
+  if (pool.length < 15) {
+    // यदि 15 से कम हैं तो उसी सूची को सीधे उपयोग करें
+    return pool;
   }
 
-  curUser = { name: n, mobile: m, score: 0, idx: 0, hasPaid: false, used50: false, usedPoll: false };
+  // 100-200 प्रश्नों को 3 स्तरों में बाँटना (सरल -> मध्यम -> कठिन)
+  var poolSize = pool.length;
+  var seg1 = pool.slice(0, Math.floor(poolSize / 3));
+  var seg2 = pool.slice(Math.floor(poolSize / 3), Math.floor((poolSize * 2) / 3));
+  var seg3 = pool.slice(Math.floor((poolSize * 2) / 3));
+
+  // अगर किसी वजह से सेगमेंट खाली हो तो बैकअप
+  if (!seg1.length) seg1 = pool;
+  if (!seg2.length) seg2 = pool;
+  if (!seg3.length) seg3 = pool;
+
+  function pickRandom(arr, count) {
+    var shuffled = arr.slice().sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+  }
+
+  // Q1-5 (सरल), Q6-10 (मध्यम), Q11-15 (कठिन)
+  var easy5 = pickRandom(seg1, 5);
+  var mid5 = pickRandom(seg2, 5);
+  var hard5 = pickRandom(seg3, 5);
+
+  return easy5.concat(mid5).concat(hard5);
+}
+
+// ==================== कौन बनेगा ज्ञानपति गेम व Razorpay लॉक ====================
+function openGameReg() {
+  var alertBar = $('liveBroadcastAlert');
+  if (alertBar) alertBar.style.display = 'none';
+
+  openPop('<h2>🎮 कौन बनेगा ज्ञानपति में प्रवेश</h2>' +
+    '<p style="font-size:13px;color:#64748b;margin:6px 0">प्रथम 3 प्रश्न बिल्कुल मुफ़्त! उसके बाद ₹' + gameFee + ' शुल्क लागू होगा।</p>' +
+    '<div class="input-row"><label>विद्यार्थी का नाम:</label><input id="regName" placeholder="अपना नाम दर्ज करें"></div>' +
+    '<div class="input-row"><label>मोबाइल नंबर:</label><input id="regMob" type="tel" placeholder="मोबाइल नंबर (वैकल्पिक)"></div>' +
+    '<button class="btn pay" style="width:100%;font-size:16px;padding:12px;margin-top:8px" onclick="startGameSession()">🚀 मुकाबला शुरू करें</button>' +
+    '<button class="btn danger" style="width:100%;margin-top:6px" onclick="closePop()">रद्द करें</button>');
+}
+
+function startGameSession() {
+  var nm = $('regName').value.trim() || "विद्यार्थी";
+  var mob = $('regMob').value.trim();
   closePop();
 
-  var elem = document.documentElement;
-  if (elem.requestFullscreen) elem.requestFullscreen().catch(()=>{});
+  // सरल से कठिन 15 प्रश्नों का चयन
+  activeGameQuestions = prepareAdaptive15Questions();
 
+  curUser = {
+    name: nm,
+    mobile: mob,
+    idx: 0,
+    life50: true,
+    lifePoll: true,
+    lifeFlip: true,
+    paid: false
+  };
+
+  $('fsPlayerNm').textContent = curUser.name;
   $('fullscreenGameContainer').style.display = 'flex';
-  playKbcSound('start');
+  renderMoneyTree();
   loadGpQ(0);
 }
 
-function exitGame() {
-  clearInterval(gpTimer);
-  stopVoice();
-  $('fullscreenGameContainer').style.display = 'none';
-  if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
-}
-
-function stopVoice() {
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-}
-
-function speakText(t) {
-  if (!isVoiceOn || !('speechSynthesis' in window)) return;
-  stopVoice();
-  setTimeout(function() {
-    var u = new SpeechSynthesisUtterance(t);
-    u.lang = 'hi-IN';
-    window.speechSynthesis.speak(u);
-  }, 100);
-}
-
-function toggleVoice() {
-  isVoiceOn = !isVoiceOn;
-  $('voiceIcon').textContent = isVoiceOn ? '🔊' : '🔇';
-  if (!isVoiceOn) stopVoice();
-}
-
-function playKbcSound(type) {
-  try {
-    var ctx = new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === 'suspended') ctx.resume();
-    var now = ctx.currentTime;
-    if (type === 'start') {
-      [65.41, 130.81, 164.81, 196.00].forEach((f, i) => {
-        var osc = ctx.createOscillator();
-        var g = ctx.createGain();
-        osc.frequency.setValueAtTime(f, now + i * 0.15);
-        g.gain.setValueAtTime(0.2, now + i * 0.15);
-        g.exponentialRampToValueAtTime(0.01, now + 2.0);
-        osc.connect(g);
-        g.connect(ctx.destination);
-        osc.start(now + i * 0.15);
-        osc.stop(now + 2.0);
-      });
-    } else if (type === 'tick') {
-      var osc = ctx.createOscillator();
-      var g = ctx.createGain();
-      osc.frequency.setValueAtTime(1100, now);
-      g.gain.setValueAtTime(0.08, now);
-      g.exponentialRampToValueAtTime(0.001, now + 0.05);
-      osc.connect(g);
-      g.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.05);
-    } else if (type === 'win') {
-      [523.25, 659.25, 783.99].forEach((f, i) => {
-        var osc = ctx.createOscillator();
-        var g = ctx.createGain();
-        osc.frequency.setValueAtTime(f, now + i * 0.1);
-        g.gain.setValueAtTime(0.2, now + i * 0.1);
-        g.exponentialRampToValueAtTime(0.01, now + 0.5);
-        osc.connect(g);
-        g.connect(ctx.destination);
-        osc.start(now + i * 0.1);
-        osc.stop(now + 0.5);
-      });
-    } else if (type === 'wrong') {
-      var osc = ctx.createOscillator();
-      var g = ctx.createGain();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(200, now);
-      osc.linearRampToValueAtTime(100, now + 0.5);
-      g.gain.setValueAtTime(0.2, now);
-      g.exponentialRampToValueAtTime(0.01, now + 0.6);
-      osc.connect(g);
-      g.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.6);
-    }
-  } catch(e){}
-}
-
-function updateTree(idx) {
+function renderMoneyTree() {
   var h = '';
-  var total = gpQuestions.length || 15;
-  for (var i = 0; i < total; i++) {
-    var slab = (i < moneySlabs.length) ? moneySlabs[i] : "स्तर " + (i + 1);
-    var cls = 'tree-level' + (i === idx ? ' active' : '');
-    h += '<div class="' + cls + '"><span>' + (i + 1) + '</span><span>' + slab + '</span></div>';
+  for (var i = 0; i < 15; i++) {
+    var act = (curUser.idx === i) ? 'active' : '';
+    h += '<div class="tree-level ' + act + '"><span>Q' + (i + 1) + '</span><span>' + moneySlabs[i] + '</span></div>';
   }
   $('gpMoneyTree').innerHTML = h;
 }
 
-function loadGpQ(idx) {
-  if (idx >= 3 && !curUser.hasPaid) {
-    clearInterval(gpTimer);
-    stopVoice();
-    $('fullscreenGameContainer').style.display = 'none';
-    if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+function loadGpQ(index) {
+  clearInterval(gpTimer);
 
-    openPop('<div style="text-align:center;padding:10px">' +
-      '<div style="font-size:40px">🎉 शानदार!</div>' +
-      '<h2>आपने 3 फ्री प्रश्न पूरे कर लिए हैं!</h2>' +
-      '<p style="margin:8px 0;color:#64748b">आगे के प्रश्नों का मुकाबला खेलने हेतु प्रवेश शुल्क का ऑनलाइन भुगतान करें:</p>' +
-      '<h1 style="color:#0a8e61;margin:12px 0">₹' + gameFee + '</h1>' +
-      '<button class="btn pay" style="width:100%;font-size:16px;padding:12px" onclick="initiateLiveRazorpayPayment()">💳 ₹' + gameFee + ' ऑनलाइन भुगतान करें (UPI / Cards)</button>' +
-      '<button class="btn danger" style="width:100%;margin-top:8px" onclick="closePop()">बाद में खेलें</button>' +
-    '</div>');
+  var totalQs = Math.min(activeGameQuestions.length, 15);
+  if (index >= totalQs) {
+    winGyanpati();
     return;
   }
 
-  if (idx >= gpQuestions.length) {
-    winGame();
+  // 3 प्रश्न के बाद सख्त Razorpay लॉक
+  if (index >= 3 && !curUser.paid) {
+    lockAndPromptPayment();
     return;
   }
 
-  curUser.idx = idx;
-  var q = gpQuestions[idx];
+  curUser.idx = index;
+  renderMoneyTree();
+  var q = activeGameQuestions[index];
 
-  $('fsPlayerNm').textContent = curUser.name;
-  $('fsRoundTxt').textContent = idx < 3 ? '🟢 FREE राउंड' : '⭐ प्रीमियम राउंड (शुल्क पेड)';
-  $('fsQNumTxt').textContent = 'प्रश्न ' + (idx + 1) + ' / ' + gpQuestions.length;
+  var diffLabel = index < 5 ? 'सरल स्तर' : (index < 10 ? 'मध्यम स्तर' : 'कठिन स्तर');
+  $('fsQNumTxt').textContent = 'प्रश्न ' + (index + 1) + ' / ' + totalQs + ' (' + diffLabel + ')';
+  $('fsRoundTxt').textContent = index < 3 ? '🟢 FREE राउंड (प्र. ' + (index + 1) + ')' : '🟡 प्रीमियम मुकाबला (' + moneySlabs[index] + ')';
   $('fsQuestionTxt').textContent = q.q;
   $('fsLifeMsg').textContent = '';
-  $('btn5050').disabled = curUser.used50;
-  $('btnPoll').disabled = curUser.usedPoll;
 
-  updateTree(idx);
-
-  var gh = '';
-  q.options.forEach((opt, oi) => {
-    gh += '<button class="gp-opt-btn" id="optBtn_' + oi + '" onclick="ansGp(' + oi + ')">' +
-          '<b>' + ['A','B','C','D'][oi] + ':</b> ' + opt + '</button>';
+  var optsHtml = '';
+  ['A', 'B', 'C', 'D'].forEach((l, i) => {
+    optsHtml += '<button id="optBtn_' + i + '" class="gp-opt-btn" onclick="checkGpAns(' + i + ')">' +
+                  '<b>' + l + ':</b> ' + q.options[i] +
+                '</button>';
   });
-  $('fsOptsGrid').innerHTML = gh;
+  $('fsOptsGrid').innerHTML = optsHtml;
 
-  speakText("प्रश्न " + (idx + 1) + ". " + q.q);
-  startGpTimer();
-}
+  $('btn5050').style.opacity = curUser.life50 ? '1' : '0.25';
+  $('btnPoll').style.opacity = curUser.lifePoll ? '1' : '0.25';
+  $('btnFlip').style.opacity = curUser.lifeFlip ? '1' : '0.25';
 
-function startGpTimer() {
-  clearInterval(gpTimer);
-  gpSec = 30;
-  $('gpTimerTxt').textContent = gpSec;
-  gpTimer = setInterval(() => {
-    gpSec--;
-    playKbcSound('tick');
-    $('gpTimerTxt').textContent = gpSec;
-    if (gpSec <= 0) {
+  speakQuestion(q.q);
+
+  timeLeft = 30;
+  $('gpTimerTxt').textContent = timeLeft;
+  gpTimer = setInterval(function() {
+    timeLeft--;
+    $('gpTimerTxt').textContent = timeLeft;
+    playSound('tick');
+    if (timeLeft <= 0) {
       clearInterval(gpTimer);
-      playKbcSound('wrong');
-      speakText("समय समाप्त हो गया!");
+      playSound('wrong');
+      alert('समय समाप्त! खेल समाप्त हुआ।');
       exitGame();
-      openPop('<div style="text-align:center"><h2>⏰ समय समाप्त!</h2><p>समय खत्म होने के कारण आप खेल से बाहर हो गए हैं।</p></div>');
     }
   }, 1000);
 }
 
-function use5050() {
-  if (curUser.used50) return;
+function checkGpAns(selectedIdx) {
   clearInterval(gpTimer);
-  curUser.used50 = true;
-  $('btn5050').disabled = true;
-  var q = gpQuestions[curUser.idx];
-  var wr = [0,1,2,3].filter(x => x !== q.ans).sort(() => Math.random() - 0.5);
-  if ($('optBtn_' + wr[0])) $('optBtn_' + wr[0]).classList.add('disabled');
-  if ($('optBtn_' + wr[1])) $('optBtn_' + wr[1]).classList.add('disabled');
-  $('fsLifeMsg').textContent = '⏸ 50-50 उपयोग हुआ! टिक-टिक रुकी है, उत्तर चुनें।';
-  speakText("दो गलत विकल्प हटा दिए गए हैं।");
-}
+  var q = activeGameQuestions[curUser.idx];
+  var chosenBtn = $('optBtn_' + selectedIdx);
 
-function usePoll() {
-  if (curUser.usedPoll) return;
-  clearInterval(gpTimer);
-  curUser.usedPoll = true;
-  $('btnPoll').disabled = true;
-  var q = gpQuestions[curUser.idx];
-  $('fsLifeMsg').textContent = '⏸️ ऑडियंस पोल: विकल्प ' + ['A','B','C','D'][q.ans] + ' (78%) सही है!';
-  speakText("जनता की राय विकल्प " + ['A','B','C','D'][q.ans] + " के साथ है।");
-}
+  var allBtns = document.querySelectorAll('.gp-opt-btn');
+  allBtns.forEach(btn => btn.classList.add('disabled'));
 
-function ansGp(oi) {
-  clearInterval(gpTimer);
-  stopVoice();
-  var q = gpQuestions[curUser.idx];
-  var btn = $('optBtn_' + oi);
-  if (oi === q.ans) {
-    if (btn) btn.classList.add('correct');
-    curUser.score++;
-    playKbcSound('win');
-    speakText("बिल्कुल सही जवाब!");
-    setTimeout(() => { loadGpQ(curUser.idx + 1); }, 1300);
+  if (selectedIdx === q.ans) {
+    chosenBtn.classList.add('correct');
+    playSound('correct');
+    setTimeout(() => { loadGpQ(curUser.idx + 1); }, 1200);
   } else {
-    if (btn) btn.classList.add('wrong');
-    if ($('optBtn_' + q.ans)) $('optBtn_' + q.ans).classList.add('correct');
-    playKbcSound('wrong');
-    speakText("ओह! गलत जवाब। आप खेल से बाहर हो गए हैं।");
+    chosenBtn.classList.add('wrong');
+    $('optBtn_' + q.ans).classList.add('correct');
+    playSound('wrong');
     setTimeout(() => {
+      alert('गलत उत्तर! सही उत्तर था: ' + q.options[q.ans]);
       exitGame();
-      openPop('<div style="text-align:center">' +
-        '<h2>❌ खेल समाप्त!</h2>' +
-        '<p>खिलाड़ी: <b>' + curUser.name + '</b></p>' +
-        '<p>स्कोर: <b>' + curUser.score + ' सही प्रश्न</b></p>' +
-        '<button class="btn pay" style="width:100%;margin-top:10px" onclick="closePop();openGameReg()">🔄 दोबारा खेलें</button>' +
-      '</div>');
-    }, 1200);
+    }, 1500);
   }
 }
 
-function initiateLiveRazorpayPayment() {
+function use5050() {
+  if (!curUser.life50) return;
+  curUser.life50 = false;
+  $('btn5050').style.opacity = '0.25';
+  var correct = activeGameQuestions[curUser.idx].ans;
+  var wrong = [0,1,2,3].filter(i => i !== correct).sort(() => Math.random() - 0.5);
+  $('optBtn_' + wrong[0]).classList.add('disabled');
+  $('optBtn_' + wrong[1]).classList.add('disabled');
+  $('fsLifeMsg').textContent = '🌓 50-50 लाइफलाइन उपयोग की गई! दो गलत विकल्प हटाए गए।';
+}
+
+function usePoll() {
+  if (!curUser.lifePoll) return;
+  curUser.lifePoll = false;
+  $('btnPoll').style.opacity = '0.25';
+  var correctChar = ['A','B','C','D'][activeGameQuestions[curUser.idx].ans];
+  $('fsLifeMsg').textContent = '👥 ऑडियंस पोल के अनुसार सबसे ज्यादा वोट (' + correctChar + ') को मिले हैं (82%)!';
+}
+
+function useFlip() {
+  if (!curUser.lifeFlip) return;
+  curUser.lifeFlip = false;
+  $('btnFlip').style.opacity = '0.25';
+  // बैकअप प्रश्न पूल से नया प्रश्न
+  var pool = gpQuestions.filter(x => x.q !== activeGameQuestions[curUser.idx].q);
+  if (pool.length > 0) {
+    var replacement = pool[Math.floor(Math.random() * pool.length)];
+    activeGameQuestions[curUser.idx] = replacement;
+  }
+  $('fsLifeMsg').textContent = '🔄 प्रश्न बदल दिया गया है!';
+  loadGpQ(curUser.idx);
+}
+
+function lockAndPromptPayment() {
+  clearInterval(gpTimer);
+
   if (typeof Razorpay === 'undefined') {
-    alert('Razorpay पेमेंट गेटवे लोड नहीं हो सका। कृपया इंटरनेट कनेक्शन जांचें!');
+    alert('Razorpay गेटवे लोड नहीं हो सका! इंटरनेट जांचें।');
+    exitGame();
     return;
   }
 
@@ -1445,65 +1534,96 @@ function initiateLiveRazorpayPayment() {
     "amount": gameFee * 100,
     "currency": "INR",
     "name": "ज्ञान गंगा डिजिटल लर्निंग",
-    "description": "कौन बनेगा ज्ञानपति प्रवेश शुल्क",
+    "description": "ज्ञानपति गेम अनलॉक शुल्क (3 प्रश्न बाद)",
     "handler": function (response) {
       if (response && response.razorpay_payment_id) {
-        alert('🎉 भुगतान सफल! Payment ID: ' + response.razorpay_payment_id + '\nप्रवेश शुल्क प्राप्त हुआ। खेल जारी हो रहा है...');
-        curUser.hasPaid = true;
-        closePop();
-        var elem = document.documentElement;
-        if (elem.requestFullscreen) elem.requestFullscreen().catch(()=>{});
-        $('fullscreenGameContainer').style.display = 'flex';
-        loadGpQ(curUser.idx);
+        alert('🎉 भुगतान सफल! Payment ID: ' + response.razorpay_payment_id + '\nअब आप ₹1 करोड़ तक खेल सकते हैं!');
+        curUser.paid = true;
+        loadGpQ(3);
       } else {
         alert('भुगतान की पुष्टि नहीं हो सकी!');
+        exitGame();
       }
     },
     "prefill": {
       "name": curUser.name,
-      "contact": curUser.mobile
+      "contact": curUser.mobile || ""
     },
-    "theme": {
-      "color": "#1a237e"
-    },
+    "theme": { "color": "#1a237e" },
     "modal": {
       "ondismiss": function() {
-        alert('⚠️ भुगतान रद्द किया गया!');
+        alert('⚠️ बिना शुल्क भुगतान के आगे का गेम नहीं खेला जा सकता!');
+        exitGame();
       }
     }
   };
 
   try {
-    var rzp1 = new Razorpay(options);
-    rzp1.on('payment.failed', function (response){
-      alert('❌ भुगतान असफल रहा! कारण: ' + response.error.description);
+    var rzp = new Razorpay(options);
+    rzp.on('payment.failed', function(resp){
+      alert('❌ भुगतान असफल: ' + resp.error.description);
+      exitGame();
     });
-    rzp1.open();
+    rzp.open();
   } catch(e) {
-    alert('पेमेंट शुरू करने में त्रुटि: ' + e.message);
+    alert('भुगतान गेटवे त्रुटि: ' + e.message);
+    exitGame();
   }
 }
 
-function winGame() {
-  exitGame();
-  playKbcSound('win');
-  if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-  speakText("अद्भुत! बधाई हो, आप बने ज्ञानपति!");
-  $('gpWinnerTrack').textContent = '👑 वर्तमान ज्ञानपति विजेता: ' + curUser.name + ' (' + curUser.mobile + ') • स्कोर: ' + curUser.score + ' अंक';
+// 15 प्रश्न जीतने पर ई-प्रमाण पत्र व विजेता ब्रॉडकास्ट
+function winGyanpati() {
+  clearInterval(gpTimer);
+  if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80 });
+
+  // ताज़ा विजेता को तुरंत ब्रॉडकास्ट करें
+  updateWinnerOnUI(curUser.name);
+  try { localStorage.setItem('gg_latest_winner', curUser.name); } catch(e){}
+  if (window.broadcastWinnerToCloud) {
+    window.broadcastWinnerToCloud(curUser.name);
+  }
+
+  var issueDate = new Date().toLocaleDateString('hi-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
   openPop('<div class="gp-certificate">' +
-    '<h1>🏆👑🏆</h1>' +
-    '<h2 style="color:#b45309">बधाई हो! आप बने "ज्ञानपति"</h2>' +
-    '<div style="border:3px double #d4af37;padding:16px;border-radius:10px;margin:10px 0">' +
-      '<p style="font-size:16px;line-height:1.8">प्रमाणित किया जाता है कि <b>' + curUser.name + '</b> ने कौन बनेगा ज्ञानपति के सभी प्रश्नों के सही उत्तर देकर शीर्ष स्थान प्राप्त किया है।</p>' +
+    '<div style="font-size:46px;margin-bottom:4px">🏆</div>' +
+    '<div style="font-size:12px;font-weight:900;letter-spacing:2px;color:#c99b27;text-transform:uppercase">ज्ञान गंगा डिजिटल लर्निंग पोर्टल</div>' +
+    '<h1 style="color:#b45309;font-size:26px;margin:6px 0">ज्ञानपति राष्ट्रीय महा-सम्मान पत्र</h1>' +
+    '<div style="width:80px;height:3px;background:#c99b27;margin:8px auto 14px"></div>' +
+    '<p style="font-size:14px;color:#475569">यह प्रमाणित किया जाता है कि होनहार प्रतिभागी छात्र/छात्रा</p>' +
+    '<h1 style="color:#1e3a8a;font-size:32px;margin:8px 0;text-decoration:underline;text-underline-offset:6px">' + curUser.name + '</h1>' +
+    '<p style="font-size:14px;line-height:1.6;color:#334155;max-width:520px;margin:auto">' +
+      'ने "कौन बनेगा ज्ञानपति" ऑनलाइन महामुकाबले में अपनी अद्वितीय मेधा का प्रदर्शन करते हुए सभी 15 प्रश्नों के शत-प्रतिशत सही उत्तर देकर सर्वोच्च ज्ञानपति सम्मान प्राप्त किया है।' +
+    '</p>' +
+    '<h2 style="color:#059669;margin:14px 0;font-size:22px">🏆 ₹1 करोड़ (ज्ञानपति सर्वोच्च उपाधि)</h2>' +
+    '<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;padding-top:14px;border-top:1px dashed #cbd5e1;font-size:12px;color:#64748b">' +
+      '<div style="text-align:left"><b>दिनांक:</b> ' + issueDate + '<br><b>स्थान:</b> राजस्थान</div>' +
+      '<div style="text-align:right"><b>हस्ताक्षर निर्देशक:</b><br><span style="font-family:serif;font-size:15px;color:#1e293b;font-weight:bold">कल्याण मल वर्मा</span></div>' +
     '</div>' +
-    '<button class="btn pay" onclick="window.print()">🖨️ प्रमाण-पत्र प्रिंट करें</button>' +
-    '<button class="btn danger" style="margin-left:8px" onclick="closePop()">बंद करें</button>' +
+    '<div class="no-print" style="margin-top:16px;display:flex;gap:8px">' +
+      '<button class="btn pay" style="flex:1;padding:12px;font-size:15px" onclick="window.print()">📥 ई-प्रमाण पत्र डाउनलोड / प्रिंट करें</button>' +
+      '<button class="btn danger" style="padding:12px 18px" onclick="exitGame()">मुख्य मेन्यू</button>' +
+    '</div>' +
   '</div>');
 }
 
-// शुरुआत में रेंडर
-renderStudent();
-</script>
+function exitGame() {
+  clearInterval(gpTimer);
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  $('fullscreenGameContainer').style.display = 'none';
+  closePop();
+}
 
+window.onload = function() {
+  renderStudent();
+  fillCats();
+  $('bannerFeeTxt').textContent = '₹' + gameFee;
+
+  try {
+    var cachedWinner = localStorage.getItem('gg_latest_winner');
+    if (cachedWinner) updateWinnerOnUI(cachedWinner);
+  } catch(e){}
+};
+</script>
 </body>
 </html>
