@@ -548,7 +548,7 @@ var moneySlabs = [
   "₹6,40,000","₹12,50,000","₹25,00,000","₹50,00,000","🏆 ₹1 करोड़"
 ];
 
-/* त्रि-स्तरीय प्रश्न बैंक */
+/* त्रि-स्तरीय सटीक प्रश्न बैंक */
 var defaultGpQuestions = [
   // स्तर 1: सरल (Q1 to Q5)
   { level: 1, q: "भारत का राष्ट्रीय पक्षी कौन सा है?", options: ["तोता", "मोर", "कबूतर", "कोयल"], ans: 1 },
@@ -786,7 +786,7 @@ function openUniversalAiEngine() {
   openPop(html);
 }
 
-/* AI इंजन */
+/* gemini-3.8-flash पर आधारित AI इंजन */
 async function executeUniversalAi() {
   var cls = $('aiClass').value;
   var sub = $('aiSub').value;
@@ -800,16 +800,17 @@ async function executeUniversalAi() {
   $('aiGenBtn').disabled = true;
 
   var promptText = (outType === 'quiz')
-    ? "कक्षा " + cls + " के विषय " + sub + " के पाठ '" + topic + "' पर 20 बहुविकल्पीय प्रश्न (MCQ) बनाएँ। उत्तर केवल शुद्ध JSON Array दें: [{\"q\": \"प्रश्न?\", \"options\": [\"A\",\"B\",\"C\",\"D\"], \"ans\": 0}]"
+    ? "कक्षा " + cls + " के विषय " + sub + " के पाठ '" + topic + "' पर 20 बहुविकल्पीय प्रश्न (MCQ) बनाएँ। उत्तर केवल शुद्ध JSON Array दें बिना बैकबिक्स के: [{\"q\": \"प्रश्न विवरण?\", \"options\": [\"विकल्प 1\",\"विकल्प 2\",\"विकल्प 3\",\"विकल्प 4\"], \"ans\": 0}]"
     : "कक्षा " + cls + " के विषय " + sub + " के पाठ '" + topic + "' के विस्तृत और सरल नोट्स तैयार करें।";
 
   var reqBody = {
     contents: [{ parts: [{ text: promptText }] }]
   };
 
+  var cleanKey = encodeURIComponent(geminiApiKey.trim());
   var endpoints = [
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(geminiApiKey),
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + encodeURIComponent(geminiApiKey)
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + cleanKey,
+    "https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent?key=" + cleanKey
   ];
 
   var success = false;
@@ -821,7 +822,7 @@ async function executeUniversalAi() {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
-          "x-goog-api-key": geminiApiKey 
+          "x-goog-api-key": geminiApiKey.trim()
         },
         body: JSON.stringify(reqBody)
       });
@@ -863,7 +864,7 @@ async function executeUniversalAi() {
   }
 
   if (!success) {
-    alert("AI त्रुटि: " + lastErrorMsg + "\n\nसुझाव:\n1. सुनिश्चित करें कि आपकी Gemini API Key सही है।\n2. इंटरनेट सक्रिय होना चाहिए।");
+    alert("AI त्रुटि: " + lastErrorMsg + "\n\nसुझाव:\n1. सुनिश्चित करें कि आपकी Gemini API Key सही है।\n2. इंटरनेट कनेक्शन सक्रिय होना चाहिए।");
   }
 
   $('aiLoader').style.display = 'none';
@@ -1170,7 +1171,7 @@ function loadGpQ(idx) {
   clearInterval(gpTimer);
   stopSpeech();
 
-  // प्रश्न 4 पर जाने से पहले सख्त भुगतान जांच
+  // प्रश्न 4 पर जाने से पहले सख्त भुगतान जांच (Gate Lock)
   if (idx >= 3 && !curUser.paid) {
     showGameFeeModal();
     return;
@@ -1213,6 +1214,8 @@ function loadGpQ(idx) {
 }
 
 function showGameFeeModal() {
+  clearInterval(gpTimer);
+  stopSpeech();
   openPop('<div style="text-align:center;padding:12px">' +
     '<div style="font-size:48px;margin-bottom:6px">🔒</div>' +
     '<h2 style="color:#1e0b5a">बधाई! 3 मुफ़्त प्रश्न पूरे हुए</h2>' +
@@ -1224,7 +1227,7 @@ function showGameFeeModal() {
   '</div>');
 }
 
-/* सख्त Razorpay गेटवे - बिना असली भुगतान के आगे नहीं बढ़ेगा */
+/* सख्त Razorpay गेटवे */
 function payGameFee() {
   if (typeof Razorpay === 'undefined') {
     alert("Razorpay पेमेंट गेटवे लोड नहीं हो पाया है। कृपया इंटरनेट कनेक्शन जाँचें।");
@@ -1243,7 +1246,7 @@ function payGameFee() {
           curUser.paid = true;
           closePop();
           alert("🎉 भुगतान सफल! मुकाबला अनलॉक हो चुका है।");
-          loadGpQ(3); // सीधे प्रश्न 4 से गेम जारी
+          loadGpQ(3);
         } else {
           alert("भुगतान सत्यापित नहीं हुआ।");
         }
@@ -1283,7 +1286,6 @@ function checkAns(chosen) {
     } catch(e){}
 
     setTimeout(function() {
-      // प्रश्न 3 सही होते ही तुरंत पेमेंट गेटवे खोलें और प्रश्न 4 को लॉक रखें
       if (curUser.idx === 2 && !curUser.paid) {
         showGameFeeModal();
       } else if (curUser.idx + 1 >= 15) {
