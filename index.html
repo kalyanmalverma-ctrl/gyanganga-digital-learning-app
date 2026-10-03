@@ -268,7 +268,7 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
     </button>
   </div>
 
-  <!-- विद्यार्थी व्यू -->
+  <!-- 1. विद्यार्थी व्यू -->
   <div id="studentView">
     <div class="search-container">
       <div class="search">
@@ -359,7 +359,7 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
     </section>
   </div>
 
-  <!-- शिक्षक व्यू -->
+  <!-- 2. शिक्षक व्यू -->
   <div id="teacherView" style="display:none">
     <div id="teacherLoginCard" class="teacher-login-box">
       <div style="font-size:38px;margin-bottom:6px">🔐</div>
@@ -391,7 +391,7 @@ small{margin-top:4px;font-size:12px;opacity:0.9}
 
       <section class="section" style="border:2px solid #8e2de2;background:#fbf8ff">
         <h2 style="color:#6d28d9">🤖 Google Gemini AI इंजन सेटिंग (डायनामिक अनूठे प्रश्न)</h2>
-        <p style="font-size:13px;color:#64748b;margin:4px 0">सभी 6 विषयों के नए और अलग प्रश्न पत्र तैयार करने हेतु API Key जोड़ें:</p>
+        <p style="font-size:13px;color:#64748b;margin:4px 0">Google AI Studio से प्राप्त API Key दर्ज करें:</p>
         <div style="display:flex;gap:10px;margin-top:8px">
           <input type="password" id="geminiApiKeyInput" class="editorInput" placeholder="अपनी Gemini API Key यहाँ पेस्ट करें" style="margin:0">
           <button class="btn pay" onclick="saveApiKey()">सेव करें</button>
@@ -548,7 +548,7 @@ var moneySlabs = [
   "₹6,40,000","₹12,50,000","₹25,00,000","₹50,00,000","🏆 ₹1 करोड़"
 ];
 
-/* त्रि-स्तरीय सटीक प्रश्न बैंक (क्रमशः सरल, मध्यम, कठिन) */
+/* त्रि-स्तरीय सटीक प्रश्न बैंक */
 var defaultGpQuestions = [
   // स्तर 1: सरल (Q1 to Q5)
   { level: 1, q: "भारत का राष्ट्रीय पक्षी कौन सा है?", options: ["तोता", "मोर", "कबूतर", "कोयल"], ans: 1 },
@@ -602,28 +602,22 @@ var defaultItems = [
   }
 ];
 
-function getStored(key, def) {
+function getSanitizedData(key, def) {
   try {
     var v = localStorage.getItem(key);
     if (!v) return def;
     var parsed = JSON.parse(v);
-    if (Array.isArray(def) && !Array.isArray(parsed)) return def;
-    return parsed || def;
+    if (!Array.isArray(parsed) || parsed.length === 0) return def;
+    return parsed;
   } catch(e) { return def; }
 }
 
 function setStored(key, val) {
-  try {
-    localStorage.setItem(key, JSON.stringify(val));
-  } catch(e){}
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){}
 }
 
-var items = getStored('gg_items', defaultItems);
-if (!Array.isArray(items) || items.length === 0) items = defaultItems.slice();
-
-var gpQuestions = getStored('gg_gp_questions', defaultGpQuestions);
-if (!Array.isArray(gpQuestions) || gpQuestions.length === 0) gpQuestions = defaultGpQuestions.slice();
-
+var items = getSanitizedData('gg_items', defaultItems);
+var gpQuestions = getSanitizedData('gg_gp_questions', defaultGpQuestions);
 var geminiApiKey = localStorage.getItem('gemini_api_key') || '';
 
 function openPop(h) {
@@ -648,7 +642,6 @@ function saveApiKey() {
   alert('Gemini API Key सुरक्षित सहेज ली गई है!');
 }
 
-/* बिना किसी रुकावट के एसिंक्रोनस वॉइस कंट्रोल */
 function stopSpeech() {
   if ('speechSynthesis' in window) {
     setTimeout(function() {
@@ -677,7 +670,6 @@ function toggleVoice() {
   if (!isVoiceOn) stopSpeech();
 }
 
-/* ऑडियो बीप */
 var audioCtx = null;
 function playSound(type) {
   try {
@@ -714,7 +706,6 @@ function playSound(type) {
   } catch(e){}
 }
 
-/* विकल्पों को रैंडम करने का फंक्शन (ताकि उत्तर B पर ही न रहे) */
 function shuffleQuestionOptions(item) {
   var originalAnsText = item.options[item.ans];
   var opts = item.options.slice();
@@ -724,16 +715,14 @@ function shuffleQuestionOptions(item) {
     opts[i] = opts[j];
     opts[j] = temp;
   }
-  var newAnsIdx = opts.indexOf(originalAnsText);
   return {
     level: item.level,
     q: item.q,
     options: opts,
-    ans: newAnsIdx
+    ans: opts.indexOf(originalAnsText)
   };
 }
 
-/* टैब स्विच */
 function switchTab(t) {
   stopSpeech();
   if (t === 'student') {
@@ -790,13 +779,14 @@ function openUniversalAiEngine() {
     '<div class="input-row"><label>कक्षा:</label><select id="aiClass" class="editorInput"><option>कक्षा 1</option><option>कक्षा 2</option><option>कक्षा 3</option><option>कक्षा 4</option><option>कक्षा 5</option><option>कक्षा 6</option><option>कक्षा 7</option><option selected>कक्षा 8</option><option>कक्षा 9</option><option>कक्षा 10</option><option>कक्षा 11</option><option>कक्षा 12</option></select></div>' +
     '<div class="input-row"><label>विषय:</label><select id="aiSub" class="editorInput"><option selected>विज्ञान</option><option>गणित</option><option>सामाजिक विज्ञान</option><option>हिंदी</option><option>संस्कृत</option><option>अंग्रेजी</option></select></div>' +
     '<div class="input-row"><label>प्रारूप चुनें:</label><select id="aiTypeSelect" class="editorInput"><option value="quiz">📝 20 प्रश्न ऑनलाइन टेस्ट</option><option value="notes">📚 पाठ नोट्स</option></select></div>' +
-    '<div class="input-row"><label>पाठ / टॉपिक का नाम:</label><input id="aiTopic" class="editorInput" placeholder="जैसे: सूक्ष्मजीव मित्र एवं शत्रु"></div>' +
+    '<div class="input-row"><label>पाठ / टॉपिक का नाम:</label><input id="aiTopic" class="editorInput" placeholder="जैसे: जन्तुओं में जनन"></div>' +
     '<div id="aiLoader" style="display:none;color:#7c3aed;font-weight:bold;margin:8px 0">⏳ AI प्रश्न तैयार कर रहा है...</div>' +
     '<button class="btn ai-btn" id="aiGenBtn" style="width:100%;margin-top:8px" onclick="executeUniversalAi()">🚀 तैयार करें और लाइव करें</button>' +
     '<button class="btn danger" style="width:100%;margin-top:6px" onclick="closePop()">रद्द करें</button>';
   openPop(html);
 }
 
+/* gemini-3.8-flash पर आधारित AI इंजन */
 async function executeUniversalAi() {
   var cls = $('aiClass').value;
   var sub = $('aiSub').value;
@@ -809,36 +799,76 @@ async function executeUniversalAi() {
   $('aiLoader').style.display = 'block';
   $('aiGenBtn').disabled = true;
 
-  var prompt = (outType === 'quiz') 
-    ? "कक्षा " + cls + " विषय " + sub + " पाठ " + topic + " के लिए 20 वस्तुनिष्ठ प्रश्न बनाएँ। आउटपुट केवल शुद्ध JSON Array दें: [{\"q\": \"प्रश्न?\", \"options\": [\"A\",\"B\",\"C\",\"D\"], \"ans\": 0}]"
-    : "कक्षा " + cls + " विषय " + sub + " पाठ " + topic + " के विस्तृत नोट्स तैयार करें।";
+  var promptText = (outType === 'quiz')
+    ? "कक्षा " + cls + " के विषय " + sub + " के पाठ '" + topic + "' पर 20 बहुविकल्पीय प्रश्न (MCQ) बनाएँ। उत्तर केवल शुद्ध JSON Array दें बिना बैकबिक्स के: [{\"q\": \"प्रश्न विवरण?\", \"options\": [\"विकल्प 1\",\"विकल्प 2\",\"विकल्प 3\",\"विकल्प 4\"], \"ans\": 0}]"
+    : "कक्षा " + cls + " के विषय " + sub + " के पाठ '" + topic + "' के विस्तृत और सरल नोट्स तैयार करें।";
 
-  try {
-    var resp = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiApiKey, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-    });
-    var data = await resp.json();
-    var rawText = data.candidates[0].content.parts[0].text;
+  var reqBody = {
+    contents: [{ parts: [{ text: promptText }] }]
+  };
 
-    if (outType === 'quiz') {
-      var questionsArray = JSON.parse(rawText.replace(/```json/gi, '').replace(/```/g, '').trim());
-      items.unshift({ id: Date.now(), title: cls + " " + sub + " - " + topic + " (टेस्ट)", category: cls, subject: sub, type: 'quiz', price: 0, questions: questionsArray });
-    } else {
-      items.unshift({ id: Date.now(), title: cls + " " + sub + " - " + topic + " (नोट्स)", category: cls, subject: sub, type: 'article', price: defaultPdfFee, text: rawText });
+  var cleanKey = encodeURIComponent(geminiApiKey.trim());
+  var endpoints = [
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + cleanKey,
+    "https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent?key=" + cleanKey
+  ];
+
+  var success = false;
+  var lastErrorMsg = "";
+
+  for (var i = 0; i < endpoints.length; i++) {
+    try {
+      var resp = await fetch(endpoints[i], {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "x-goog-api-key": geminiApiKey.trim()
+        },
+        body: JSON.stringify(reqBody)
+      });
+
+      var data = await resp.json();
+
+      if (data.error) {
+        lastErrorMsg = data.error.message || "API त्रुटि";
+        continue;
+      }
+
+      if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+        var rawText = data.candidates[0].content.parts[0].text;
+
+        if (outType === 'quiz') {
+          var cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+          var jsonStart = cleanJson.indexOf('[');
+          var jsonEnd = cleanJson.lastIndexOf(']');
+          if (jsonStart !== -1 && jsonEnd !== -1) {
+            cleanJson = cleanJson.substring(jsonStart, jsonEnd + 1);
+          }
+          var questionsArray = JSON.parse(cleanJson);
+          items.unshift({ id: Date.now(), title: cls + " " + sub + " - " + topic + " (20 प्रश्न टेस्ट)", category: cls, subject: sub, type: 'quiz', price: 0, questions: questionsArray });
+        } else {
+          items.unshift({ id: Date.now(), title: cls + " " + sub + " - " + topic + " (नोट्स)", category: cls, subject: sub, type: 'article', price: defaultPdfFee, text: rawText });
+        }
+
+        setStored('gg_items', items);
+        closePop();
+        renderAdmin();
+        renderStudent();
+        alert("🎉 बधाई! " + topic + " की सामग्री तैयार होकर लाइव हो चुकी है!");
+        success = true;
+        break;
+      }
+    } catch (err) {
+      lastErrorMsg = err.message;
     }
-    setStored('gg_items', items);
-    closePop();
-    renderAdmin();
-    renderStudent();
-    alert("🎉 टेस्ट/नोट्स लाइव हो चुका है!");
-  } catch (err) {
-    alert('AI त्रुटि: ' + err.message);
-  } finally {
-    if ($('aiLoader')) $('aiLoader').style.display = 'none';
-    if ($('aiGenBtn')) $('aiGenBtn').disabled = false;
   }
+
+  if (!success) {
+    alert("AI त्रुटि: " + lastErrorMsg + "\n\nसुझाव:\n1. सुनिश्चित करें कि आपकी Gemini API Key सही है।\n2. इंटरनेट कनेक्शन सक्रिय होना चाहिए।");
+  }
+
+  $('aiLoader').style.display = 'none';
+  $('aiGenBtn').disabled = false;
 }
 
 function openAddPdfDrive() {
@@ -1001,12 +1031,30 @@ function renderStudent() {
 }
 
 function payItem(id, price) {
-  if (confirm('राशि: ₹' + price + '\n\nक्या आप भुगतान संपन्न करके सामग्री अनलॉक करना चाहते हैं?')) {
-    unlockedItems[id] = true;
-    localStorage.setItem('gg_unlocked_items', JSON.stringify(unlockedItems));
-    renderStudent();
-    alert('सामग्री सफलतापूर्वक अनलॉक कर दी गई!');
-    openItem(id);
+  try {
+    if (typeof Razorpay !== 'undefined') {
+      var rzp = new Razorpay({
+        key: RAZORPAY_KEY,
+        amount: price * 100,
+        currency: "INR",
+        name: "ज्ञान गंगा डिजिटल लर्निंग",
+        description: "सामग्री अनलॉक शुल्क",
+        handler: function(response) {
+          if (response && response.razorpay_payment_id) {
+            unlockedItems[id] = true;
+            localStorage.setItem('gg_unlocked_items', JSON.stringify(unlockedItems));
+            renderStudent();
+            alert('🎉 भुगतान सफल! सामग्री अनलॉक हो चुकी है।');
+            openItem(id);
+          }
+        }
+      });
+      rzp.open();
+    } else {
+      alert("Razorpay गेटवे लोड नहीं हो सका। कृपया इंटरनेट जांचें।");
+    }
+  } catch(e) {
+    alert("भुगतान में समस्या: " + e.message);
   }
 }
 
@@ -1082,7 +1130,6 @@ function validateAndStartGame() {
   err.style.display = "none";
   closePop();
 
-  // स्तर अनुसार प्रश्नों का चयन (Level 1: सरल, Level 2: मध्यम, Level 3: कठिन)
   var poolL1 = gpQuestions.filter(function(x){ return x.level === 1 || !x.level; }).sort(function(){ return Math.random() - 0.5; });
   var poolL2 = gpQuestions.filter(function(x){ return x.level === 2; }).sort(function(){ return Math.random() - 0.5; });
   var poolL3 = gpQuestions.filter(function(x){ return x.level === 3; }).sort(function(){ return Math.random() - 0.5; });
@@ -1096,7 +1143,6 @@ function validateAndStartGame() {
     rawList.push(defaultGpQuestions[rawList.length % defaultGpQuestions.length]);
   }
 
-  // सभी 15 प्रश्नों के विकल्पों में रैंडम फेरबदल (ताकि उत्तर B पर ही न रहे)
   activeGameQuestions = rawList.map(function(qObj) {
     return shuffleQuestionOptions(qObj);
   });
@@ -1125,7 +1171,7 @@ function loadGpQ(idx) {
   clearInterval(gpTimer);
   stopSpeech();
 
-  // 3 प्रश्न पूरे होने पर सख्त पेमेंट गेट
+  // प्रश्न 4 पर जाने से पहले सख्त भुगतान जांच (Gate Lock)
   if (idx >= 3 && !curUser.paid) {
     showGameFeeModal();
     return;
@@ -1167,51 +1213,61 @@ function loadGpQ(idx) {
   }, 1000);
 }
 
-/* 3 प्रश्न पूरे होने पर पेमेंट मोडल */
 function showGameFeeModal() {
+  clearInterval(gpTimer);
+  stopSpeech();
   openPop('<div style="text-align:center;padding:12px">' +
     '<div style="font-size:48px;margin-bottom:6px">🔒</div>' +
     '<h2 style="color:#1e0b5a">बधाई! 3 मुफ़्त प्रश्न पूरे हुए</h2>' +
     '<p style="margin:12px 0;font-size:15px;line-height:1.6">' +
-      'आपने सरल स्तर सफलतापूर्वक पूरा कर लिया है! आगे <b>₹1 करोड़</b> और <b>ज्ञानपति सम्मान</b> जीतने हेतु निर्धारित शुल्क <b>₹' + gameFee + '</b> का भुगतान करें।' +
+      'आपने मुफ़्त राउंड पार कर लिया है! आगे <b>₹1 करोड़</b> जीतने हेतु निर्धारित प्रवेश शुल्क <b>₹' + gameFee + '</b> का भुगतान करें।' +
     '</p>' +
-    '<button class="btn pay" style="width:100%;padding:14px;font-size:16px" onclick="payGameFee()">💳 ₹' + gameFee + ' देकर आगे खेलें</button>' +
+    '<button class="btn pay" style="width:100%;padding:14px;font-size:16px" onclick="payGameFee()">💳 ₹' + gameFee + ' का भुगतान करके अनलॉक करें</button>' +
     '<button class="btn danger" style="width:100%;margin-top:8px" onclick="closePop(); exitGame();">खेल समाप्त करें</button>' +
   '</div>');
 }
 
+/* सख्त Razorpay गेटवे */
 function payGameFee() {
+  if (typeof Razorpay === 'undefined') {
+    alert("Razorpay पेमेंट गेटवे लोड नहीं हो पाया है। कृपया इंटरनेट कनेक्शन जाँचें।");
+    return;
+  }
+
   try {
-    if (typeof Razorpay !== 'undefined') {
-      var rzp = new Razorpay({
-        key: RAZORPAY_KEY,
-        amount: gameFee * 100,
-        currency: "INR",
-        name: "ज्ञान गंगा डिजिटल लर्निंग",
-        description: "ज्ञानपति अनलॉक शुल्क",
-        handler: function() {
+    var rzp = new Razorpay({
+      key: RAZORPAY_KEY,
+      amount: gameFee * 100,
+      currency: "INR",
+      name: "ज्ञान गंगा डिजिटल लर्निंग",
+      description: "ज्ञानपति मुकाबला अनलॉक शुल्क",
+      handler: function(response) {
+        if (response && response.razorpay_payment_id) {
           curUser.paid = true;
           closePop();
-          loadGpQ(curUser.idx);
-        },
-        prefill: { "name": curUser.name, "contact": curUser.mobile }
-      });
-      rzp.open();
-    } else {
-      throw new Error("Razorpay Offline");
-    }
+          alert("🎉 भुगतान सफल! मुकाबला अनलॉक हो चुका है।");
+          loadGpQ(3);
+        } else {
+          alert("भुगतान सत्यापित नहीं हुआ।");
+        }
+      },
+      prefill: { "name": curUser.name, "contact": curUser.mobile },
+      theme: { "color": "#1a237e" }
+    });
+
+    rzp.on('payment.failed', function(resp) {
+      alert("भुगतान असफल रहा: " + (resp.error.description || "कृपया पुनः प्रयास करें।"));
+    });
+
+    rzp.open();
   } catch(e) {
-    if (confirm('Razorpay टेस्ट मोड:\n\nअनलॉक शुल्क: ₹' + gameFee + '\n\nक्या आप भुगतान संपन्न करना चाहते हैं?')) {
-      curUser.paid = true;
-      closePop();
-      loadGpQ(curUser.idx);
-    }
+    alert("गेटवे खोलने में समस्या: " + e.message);
   }
 }
 
 function checkAns(chosen) {
   clearInterval(gpTimer);
-  stopSpeech(); // उत्तर पर क्लिक होते ही आवाज़ तत्काल बंद
+  stopSpeech();
   
   var q = activeGameQuestions[curUser.idx];
   document.querySelectorAll('.gp-opt-btn').forEach(function(b){ b.classList.add('disabled'); });
@@ -1230,7 +1286,6 @@ function checkAns(chosen) {
     } catch(e){}
 
     setTimeout(function() {
-      // 3 प्रश्न पूरे होने पर पेमेंट का सीधा चेक
       if (curUser.idx === 2 && !curUser.paid) {
         showGameFeeModal();
       } else if (curUser.idx + 1 >= 15) {
